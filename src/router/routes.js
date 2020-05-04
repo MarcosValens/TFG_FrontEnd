@@ -30,17 +30,21 @@ const routes = [
         component: () => import("pages/Main"),
         async beforeEnter(to, from, next) {
           const token = to.query.token || from.query.token || localStorage.getItem("token");
-          const response = await fetch(userGetter.check(), {
-            headers: {
-              "Authorization": "Bearer " + token
+          try {
+            const response = await fetch(userGetter.check(), {
+              headers: {
+                "Authorization": "Bearer " + token
+              }
+            });
+  
+            if (response.status === 401) {
+              return next("/login")
             }
-          });
-
-          if (response.status === 401) {
-            return next("/login")
+            localStorage.setItem("token", token)
+            next();
+          } catch(e) {
+            next("/login")
           }
-          localStorage.setItem("token", token)
-          next();
         }
       }
     ]
