@@ -10,9 +10,10 @@ function getHostIndex(state, host) {
   return hostIndex;
 }
 
-function getPortIndex(state, hostIndex, port) {
+function getPortIndex(state, port) {
+  const hostIndex = getHostIndex(state, state.currentHost);
   const portIndex = state.hosts[hostIndex].ports.map(port => port._id).indexOf(port._id);
-  return portIndex;
+  return {port: portIndex, host: hostIndex};
 }
 
 export function addNetwork (state, network) {
@@ -51,9 +52,18 @@ export function updateCurrentPort(state, port) {
 }
 
 export function updatePort(state, {open, service}) {
-  const hostIndex = getHostIndex(state, state.currentHost);
-  const portIndex = getPortIndex(state, hostIndex, state.currentPort);
+  const indexes = getPortIndex(state, state.currentPort);
   Vue.set(state.currentPort, "open", open);
   Vue.set(state.currentPort, "service", service);
-  Vue.set(state.hosts[hostIndex].ports, portIndex, state.currentPort);
+  Vue.set(state.hosts[indexes.host].ports, indexes.port, state.currentPort);
+}
+
+export function deletePort(state, port) {
+  const indexes = getPortIndex(state, port);
+  state.hosts[indexes.host].ports.splice(indexes.port, 1);
+}
+
+export function deleteHost(state, host) {
+  const hostIndex = getHostIndex(state, host);
+  state.hosts.splice(hostIndex, 1);
 }

@@ -213,7 +213,7 @@ export default {
     ])
   },
   methods: {
-    ...mapActions("global", ["setCurrentHost", "setCurrentPort"]),
+    ...mapActions("global", ["setCurrentHost", "setCurrentPort", "deleteHost", "deletePort"]),
     isCurrentHost(host) {
       return host.row._id === this.currentHost._id;
     },
@@ -225,6 +225,28 @@ export default {
     openUpdateHostModal(props) {
       this.setCurrentHost(props);
       this.shouldOpenUpdateHostModal = true;
+    },
+    confirmDeleteHostDialog(props) {
+      this.$q.dialog({
+        title: "Confirm",
+        message: "Are you sure you want to delete this host?",
+        cancel: true,
+        persistent: true
+      }).onOk(async () => {
+        this.deleteHost(props.row);
+        // TODO: Add backend call
+      });
+    },
+    openConfirmDeletePortDialog(port) {
+      this.$q.dialog({
+        title: "Confirm",
+        message: "Are you sure you want to delete this port?",
+        cancel: true,
+        persistent: true
+      }).onOk(async () => {
+        this.deletePort(port);
+        // TODO: Add backend call
+      });
     }
   }
 };

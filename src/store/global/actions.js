@@ -33,3 +33,11 @@ export function setCurrentPort({ commit }, port) {
 export function updatePort({ commit }, port) {
   commit("updatePort", port);
 }
+
+export function deleteHost({ commit }, host) {
+  commit("deleteHost", host);
+}
+
+export function deletePort({ commit }, port) {
+  commit("deletePort", port)
+}
