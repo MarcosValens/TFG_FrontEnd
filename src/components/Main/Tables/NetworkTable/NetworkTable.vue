@@ -86,8 +86,8 @@
 </template>
 
 <script>
-import CreateNetworkDialog from "./Dialogs/CreateNetworkDialog.vue";
-import UpdateNetworkDialog from "./Dialogs/UpdateNetworkDialog.vue";
+import CreateNetworkDialog from "./Dialogs/CreateNetworkDialog/CreateNetworkDialog.vue";
+import UpdateNetworkDialog from "./Dialogs/UpdateNetworkDialog/UpdateNetworkDialog.vue";
 
 const methods = globalMethods.networkTableMethods;
 export default {
