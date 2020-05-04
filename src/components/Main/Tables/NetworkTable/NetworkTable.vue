@@ -19,7 +19,11 @@
       <template v-slot:body="props">
         <q-tr :props="props" @click="loadNetwork(props)">
           <q-td key="networkName" :props="props">{{ props.row.name }}</q-td>
-          <q-td key="gateway" :props="props" @click="loadNetwork(props)">{{ props.row.gateway }}</q-td>
+          <q-td
+            key="gateway"
+            :props="props"
+            @click.stop="loadNetwork(props)"
+          >{{ props.row.gateway }}</q-td>
           <q-td key="icon">
             <div class="row text-center" v-if="isSelectedNetwork(props)">
               <div class="col">
@@ -86,13 +90,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 import CreateNetworkDialog from "./Dialogs/CreateNetworkDialog/CreateNetworkDialog.vue";
 import UpdateNetworkDialog from "./Dialogs/UpdateNetworkDialog/UpdateNetworkDialog.vue";
-import globalRequestBuilder from './../../../../utils/globalRequestBuilder.js';
-import requests from './../../../../utils/requests.js';
-import getters from './../../../../utils/getters.js';
+import globalRequestBuilder from "./../../../../utils/globalRequestBuilder.js";
+import requests from "./../../../../utils/requests.js";
+import getters from "./../../../../utils/getters.js";
 
 const networkGetter = getters.network;
 
@@ -143,16 +147,24 @@ export default {
     };
   },
   computed: {
-      ...mapGetters("global", ["networks", "currentNetwork"])
+    ...mapGetters("global", ["networks", "currentNetwork"])
   },
   async mounted() {
-      const allNetworksEndpoint = networkGetter.getAll();
-      const networks = await requests.get.call(this, allNetworksEndpoint);
-      this.updateNetworksFromBackend(networks);
-      console.log(this)
+    const allNetworksEndpoint = networkGetter.getAll();
+    const networks = await requests.get.call(this, allNetworksEndpoint);
+    this.updateNetworksFromBackend(networks);
   },
   methods: {
-      ...mapActions("global", ["updateNetworksFromBackend"])
+    ...mapActions("global", ["updateNetworksFromBackend", "setCurrentNetwork"]),
+    async loadNetwork(props) {
+      const networkId = props.row._id;
+      const endpoint = networkGetter.getOne();
+      const network = await requests.get.call(this, endpoint, networkId);
+      this.setCurrentNetwork(network);
+    },
+    isSelectedNetwork(props) {
+      return props.row._id === this.currentNetwork._id;
+    }
   }
 };
 </script>
