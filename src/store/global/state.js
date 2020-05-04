@@ -5,6 +5,6 @@ export default function () {
     currentNetwork: {},
     currentHost: {},
     currentPort: "",
-    darkMode: false
+    darkMode: true
   }
 }

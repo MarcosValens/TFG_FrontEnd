@@ -13,10 +13,14 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    darkMode() {
+      return this.$store.getters["global/darkMode"];
+    }
+  },
   created() {
-    const darkMode = this.$store.getters["global/darkMode"];
-    console.log(darkMode);
-    this.$q.dark.set(true)
+    console.log(this.darkMode);
+    this.$q.dark.set(this.darkMode)
   }
 }
 </script>
