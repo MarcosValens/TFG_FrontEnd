@@ -57,8 +57,8 @@ export default {
       canClose: false,
       network: {
         name: "",
-				gateway: "",
-				_id: ""
+        gateway: "",
+        _id: ""
       },
       gatewayErrorMessage: null,
       isNameTaken: "",
@@ -68,24 +68,32 @@ export default {
   async created() {
     const network = this.currentNetwork;
     this.network.name = network.name;
-		this.network.gateway = network.gateway;
-		this.network._id = network._id;
-	},
-	computed: {
-		...mapGetters("global", ["currentNetwork"])
-	},
+    this.network.gateway = network.gateway;
+    this.network._id = network._id;
+  },
+  computed: {
+    ...mapGetters("global", ["currentNetwork"])
+  },
   methods: {
-		...mapActions("global", ["updateNetwork"]),
-		async sendUpdateNetwork(ev) {
+    ...mapActions("global", ["updateNetwork"]),
+    async sendUpdateNetwork(ev) {
       const isChanged = this.isChanged();
       if (!isChanged) {
         this.canClose = true;
         return this.close();
       }
       try {
-				const {endpoint, dataFromBuilder} = globalRequestBuilder("network", "update", this.network);
-				const { network } = await requests.post.call(this, endpoint, dataFromBuilder);
-				this.updateNetwork(network);
+        const { endpoint, dataFromBuilder } = globalRequestBuilder(
+          "network",
+          "update",
+          this.network
+        );
+        const { network } = await requests.post.call(
+          this,
+          endpoint,
+          dataFromBuilder
+        );
+        this.updateNetwork(network);
         this.close();
       } catch (e) {
         const response = e.response;
@@ -94,7 +102,8 @@ export default {
         }
         if (response.data.errors) {
           this.gatewayErrorMessage =
-            response.data.errors.find(({ param }) => param === "gateway").msg || null;
+            response.data.errors.find(({ param }) => param === "gateway").msg ||
+            null;
         }
       }
     },
