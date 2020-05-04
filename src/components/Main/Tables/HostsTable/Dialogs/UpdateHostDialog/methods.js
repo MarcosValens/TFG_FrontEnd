@@ -1,4 +1,4 @@
-import globalRequestBuilder from "./../../../../../../utils/globalRequestBuilder"
+import globalRequestBuilder from "../../../../../../utils/globalRequestBuilder"
 import {mapActions} from "vuex";
 
 export default {
@@ -22,6 +22,6 @@ export default {
     document.querySelector("#close-popup").click();
   },
   isChanged() {
-    return (this.currentHost.description === this.host.description);
+    return (this.currentHost.description === this.description);
   }
 }

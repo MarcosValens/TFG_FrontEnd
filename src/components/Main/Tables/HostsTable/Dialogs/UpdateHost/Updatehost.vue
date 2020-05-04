@@ -29,7 +29,7 @@
 
 <script>
   import {mapGetters} from "vuex";
-  import methods from "./methods"
+  import methods from "../UpdateHostDialog/methods"
 
   export default {
     name: "Updatehost",
