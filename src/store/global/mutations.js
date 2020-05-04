@@ -5,6 +5,11 @@ function getNetworkIndex(state, network) {
   return networkIndex;
 }
 
+function getHostIndex(state, host) {
+  const hostIndex = state.hosts.map(host => host._id).indexOf(host._id);
+  return hostIndex;
+}
+
 export function addNetwork (state, network) {
     state.networks.push(network);
 }
@@ -25,3 +30,9 @@ export function updateNetwork(state, network) {
     Vue.set(state, "currentNetwork", network);
     Vue.set(state.networks, getNetworkIndex(state, network), network);
 }
+
+export function updateHost(state, description){
+  Vue.set(state.currentHost, "description", description);
+  Vue.set(state.hosts, getHostIndex(state, state.currentHost), state.currentHost)
+}
+
