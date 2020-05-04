@@ -3,7 +3,6 @@ export default {
     return {name, gateway};
   },
   update({_id, name, gateway}) {
-    console.log(_id, name, gateway)
     return {
       networkId: _id,
       name,

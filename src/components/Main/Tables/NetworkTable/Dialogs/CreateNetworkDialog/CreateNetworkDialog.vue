@@ -14,7 +14,7 @@
               stack-label
               type="text"
               :rules="[val => !val.length ? myMessage = 'Please input a valid network name' : val.length < 3 || val.length > 25 ? myMessage = 'Name must be between 3 and 25 characters long' : myMessage = null]"
-              v-model="name"
+              v-model="network.name"
               :error-message="myMessage"
               :error="myMessage !== null"
               label="Enter network name *"
@@ -27,7 +27,7 @@
               standard
               stack-label
               type="text"
-              v-model="gateway"
+              v-model="network.gateway"
               :error-message="gatewayErrorMessage"
               :error="gatewayErrorMessage !== null"
               label="Enter gateway address"
@@ -45,15 +45,18 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-
+import { mapActions } from "vuex";
+import globalRequestBuilder from "./../../../../../../utils/globalRequestBuilder";
+import requests from "./../../../../../../utils/requests";
 export default {
   name: "CreateNetworkDialog",
   data() {
     return {
       canClose: false,
-      name: "",
-      gateway: "",
+      network: {
+        name: "",
+        gateway: ""
+      },
       gatewayErrorMessage: null,
       isNameTaken: "",
       myMessage: null
@@ -61,19 +64,32 @@ export default {
   },
 
   methods: {
+    ...mapActions("global", ["addNetwork"]),
     async createNetwork(ev) {
       try {
-        await createNetwork.call(this, this.name, this.gateway);
+        const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
+          this,
+          "network",
+          "create",
+          this.network
+        );
+        const network = await requests.post.call(
+          this,
+          endpoint,
+          dataFromBuilder
+        );
+        this.addNetwork(network);
         this.canClose = true;
         document.querySelector("#close-popup").click();
       } catch (e) {
-        if (e.message) {
-            this.myMessage = e.message;
+        const response = e.response;
+        if (response.data.message) {
+          this.myMessage = response.data.message;
         }
-        if (e.errors) {
-          this.gatewayErrorMessage = e.errors.find(({param}) => param === "gateway").msg || null;
+        if (response.data.errors) {
+          this.gatewayErrorMessage =
+            response.data.errors.find(({ param }) => param === "gateway").msg || null;
         }
-
       }
     }
   }
