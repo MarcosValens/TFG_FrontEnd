@@ -25,3 +25,7 @@ export function updateNetwork(state, network) {
     Vue.set(state, "currentNetwork", network);
     Vue.set(state.networks, getNetworkIndex(state, network), network);
 }
+
+export function updateCurrentHost(state, host) {
+  Vue.set(state, "currentHost", host);
+}

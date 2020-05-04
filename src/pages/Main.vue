@@ -12,6 +12,6 @@
   import HostsTable from "../components/Main/Tables/HostsTable/HostsTable.vue";
 
   export default {
-    components: {"network-table": NetworkTable, "host-table": HostsTable}
+    components: {"network-table": NetworkTable, "host-table": HostsTable},
   };
 </script>

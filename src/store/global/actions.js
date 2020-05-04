@@ -17,3 +17,7 @@ export function setCurrentNetwork({ commit }, network) {
 export function deleteNetwork({ commit }, network) {
   commit("deleteNetwork", network);
 }
+
+export function setCurrentHost({ commit }, {row}) {
+  commit("updateCurrentHost", row);
+}

@@ -9,3 +9,16 @@ export function networks(state) {
 export function currentNetwork(state) {
     return state.currentNetwork;
 }
+
+export function currentHost(state) {
+    return state.currentHost;
+}
+
+export function hosts(state) {
+    return state.hosts;
+}
+
+export function currentPort(state) {
+    return state.currentPort;
+}
+

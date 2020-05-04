@@ -1,11 +1,9 @@
 <template>
   <div>
-    <template>
-      <q-dialog v-model="createNetworkDialog" persistent>
-        <create-network-dialog />
-      </q-dialog>
-    </template>
-    <div class="col-lg-3 col-sm-12" v-if="networks.length">
+    <q-dialog v-model="createNetworkDialog" persistent>
+      <create-network-dialog />
+    </q-dialog>
+    <div v-if="networks.length" class="col-lg-3 col-sm-12">
       <q-table
         dark
         color="ambar"
@@ -193,19 +191,19 @@ export default {
 <style lang="sass">
 
 thead tr th
-    position: sticky
-    z-index: 1
+  position: sticky
+  z-index: 1
 
 
-    thead tr:last-child th
-        top: 48px
+  thead tr:last-child th
+    top: 48px
 
     thead tr:first-child th
-        top: 0
+      top: 0
 
-        .item-dropdown
-            border-bottom: 1px solid grey
+      .item-dropdown
+        border-bottom: 1px solid grey
 
         .tdIp
-            cursor: default
+          cursor: default
 </style>
