@@ -61,7 +61,7 @@
           @click="newNetworkDialog = true"
         ></q-btn>
         <q-dialog v-model="newNetworkDialog" persistent>
-          <create-network-dialog :allNetworks="networks" />
+          <create-network-dialog />
         </q-dialog>
       </template>
 
@@ -84,7 +84,7 @@
       @click="networkDialog = true"
     >Create one</q-btn>
     <q-dialog v-model="networkDialog" persistent>
-      <create-network-dialog :allNetworks="networks" />
+      <create-network-dialog />
     </q-dialog>
   </div>
 </template>
