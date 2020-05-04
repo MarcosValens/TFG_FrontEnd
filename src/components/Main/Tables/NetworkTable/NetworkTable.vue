@@ -1,91 +1,92 @@
 <template>
-  <div class="col-lg-3 col-sm-12" v-if="networks.length">
-    <q-table
-      dark
-      color="ambar"
-      :data="networks"
-      :columns="networkColumns"
-      :visible-columns="visibleNetworkColumns"
-      :filter="filter"
-      row-key="index"
-      binary-state-sort
-      virtual-scroll
-      hide-bottom
-      style="height: 100%"
-      :pagination.sync="pagination"
-      :rows-per-page-options="[0]"
-      :virtual-scroll-sticky-size-start="4"
-    >
-      <template v-slot:body="props">
-        <q-tr :props="props" @click="loadNetwork(props)">
-          <q-td key="networkName" :props="props">{{ props.row.name }}</q-td>
-          <q-td
-            key="gateway"
-            :props="props"
-            @click.stop="loadNetwork(props)"
-          >{{ props.row.gateway }}</q-td>
-          <q-td key="icon">
-            <div class="row text-center" v-if="isSelectedNetwork(props)">
-              <div class="col">
-                <q-chip
-                  icon="save"
-                  text-color="white"
-                  color="primary"
-                  clickable
-                  @click="openNetworkUpdateDialog = true"
-                >Update</q-chip>
-                <q-dialog v-model="openNetworkUpdateDialog" persistent>
-                  <update-network-dialog :allNetworks="networks" :networkId="currentNetwork._id" />
-                </q-dialog>
+  <div>
+    <template>
+      <q-dialog v-model="createNetworkDialog" persistent>
+        <create-network-dialog />
+      </q-dialog>
+    </template>
+    <div class="col-lg-3 col-sm-12" v-if="networks.length">
+      <q-table
+        dark
+        color="ambar"
+        :data="networks"
+        :columns="networkColumns"
+        :visible-columns="visibleNetworkColumns"
+        :filter="filter"
+        row-key="index"
+        binary-state-sort
+        virtual-scroll
+        hide-bottom
+        style="height: 100%"
+        :pagination.sync="pagination"
+        :rows-per-page-options="[0]"
+        :virtual-scroll-sticky-size-start="4"
+      >
+        <template v-slot:body="props">
+          <q-tr :props="props" @click="loadNetwork(props)">
+            <q-td key="networkName" :props="props">{{ props.row.name }}</q-td>
+            <q-td
+              key="gateway"
+              :props="props"
+              @click.stop="loadNetwork(props)"
+            >{{ props.row.gateway }}</q-td>
+            <q-td key="icon">
+              <div class="row text-center" v-if="isSelectedNetwork(props)">
+                <div class="col">
+                  <q-chip
+                    icon="save"
+                    text-color="white"
+                    color="primary"
+                    clickable
+                    @click="openNetworkUpdateDialog = true"
+                  >Update</q-chip>
+                  <q-dialog v-model="openNetworkUpdateDialog" persistent>
+                    <update-network-dialog :allNetworks="networks" :networkId="currentNetwork._id" />
+                  </q-dialog>
 
-                <q-chip
-                  icon="delete"
-                  text-color="white"
-                  color="negative"
-                  clickable
-                  @click="confirmDeleteNetworkDialog(props)"
-                >Delete</q-chip>
+                  <q-chip
+                    icon="delete"
+                    text-color="white"
+                    color="negative"
+                    clickable
+                    @click="confirmDeleteNetworkDialog(props)"
+                  >Delete</q-chip>
+                </div>
               </div>
-            </div>
-          </q-td>
-        </q-tr>
-      </template>
+            </q-td>
+          </q-tr>
+        </template>
 
-      <template v-slot:top-left>
-        <q-btn
-          class="bg-primary text-white"
-          rounded
-          icon="add_circle"
-          label="Create Network"
-          size="1rem"
-          @click="newNetworkDialog = true"
-        ></q-btn>
-        <q-dialog v-model="newNetworkDialog" persistent>
-          <create-network-dialog />
-        </q-dialog>
-      </template>
+        <template v-slot:top-left>
+          <q-btn
+            class="bg-primary text-white"
+            rounded
+            icon="add_circle"
+            label="Create Network"
+            size="1rem"
+            @click="createNetworkDialog = true"
+          ></q-btn>
+        </template>
 
-      <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search Network">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-      </template>
-    </q-table>
-  </div>
-  <div class="text-center" v-else>
-    <h4>There are no networks...</h4>
-    <q-btn
-      icon="add_circle"
-      class="bg-primary text-white"
-      rounded
-      size="1.5rem"
-      @click="networkDialog = true"
-    >Create one</q-btn>
-    <q-dialog v-model="networkDialog" persistent>
-      <create-network-dialog />
-    </q-dialog>
+        <template v-slot:top-right>
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search Network">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>
+      </q-table>
+    </div>
+    <div class="text-center" v-else>
+      <h4>There are no networks...</h4>
+      <q-btn
+        icon="add_circle"
+        class="bg-primary text-white"
+        rounded
+        size="1.5rem"
+        @click="createNetworkDialog = true"
+      >Create one</q-btn>
+    </div>
   </div>
 </template>
 
@@ -136,9 +137,7 @@ export default {
       updateNetworkPopUp: false,
       environment: `${process.env.ENVIRONMENT}`,
       model: null,
-      networkDialog: false,
-      newNetworkDialog: false,
-      firstNetworkDialog: false,
+      createNetworkDialog: false,
       openNetworkUpdateDialog: false,
       filter: "",
       pagination: {
@@ -155,7 +154,11 @@ export default {
     this.updateNetworksFromBackend(networks);
   },
   methods: {
-    ...mapActions("global", ["updateNetworksFromBackend", "setCurrentNetwork", "deleteNetwork"]),
+    ...mapActions("global", [
+      "updateNetworksFromBackend",
+      "setCurrentNetwork",
+      "deleteNetwork"
+    ]),
     async loadNetwork(props) {
       const networkId = props.row._id;
       const endpoint = networkGetter.getOne();
@@ -166,16 +169,22 @@ export default {
       return props.row._id === this.currentNetwork._id;
     },
     confirmDeleteNetworkDialog(data) {
-      this.$q.dialog({
-        title: 'Confirm',
-        message: 'Are you sure you want to delete this network',
-        cancel: true,
-        persistent: true
-      }).onOk(async () => {
-        const { endpoint, dataFromBuilder} = globalRequestBuilder("network","delete", data.row);
-        await requests.post.call(this, endpoint, dataFromBuilder);
-        this.deleteNetwork(data.row)
-      });
+      this.$q
+        .dialog({
+          title: "Confirm",
+          message: "Are you sure you want to delete this network",
+          cancel: true,
+          persistent: true
+        })
+        .onOk(async () => {
+          const { endpoint, dataFromBuilder } = globalRequestBuilder(
+            "network",
+            "delete",
+            data.row
+          );
+          await requests.post.call(this, endpoint, dataFromBuilder);
+          this.deleteNetwork(data.row);
+        });
     }
   }
 };
