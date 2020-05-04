@@ -29,3 +29,7 @@ export function updateNetwork(state, network) {
 export function updateCurrentHost(state, host) {
   Vue.set(state, "currentHost", host);
 }
+
+export function updateCurrentPort(state, port) {
+  Vue.set(state, "currentPort", port);
+}

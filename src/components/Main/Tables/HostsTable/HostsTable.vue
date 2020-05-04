@@ -209,10 +209,14 @@ export default {
     ])
   },
   methods: {
-    ...mapActions("global", ["setCurrentHost"]),
+    ...mapActions("global", ["setCurrentHost", "setCurrentPort"]),
     isCurrentHost(host) {
-      console.log(host.row._id === this.currentHost._id)
       return host.row._id === this.currentHost._id;
+    },
+    onItemClick(props, index) {
+      this.setCurrentPort(props.row.ports[index]);
+      this.shouldOpenUpdatePortModal = true;
+      this.setCurrentHost(props.row);
     }
   }
 };
