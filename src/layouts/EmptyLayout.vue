@@ -14,6 +14,8 @@ export default {
     return {};
   },
   created() {
+    const darkMode = this.$store.getters["global/darkMode"];
+    console.log(darkMode);
     this.$q.dark.set(true)
   }
 }

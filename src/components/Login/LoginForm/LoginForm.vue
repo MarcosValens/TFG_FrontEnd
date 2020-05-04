@@ -40,7 +40,7 @@
               class="q-mx-sm col"
               width="16px"
               height="16px"
-              src="./../../assets/images/32px-Google__G__Logo.svg.png"
+              src="./../../../assets/images/32px-Google__G__Logo.svg.png"
             />
           </div>
           <span class="col">Sign in with google</span>
@@ -73,9 +73,9 @@
 
 <script>
 import methods from "./methods";
-import RegisterModal from "./Modals/RegisterModal/RegisterModal.vue";
+import RegisterModal from "./../Modals/RegisterModal/RegisterModal.vue";
 
-import getters from "./../../utils/getters";
+import getters from "./../../../utils/getters";
 
 const loginGetter = getters.login;
 export default {

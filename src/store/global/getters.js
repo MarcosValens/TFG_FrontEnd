@@ -1,2 +1,3 @@
-export function someGetter (/* state */) {
-}
+export function darkMode (state) {
+    return state.darkMode;
+}   
