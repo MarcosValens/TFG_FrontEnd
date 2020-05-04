@@ -11,7 +11,7 @@
         <div class="row">
           <div class="col">
             <q-input dense
-                     v-model="description"
+                     v-model="host.description"
                      autofocus
                      :rules="[val =>  val.length > 30 ? `Description can't be more than 30 characters long` : true]"
             />
@@ -29,21 +29,18 @@
 
 <script>
   import {mapGetters} from "vuex";
-  import methods from "./methods"
+  import methods from "../UpdateHostDialog/methods"
 
   export default {
     name: "Updatehost",
     data() {
       return {
-        description: "",
+        description: this.currentHost.description,
         canClose: false,
       }
     },
     computed: {
       ...mapGetters('global', ['currentHost'])
-    },
-    created() {
-      this.description = this.currentHost.description
     },
     methods
   }
