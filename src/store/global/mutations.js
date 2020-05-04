@@ -1,5 +1,7 @@
 import Vue from 'vue';
 
+
+
 function getNetworkIndex(state, network) {
   const networkIndex = state.networks.map(network => network._id).indexOf(network._id);
   return networkIndex;
@@ -16,7 +18,11 @@ function getPortIndex(state, port) {
   return {port: portIndex, host: hostIndex};
 }
 
-export function addNetwork (state, network) {
+export function setUser(state, user) {
+  Vue.set(state, "user", user);
+}
+
+export function addNetwork(state, network) {
     state.networks.push(network);
 }
 

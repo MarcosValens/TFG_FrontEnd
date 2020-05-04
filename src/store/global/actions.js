@@ -1,3 +1,7 @@
+export function setUser({ commit }, user) {
+  commit("setUser", user);
+}
+
 export function addNetwork({ commit }, network) {
   commit("addNetwork", network);
 }

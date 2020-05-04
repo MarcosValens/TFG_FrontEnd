@@ -109,6 +109,7 @@ export default function() {
     currentNetwork: {},
     currentHost: {},
     currentPort: "",
-    darkMode: true
+    darkMode: true,
+    user: {}
   };
 }

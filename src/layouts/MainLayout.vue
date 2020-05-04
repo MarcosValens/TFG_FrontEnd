@@ -48,7 +48,8 @@
 
 <script>
   import EssentialLink from 'components/EssentialLink';
-  import moduleName from './../utils/requests';
+  import requests from './../utils/requests';
+  import { mapActions } from 'vuex';
   import getters from './../utils/getters';
   const userGetter = getters.user;
 
@@ -80,9 +81,8 @@
     },
 
     async created() {
-      const response = await this.$axios.get(userGetter.profile());
-      
-      this.user = response.data;
+      this.user = await requests.get.call(this, userGetter.profile());;
+      this.setUser(this.user);
       this.imgUrl = userGetter.image(this.user._id);
       
       window.onfocus = function () {
@@ -94,6 +94,7 @@
       this.$q.dark.set(true)
     },
     methods: {
+      ...mapActions("global", ["setUser"]),
       redirect() {
         this.$router.push('/main')
       }

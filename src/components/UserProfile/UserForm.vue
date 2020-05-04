@@ -106,6 +106,7 @@
 
 <script>
   import methods from "./methods";
+  import { mapGetters, mapActions } from 'vuex';
   export default {
     name: 'user-form',
     data() {
@@ -126,10 +127,11 @@
         deleteCode: null
       };
     },
-
+    computed: {
+      ...mapGetters("global", ["user"])
+    },
     async created() {
-      const response = await this.$axios.get(`${process.env.USER_URL}`);
-      const user = response.data;
+      const user = this.user;
       this.name = user.name;
       this.surname = user.surname;
       this.userId = user._id;

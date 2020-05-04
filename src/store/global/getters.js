@@ -22,3 +22,6 @@ export function currentPort(state) {
     return state.currentPort;
 }
 
+export function user(state) {
+    return state.user;
+}
