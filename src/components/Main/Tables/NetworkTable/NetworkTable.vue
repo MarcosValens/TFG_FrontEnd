@@ -155,7 +155,7 @@ export default {
     this.updateNetworksFromBackend(networks);
   },
   methods: {
-    ...mapActions("global", ["updateNetworksFromBackend", "setCurrentNetwork"]),
+    ...mapActions("global", ["updateNetworksFromBackend", "setCurrentNetwork", "deleteNetwork"]),
     async loadNetwork(props) {
       const networkId = props.row._id;
       const endpoint = networkGetter.getOne();
@@ -164,6 +164,18 @@ export default {
     },
     isSelectedNetwork(props) {
       return props.row._id === this.currentNetwork._id;
+    },
+    confirmDeleteNetworkDialog(data) {
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Are you sure you want to delete this network',
+        cancel: true,
+        persistent: true
+      }).onOk(async () => {
+        const { endpoint, dataFromBuilder} = globalRequestBuilder("network","delete", data.row);
+        await requests.post.call(this, endpoint, dataFromBuilder);
+        this.deleteNetwork(data.row)
+      });
     }
   }
 };

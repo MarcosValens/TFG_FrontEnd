@@ -9,3 +9,7 @@ export function updateNetworksFromBackend({ commit }, networks) {
 export function setCurrentNetwork({ commit }, network) {
     commit("updateCurrentNetwork", network);
 }
+
+export function deleteNetwork({ commit }, network) {
+  commit("deleteNetwork", network);
+}
