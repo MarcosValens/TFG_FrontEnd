@@ -31,7 +31,7 @@
                   @click="openNetworkUpdateDialog = true"
                 >Update</q-chip>
                 <q-dialog v-model="openNetworkUpdateDialog" persistent>
-                  <UpdateNetworkDialog :allNetworks="networks" :networkId="currentNetwork._id" />
+                  <update-network-dialog :allNetworks="networks" :networkId="currentNetwork._id" />
                 </q-dialog>
 
                 <q-chip
@@ -57,7 +57,7 @@
           @click="newNetworkDialog = true"
         ></q-btn>
         <q-dialog v-model="newNetworkDialog" persistent>
-          <CreateNetworkDialog :allNetworks="networks" />
+          <create-network-dialog :allNetworks="networks" />
         </q-dialog>
       </template>
 
@@ -80,16 +80,22 @@
       @click="networkDialog = true"
     >Create one</q-btn>
     <q-dialog v-model="networkDialog" persistent>
-      <CreateNetworkDialog :allNetworks="networks" />
+      <create-network-dialog :allNetworks="networks" />
     </q-dialog>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 import CreateNetworkDialog from "./Dialogs/CreateNetworkDialog/CreateNetworkDialog.vue";
 import UpdateNetworkDialog from "./Dialogs/UpdateNetworkDialog/UpdateNetworkDialog.vue";
+import globalRequestBuilder from './../../../../utils/globalRequestBuilder.js';
+import requests from './../../../../utils/requests.js';
+import getters from './../../../../utils/getters.js';
 
-const methods = globalMethods.networkTableMethods;
+const networkGetter = getters.network;
+
 export default {
   name: "NetworkTable",
   components: {
@@ -125,20 +131,29 @@ export default {
       visibleNetworkColumns: ["networkName", "gateway", "icon"],
       updateNetworkPopUp: false,
       environment: `${process.env.ENVIRONMENT}`,
-      currentNetwork: {},
       model: null,
       networkDialog: false,
       newNetworkDialog: false,
       firstNetworkDialog: false,
       openNetworkUpdateDialog: false,
       filter: "",
-      networks: [],
       pagination: {
         rowsPerPage: 0
       }
     };
   },
-  async mounted() {}
+  computed: {
+      ...mapGetters("global", ["networks", "currentNetwork"])
+  },
+  async mounted() {
+      const allNetworksEndpoint = networkGetter.getAll();
+      const networks = await requests.get.call(this, allNetworksEndpoint);
+      this.updateNetworksFromBackend(networks);
+      console.log(this)
+  },
+  methods: {
+      ...mapActions("global", ["updateNetworksFromBackend"])
+  }
 };
 </script>
 
