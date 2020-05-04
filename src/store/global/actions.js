@@ -18,7 +18,7 @@ export function deleteNetwork({ commit }, network) {
   commit("deleteNetwork", network);
 }
 
-export function updateHost({ commit }, description) {
+export function updateHostDescription({ commit }, description) {
   commit("updateHost", description);
 }
 
@@ -28,4 +28,8 @@ export function setCurrentHost({ commit }, {row}) {
 
 export function setCurrentPort({ commit }, port) {
   commit("updateCurrentPort", port);
+}
+
+export function updatePort({ commit }, port) {
+  commit("updatePort", port);
 }

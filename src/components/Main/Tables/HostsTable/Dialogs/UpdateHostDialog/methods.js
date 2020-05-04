@@ -1,27 +1,30 @@
-import globalRequestBuilder from "../../../../../../utils/globalRequestBuilder"
+import globalRequestBuilder from "../../../../../../utils/globalRequestBuilder";
+import requests from "../../../../../../utils/requests";
 import {mapActions} from "vuex";
 
 export default {
-  ...mapActions("global", ["updateHost"]),
+  ...mapActions("global", ["updateHostDescription"]),
   async updateHost(ev) {
     if (!this.isChanged()) return this.close();
     try {
-      this.updateHost(this.description);
+      this.updateHostDescription(this.description);
       const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
         this,
         "host",
         "update",
         this.currentHost
       );
+      await requests.post.call(this, endpoint, dataFromBuilder);
       this.close();
     } catch (e) {
       ev.preventDefault();
     }
   },
   close() {
+    this.canClose = true;
     document.querySelector("#close-popup").click();
   },
   isChanged() {
-    return (this.currentHost.description === this.description);
+    return (this.currentHost.description !== this.description);
   }
 }

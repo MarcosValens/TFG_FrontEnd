@@ -1,5 +1,6 @@
 export default {
   update: function (host) {
+    console.log(host)
     return {
       description: host.description,
       networkId: this.currentNetwork._id,

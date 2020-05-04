@@ -1,12 +1,14 @@
 <template>
   <div class="col-lg-9 col-xs-12 col-sm-12">
-    <q-dialog v-model="shouldOpenUpdateHostModal">
-      <update-host-dialog />
-    </q-dialog>
+    <template>
+      <q-dialog v-model="shouldOpenUpdateHostModal">
+        <update-host-dialog />
+      </q-dialog>
 
-    <q-dialog v-model="shouldOpenUpdatePortModal">
-      <update-port-dialog />
-    </q-dialog>
+      <q-dialog v-model="shouldOpenUpdatePortModal">
+        <update-port-dialog />
+      </q-dialog>
+    </template>
 
     <!-- Scanner Buttons and search bar -->
     <div class="row q-pa-md q-gutter-md justify-around">
@@ -55,25 +57,27 @@
       >
         <template v-slot:body="props">
           <q-tr :props="props" @click="setCurrentHost(props)">
-            <q-td key="description" :props="props" @click="shouldOpenUpdateHostModal = true">
+            <q-td key="description" :props="props" @click.stop.self="openUpdateHostModal(props)">
               <q-avatar
                 class="q-ml-sm q-mr-sm description-icon"
                 style="font-size: 1.5rem; cursor:pointer;"
                 clickable
                 color="primary"
-                @click.stop="shouldOpenUpdateHostModal = true"
+                @click.stop="openUpdateHostModal(props)"
               >
                 <q-icon name="create" color="white" style="font-size: 1rem"></q-icon>
               </q-avatar>
-              <p @click.stop="shouldOpenUpdateHostModal = true">{{ props.row.description }}</p>
+              {{ props.row.description }}
             </q-td>
 
             <q-td key="ip" :props="props" class="tdIp">{{ props.row.ipAddress }}</q-td>
 
             <q-td key="alive" :props="props">
-              <q-icon 
+              <q-icon
                 :name="props.row.alive ? 'done' : 'clear'"
-                style="font-size: 2em" :class="props.row.alive ? 'text-positive' : 'text-negative'" />
+                style="font-size: 2em"
+                :class="props.row.alive ? 'text-positive' : 'text-negative'"
+              />
             </q-td>
 
             <q-td key="ports" :props="props">
@@ -137,7 +141,7 @@ import UpdatePortDialog from "./Dialogs/UpdatePortDialog/UpdatePortDialog";
 import ScannerButtons from "./ScannerButtons/ScannerButtons";
 import DisplayWarning from "./DisplayWarning/DisplayWarning";
 import DisplayButton from "./DisplayButton/DisplayButton";
-import HostButtons from './HostButtons/HostButtons';
+import HostButtons from "./HostButtons/HostButtons";
 
 export default {
   components: {
@@ -216,7 +220,11 @@ export default {
     onItemClick(props, index) {
       this.setCurrentPort(props.row.ports[index]);
       this.shouldOpenUpdatePortModal = true;
-      this.setCurrentHost(props.row);
+      this.setCurrentHost(props);
+    },
+    openUpdateHostModal(props) {
+      this.setCurrentHost(props);
+      this.shouldOpenUpdateHostModal = true;
     }
   }
 };
