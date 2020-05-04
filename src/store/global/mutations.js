@@ -1,5 +1,10 @@
 import Vue from 'vue';
 
+function getNetworkIndex(state, network) {
+  const networkIndex = state.networks.map(network => network._id).indexOf(network._id);
+  return networkIndex;
+}
+
 export function addNetwork (state, network) {
     state.networks.push(network);
 }
@@ -13,6 +18,10 @@ export function updateNetworks(state, networks) {
 }
 
 export function deleteNetwork(state, network) {
-  const networkIndex = state.networks.map(network => network._id).indexOf(network._id);
-  state.networks.splice(networkIndex,1)
+  state.networks.splice(getNetworkIndex(state, network),1)
+}
+
+export function updateNetwork(state, network) {
+    Vue.set(state, "currentNetwork", network);
+    Vue.set(state.networks, getNetworkIndex(state, network), network);
 }
