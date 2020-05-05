@@ -6,9 +6,7 @@ import register from './getters/registerGetter';
 import user from './getters/userGetter';
 import scanner from './getters/scannerGetter';
 
-const getters = {network, host, port, login, register, user};
-if (process.env.ENVIRONMENT === "electron") {
-  getters.scanner = scanner;
-}
+const getters = {network, host, port, login, register, user, scanner};
+
 
 export default getters;

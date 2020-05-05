@@ -12,11 +12,15 @@ export default {
         this,
         "host",
         "update",
-        this.currentHost
+        {
+          host: this.currentHost,
+          network: this.currentNetwork
+        }
       );
       await requests.post.call(this, endpoint, dataFromBuilder);
       this.close();
     } catch (e) {
+      console.log(e)
       ev.preventDefault();
     }
   },

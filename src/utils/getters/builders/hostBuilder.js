@@ -1,33 +1,32 @@
 export default {
-  update: function (host) {
-    console.log(host)
+  update: function ({network, host}) {
     return {
       description: host.description,
-      networkId: this.currentNetwork._id,
+      networkId: network._id,
       host,
       hostId: host._id
     };
   },
-  updateSweep: function(hosts) {
+  updateSweep: function({network, hosts}) {
     return {
-      networkId: this.currentNetwork._id,
+      networkId: network._id,
       hosts,
     };
   },
-  create: function (hosts) {
-    return {networkId: this.currentNetwork._id, hosts};
+  create: function ({network, hosts}) {
+    return {networkId: network._id, hosts};
   },
 
-  delete: function ({row}) {
+  delete: function ({network, row}) {
     return {
-      networkId: this.currentNetwork._id,
+      networkId: network._id,
       hostId: row._id
     };
   },
 
-  get: function () {
+  get: function (network) {
     return {
-      networkId: this.currentNetwork._id
+      networkId: network._id
     }
   }
 };

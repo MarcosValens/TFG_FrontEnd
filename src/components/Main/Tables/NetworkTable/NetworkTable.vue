@@ -155,13 +155,15 @@ export default {
     ...mapActions("global", [
       "updateNetworksFromBackend",
       "setCurrentNetwork",
-      "deleteNetwork"
+      "deleteNetwork",
+      "setHosts"
     ]),
     async loadNetwork(props) {
       const networkId = props.row._id;
       const endpoint = networkGetter.getOne();
       const network = await requests.get.call(this, endpoint, networkId);
       this.setCurrentNetwork(network);
+      this.setHosts(network.hosts);
     },
     isSelectedNetwork(props) {
       return props.row._id === this.currentNetwork._id;

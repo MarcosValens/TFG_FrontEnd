@@ -1,6 +1,7 @@
 import getters from './getters';
 
 export default function build(name, method, data) {
+  console.log(name, method, data)
   const endpoint = getters[name][method]();
 
   if (!data) return {endpoint};

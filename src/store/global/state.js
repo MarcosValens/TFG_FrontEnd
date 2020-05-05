@@ -1,7 +1,5 @@
-export default function() {
-  return {
-    networks: [],
-    hosts: [
+/*
+[
       {
         _id: "5eac9f0093e0552c00a39a12",
         ipAddress: "192.168.1.65",
@@ -105,7 +103,13 @@ export default function() {
         alive: true,
         __v: 0
       }
-    ],
+    ]
+    */
+
+export default function() {
+  return {
+    networks: [],
+    hosts: [],
     currentNetwork: {},
     currentHost: {},
     currentPort: "",

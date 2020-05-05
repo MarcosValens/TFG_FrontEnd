@@ -38,6 +38,10 @@ export function updatePort({ commit }, port) {
   commit("updatePort", port);
 }
 
+export function setHosts({ commit }, hosts) {
+  commit("setHosts", hosts); 
+}
+
 export function deleteHost({ commit }, host) {
   commit("deleteHost", host);
 }

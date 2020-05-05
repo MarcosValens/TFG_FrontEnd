@@ -12,7 +12,7 @@
 
     <!-- Scanner Buttons and search bar -->
     <div class="row q-pa-md q-gutter-md justify-around">
-      <scanner-buttons v-if="environment ==='electron' && currentNetwork._id" />
+      <scanner-buttons v-if="electron && currentNetwork._id" />
       <div class="col-2" v-if="hosts.length">
         <template>
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
@@ -30,14 +30,14 @@
     </div>
     <div v-else-if="!hosts.length">
       <display-warning message="There are no hosts" />
-      <div v-if="environment !== 'electron'">
+      <div v-if="!electron">
         <display-button />
       </div>
     </div>
 
     <!-- Table -->
     <div v-else>
-      <div v-if="environment !== 'electron'" class="q-mb-md">
+      <div v-if="!electron" class="q-mb-md">
         <display-button />
       </div>
       <q-table
@@ -57,7 +57,7 @@
       >
         <template v-slot:body="props">
           <q-tr :props="props" @click="setCurrentHost(props)">
-            <q-td key="description" :props="props" @click.stop.self="openUpdateHostModal(props)">
+            <q-td key="description" :props="props">
               <q-avatar
                 class="q-ml-sm q-mr-sm description-icon"
                 style="font-size: 1.5rem; cursor:pointer;"
@@ -123,7 +123,7 @@
                   :network="currentNetwork"
                   :host="currentHost"
                   :allHosts="hosts"
-                  v-if="environment === 'electron'"
+                  v-if="electron"
                 />
               </div>
             </q-td>
@@ -136,12 +136,17 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import isElectron from "is-electron";
+
 import UpdateHostDialog from "./Dialogs/UpdateHostDialog/UpdateHostDialog";
 import UpdatePortDialog from "./Dialogs/UpdatePortDialog/UpdatePortDialog";
 import ScannerButtons from "./ScannerButtons/ScannerButtons";
 import DisplayWarning from "./DisplayWarning/DisplayWarning";
 import DisplayButton from "./DisplayButton/DisplayButton";
 import HostButtons from "./HostButtons/HostButtons";
+
+import requests from "./../../../../utils/requests";
+import globalRequestBuilder from "./../../../../utils/globalRequestBuilder";
 
 export default {
   components: {
@@ -194,7 +199,7 @@ export default {
       ],
       shouldOpenUpdateHostModal: false,
       shouldOpenUpdatePortModal: false,
-      environment: process.env.ENVIRONMENT,
+      electron: isElectron(),
       model: {},
       option: [],
       locked: false,
@@ -204,6 +209,7 @@ export default {
       }
     };
   },
+
   computed: {
     ...mapGetters("global", [
       "hosts",
@@ -213,7 +219,12 @@ export default {
     ])
   },
   methods: {
-    ...mapActions("global", ["setCurrentHost", "setCurrentPort", "deleteHost", "deletePort"]),
+    ...mapActions("global", [
+      "setCurrentHost",
+      "setCurrentPort",
+      "deleteHost",
+      "deletePort"
+    ]),
     isCurrentHost(host) {
       return host.row._id === this.currentHost._id;
     },
@@ -227,26 +238,30 @@ export default {
       this.shouldOpenUpdateHostModal = true;
     },
     confirmDeleteHostDialog(props) {
-      this.$q.dialog({
-        title: "Confirm",
-        message: "Are you sure you want to delete this host?",
-        cancel: true,
-        persistent: true
-      }).onOk(async () => {
-        this.deleteHost(props.row);
-        // TODO: Add backend call
-      });
+      this.$q
+        .dialog({
+          title: "Confirm",
+          message: "Are you sure you want to delete this host?",
+          cancel: true,
+          persistent: true
+        })
+        .onOk(async () => {
+          this.deleteHost(props.row);
+          // TODO: Add backend call
+        });
     },
     openConfirmDeletePortDialog(port) {
-      this.$q.dialog({
-        title: "Confirm",
-        message: "Are you sure you want to delete this port?",
-        cancel: true,
-        persistent: true
-      }).onOk(async () => {
-        this.deletePort(port);
-        // TODO: Add backend call
-      });
+      this.$q
+        .dialog({
+          title: "Confirm",
+          message: "Are you sure you want to delete this port?",
+          cancel: true,
+          persistent: true
+        })
+        .onOk(async () => {
+          this.deletePort(port);
+          // TODO: Add backend call
+        });
     }
   }
 };
