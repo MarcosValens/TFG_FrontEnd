@@ -1,5 +1,4 @@
 function getIndex(array, property, value) {
-  console.log(array)
   return array.map((object) => object[property]).indexOf(value);
 }
 export default {
@@ -41,11 +40,10 @@ export default {
 
     const ipAddress = host.isLiving.host;
     const hostIndex = getIndex(this.hosts, "ipAddress", ipAddress);
-
     if (!host.isLiving.alive) {
       if (hostIndex !== -1) {
-        this.hosts[hostIndex].alive = false;
-        await this.updateHosts(this.hosts);
+        this.killHost({index: hostIndex});
+        await this.updateHosts([this.hosts[hostIndex]]);
       }
       throw {
         message: "Host is not alive or not responding to ICMP requests."
@@ -54,6 +52,7 @@ export default {
     const data = {
       canAdd: hostIndex === -1,
       alive: host.isLiving.alive,
+      index: hostIndex,
       hosts: [
         {
           ipAddress: ipAddress,

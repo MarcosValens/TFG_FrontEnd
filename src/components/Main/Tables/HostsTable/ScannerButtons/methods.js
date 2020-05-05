@@ -3,6 +3,7 @@ import getters from "./../../../../../utils/getters";
 import globalRequestBuilder from "./../../../../../utils/globalRequestBuilder";
 
 import utils from "./scanner-utils/index";
+import { updateHost } from "src/store/global/mutations";
 
 async function createHosts(hosts) {
   const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
@@ -43,8 +44,8 @@ function getNewHostsMessage(hosts) {
 }
 
 function removeDuplicates(array) {
-  const set = new Set(array.map(({_id}) => _id));
-  return Array.from(set).map(id => array.find(({_id}) => _id === id));
+  const set = new Set(array.map(({ _id }) => _id));
+  return Array.from(set).map(id => array.find(({ _id }) => _id === id));
 }
 
 export default {
@@ -58,15 +59,33 @@ export default {
         hosts
       }
     );
-    this.setHosts(hosts);
+    await requests.post.call(this, endpoint, dataFromBuilder);
+    return hosts;
+  },
+
+  async updateHost(host) {
+    const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
+      this,
+      "host",
+      "update",
+      {
+        network: this.currentNetwork,
+        host
+      }
+    );
     await requests.post.call(this, endpoint, dataFromBuilder);
   },
 
   async createPorts(ports, host) {
-    const { endpoint, dataFromBuilder } = globalRequestBuilder.call(this, "port", "create", {
-      ports,
-      host
-    });
+    const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
+      this,
+      "port",
+      "create",
+      {
+        ports,
+        host
+      }
+    );
     const hostFromDataBase = requests.post.call(
       this,
       endpoint,
@@ -95,12 +114,14 @@ export default {
     const deadHostsMessage = getDeadHostsMessage(data);
 
     if (data.hostsToUpdate.length) {
-      await this.updateHosts(data.hostsToUpdate);
+      const hosts = await this.updateHosts(data.hostsToUpdate);
+      this.setHosts(hosts);
     }
+    this.addHosts(databaseHosts);
+
     this.progressMessage = `${newHostsMessage}. ${
       deadHostsMessage ? `And ${deadHostsMessage}` : ""
     }`;
-    return {hosts: databaseHosts, canAdd: true};
   },
 
   async ping(data) {
@@ -127,15 +148,17 @@ export default {
     }
 
     if (!formattedHost.canAdd && formattedHost.alive) {
+      const wasDead = this.hosts[formattedHost.index].alive
+        ? "Host is alive but it's already inside the list of hosts."
+        : "Host was dead but now is alive";
       this.persistentMessage = "";
-      this.progressMessage =
-        "Host is alive but it's already inside the list of hosts.";
+      this.reviveHost(formattedHost.index);
+      await this.updateHost(this.hosts[formattedHost.index]);
+      this.progressMessage = wasDead;
       return;
     }
 
-    this.persistentMessage = "Adding host to our database.";
-    const hosts = await this.createHosts(formattedHost.hosts);
-    this.persistentMessage = "";
+    const hosts = await createHosts.call(this, formattedHost.hosts);
     this.progressMessage = "Host successfully saved to our database.";
     return hosts;
   },
@@ -164,7 +187,7 @@ export default {
       this.persistentMessage = `Starting full scan ${withPorts}`;
       getters.scanner.builder.checkInputAndGetPorts.call(this, ports);
       await this.sweep();
-      const hostsToScan = this.hosts.filter(host => host.alive)
+      const hostsToScan = this.hosts.filter(host => host.alive);
       const hostsMessage =
         this.hosts.length === 1 ? "one host" : `${hostsToScan.length} hosts`;
       const specifiedPorts = ports

@@ -2,6 +2,12 @@ export function setUser({ commit }, user) {
   commit("setUser", user);
 }
 
+export function lockNetwork({ commit }) {
+  commit("lockNetwork")
+}
+export function unlockNetwork({ commit }) {
+  commit("unlockNetwork")
+}
 export function addNetwork({ commit }, network) {
   commit("addNetwork", network);
 }
@@ -48,6 +54,14 @@ export function setHostsFromSweep({ commit }, hosts) {
 
 export function deleteHost({ commit }, host) {
   commit("deleteHost", host);
+}
+
+export function reviveHost({ commit }, index) {
+  commit("reviveHost", index)
+}
+
+export function killHost({ commit }, { index }) {
+  commit("killHost", index)
 }
 
 export function deletePort({ commit }, port) {

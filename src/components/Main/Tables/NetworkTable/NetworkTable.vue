@@ -163,6 +163,7 @@ export default {
       const networkId = props.row._id;
       const endpoint = networkGetter.getOne();
       const network = await requests.get.call(this, endpoint, networkId);
+      network.locked = false;
       this.setCurrentNetwork(network);
       this.setHosts(network.hosts);
     },
@@ -170,6 +171,7 @@ export default {
       return props.row._id === this.currentNetwork._id;
     },
     confirmDeleteNetworkDialog(data) {
+      if (this.currentNetwork.locked) return; 
       this.$q
         .dialog({
           title: "Confirm",

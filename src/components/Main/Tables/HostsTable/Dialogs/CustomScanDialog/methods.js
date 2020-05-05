@@ -8,7 +8,6 @@ export default {
       this.canClose = true;
       document.querySelector("#close-popup").click();
     } catch (e) {
-      console.log(e)
       this.message = e.message;
       event.preventDefault();
     }

@@ -154,12 +154,20 @@ export default {
     ...mapGetters("global", ["currentNetwork", "currentHost", "hosts"])
   },
   methods: {
-    ...mapActions("global", ["setHostsFromSweep", "setHosts"]),
+    ...mapActions("global", [
+      "setHostsFromSweep",
+      "setHosts",
+      "killHost",
+      "reviveHost",
+      "lockNetwork",
+      "unlockNetwork"
+    ]),
     ...methods,
     addHosts(hosts) {
       this.setHostsFromSweep(hosts);
     },
     initType(type) {
+      this.lockNetwork();
       this.progressMessage = "";
       this.persistentMessage = "";
       this.currentType = type;
@@ -176,6 +184,7 @@ export default {
         this.currentType.hadError = false;
 
         this.currentType = null;
+        this.unlockNetwork();
       }, 5000);
     },
 
@@ -202,6 +211,7 @@ export default {
       try {
         const hosts = await this.ping(ip);
         if (hosts && hosts.length) {
+          this.addHosts(hosts);
         }
       } catch (e) {
         this.currentType.hadError = true;
@@ -218,13 +228,10 @@ export default {
       this.initType(this.sweepType);
       try {
         const hosts = await this.sweep();
-        if (hosts.canAdd) {
-            this.addHosts(hosts.hosts);
-        } else {
-            this.setHosts(hosts.hosts);
+        if (!hosts.canAdd) {
+          this.setHosts(hosts.hosts);
         }
       } catch (e) {
-        console.log(e);
         this.currentType.hadError = true;
         this.progressMessage = e.message;
       } finally {
@@ -242,7 +249,6 @@ export default {
       this.initType(type);
       try {
         const hosts = await this.performFullScan(ports);
-        console.log(hosts);
         this.setHosts(hosts);
       } catch (e) {
         this.currentType.hadError = true;
@@ -251,7 +257,12 @@ export default {
         this.finishAction();
       }
     }
+  },
+  beforeDestroy() {
+      this.$root.$off("ip");
+      this.$root.$off("ports");
   }
+
 };
 </script>
 

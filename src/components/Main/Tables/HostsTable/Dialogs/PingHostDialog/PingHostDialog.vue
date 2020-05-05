@@ -9,7 +9,7 @@
       <p>Enter the target's IP address to perform an ICMP (Internet Control Message Protocol) request.</p>
     </q-card-section>
     <q-card-section>
-      <q-form @submit="doPing($event)">
+      <q-form @submit="sendIp($event)">
         <div class="row">
           <div class="col">
             <q-input
