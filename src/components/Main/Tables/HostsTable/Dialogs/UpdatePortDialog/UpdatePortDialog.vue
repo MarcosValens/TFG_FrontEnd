@@ -39,6 +39,9 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import globalRequestBuilder from './../../../../../../utils/globalRequestBuilder';
+import requests from './../../../../../../utils/requests';
+
 export default {
   name: "UpdatePortDialog",
   data() {
@@ -63,7 +66,14 @@ export default {
     async sendPortUpdate(ev) {
       try {
         if (!this.isChanged()) return this.close();
-        this.updatePort({open: this.open, service: this.service})
+        
+        this.updatePort({open: this.open, service: this.service});
+        const { endpoint, dataFromBuilder } = globalRequestBuilder.call(this, "port", "update", {
+          network: this.currentNetwork,
+          host: this.currentHost,
+          port: this.currentPort
+        });
+        await requests.post.call(this, endpoint, dataFromBuilder);
         this.close();
       } catch (e) {
         ev.preventDefault();

@@ -1,8 +1,8 @@
 export default {
-  update: function (port) {
+  update: function ({network, host, port}) {
     return {
-      networkId: this.currentNetwork._id,
-      hostId: this.currentHost._id,
+      networkId: network._id,
+      hostId: host._id,
       portId: port._id,
       portNumber: port.port,
       open: port.open,
