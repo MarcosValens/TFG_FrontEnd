@@ -50,6 +50,11 @@ export function setHosts(state, hosts) {
   Vue.set(state, "hosts", hosts);
 }
 
+export function setHostsFromSweep(state, hosts) {
+  const newHosts = state.hosts.concat(hosts);
+  Vue.set(state, "hosts", newHosts);
+}
+
 export function updateHost(state, description){
   const hostIndex = getHostIndex(state, state.currentHost);
   Vue.set(state.currentHost, "description", description);
@@ -63,7 +68,6 @@ export function updateCurrentHost(state, host) {
 export function updateCurrentPort(state, port) {
   Vue.set(state, "currentPort", port);
 }
-
 
 export function deleteHost(state, host) {
   const hostIndex = getHostIndex(state, host);

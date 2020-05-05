@@ -1,8 +1,8 @@
-import requests from "./../../../../../../utils/requests";
-import getters from "./../../../../../../utils/getters";
+import requests from "../../../../../../utils/requests";
+import getters from "../../../../../../utils/getters";
 
 export default {
-  async doPing(event) {
+  async sendIp(event) {
     this.message = null;
     try {
       const endpoint = getters.scanner.ping.validIp();

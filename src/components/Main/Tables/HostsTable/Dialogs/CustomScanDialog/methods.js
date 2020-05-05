@@ -1,7 +1,7 @@
-import getters from "./../../../../../../utils/getters";
+import getters from "../../../../../../utils/getters";
 
 export default {
-  async doFullScan(event) {
+  async sendPorts(event) {
     try {
       getters.scanner.builder.checkInputAndGetPorts(this.ports);
       this.$root.$emit("ports", this.ports);

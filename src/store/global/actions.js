@@ -42,6 +42,10 @@ export function setHosts({ commit }, hosts) {
   commit("setHosts", hosts); 
 }
 
+export function setHostsFromSweep({ commit }, hosts) {
+  commit("setHostsFromSweep", hosts);
+}
+
 export function deleteHost({ commit }, host) {
   commit("deleteHost", host);
 }

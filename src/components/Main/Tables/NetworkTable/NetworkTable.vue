@@ -155,6 +155,7 @@ export default {
     ...mapActions("global", [
       "updateNetworksFromBackend",
       "setCurrentNetwork",
+      "setCurrentPort",
       "deleteNetwork",
       "setHosts"
     ]),
@@ -184,6 +185,9 @@ export default {
           );
           await requests.post.call(this, endpoint, dataFromBuilder);
           this.deleteNetwork(data.row);
+          this.setHosts([]);
+          this.setCurrentNetwork({});
+          this.setCurrentPort("");
         });
     }
   }

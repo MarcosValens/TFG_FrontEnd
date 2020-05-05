@@ -10,7 +10,7 @@
       <p>Enter the ports separated by commas or in this format: 1-10000. Leave empty to do default scan.</p>
     </q-card-section>
     <q-card-section>
-      <q-form @submit="doFullScan($event)">
+      <q-form @submit="sendPorts($event)">
         <div class="row">
           <div class="col">
             <q-input
@@ -39,16 +39,13 @@
   import methods from "./methods"
 
     export default {
-        name: "CustomHostScan",
+        name: "CustomScanDialog",
       data() {
         return {
           canClose: false,
           ports: "",
           message: null
         };
-      },
-      computed:{
-        ...mapGetters('global',['currentHost'])
       },
       methods
     }
