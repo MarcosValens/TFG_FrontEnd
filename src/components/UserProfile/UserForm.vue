@@ -107,6 +107,8 @@
 <script>
   import methods from "./methods";
   import { mapGetters, mapActions } from 'vuex';
+  import getters from './../../utils/getters';
+  const userGetter = getters.user;
   export default {
     name: 'user-form',
     data() {
@@ -135,7 +137,7 @@
       this.name = user.name;
       this.surname = user.surname;
       this.userId = user._id;
-      this.userImage = `${process.env.USER_URL}/image/${user._id}`;
+      this.userImage = userGetter.image(user._id);
       this.strategy = user.strategy;
     },
     methods

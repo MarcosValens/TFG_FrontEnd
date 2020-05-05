@@ -1,4 +1,4 @@
-import getters from "./../../../../../../utils/getters";
+import getters from "../../../../../../utils/getters";
 
 export default {
   async doFullScan(event) {

@@ -228,7 +228,7 @@ export default {
       this.initType(this.sweepType);
       try {
         const hosts = await this.sweep();
-        if (!hosts.canAdd) {
+        if (hosts && !hosts.canAdd) {
           this.setHosts(hosts.hosts);
         }
       } catch (e) {

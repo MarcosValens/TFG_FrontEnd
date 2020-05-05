@@ -24,7 +24,6 @@ export function setUser(state, user) {
 }
 
 // Networks
-
 export function lockNetwork(state) {
   Vue.set(state.currentNetwork, "locked", true)
 }
@@ -55,6 +54,14 @@ export function updateNetwork(state, network) {
 }
 
 // Hosts
+export function lockHost(state) {
+  Vue.set(state.currentHost, "locked", true)
+}
+
+export function unlockHost(state) {
+  Vue.set(state.currentHost, "locked", false)
+}
+
 export function setHosts(state, hosts) {
   Vue.set(state, "hosts", hosts);
 }
@@ -70,7 +77,14 @@ export function updateHost(state, description){
   Vue.set(state.hosts, hostIndex, state.currentHost);
 }
 
+export function setHost(state, host) {
+  const hostIndex = getHostIndex(state, state.currentHost);
+  Vue.set(state, "currentHost", host);
+  Vue.set(state.hosts, hostIndex, state.currentHost);
+}
+
 export function updateCurrentHost(state, host) {
+  host.locked = false;
   Vue.set(state, "currentHost", host);
 }
 

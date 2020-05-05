@@ -8,6 +8,7 @@ export function lockNetwork({ commit }) {
 export function unlockNetwork({ commit }) {
   commit("unlockNetwork")
 }
+
 export function addNetwork({ commit }, network) {
   commit("addNetwork", network);
 }
@@ -34,6 +35,17 @@ export function updateHostDescription({ commit }, description) {
 
 export function setCurrentHost({ commit }, {row}) {
   commit("updateCurrentHost", row);
+}
+
+export function setHost({ commit }, host) {
+  commit("setHost", host);
+}
+
+export function lockHost({ commit }) {
+  commit("lockHost")
+}
+export function unlockHost({ commit }) {
+  commit("unlockHost")
 }
 
 export function setCurrentPort({ commit }, port) {

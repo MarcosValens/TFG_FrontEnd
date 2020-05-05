@@ -1,3 +1,5 @@
+import getters from './../../utils/getters';
+const userGetter = getters.user;
 export default {
 
     async onSubmit() {
@@ -8,7 +10,7 @@ export default {
       formData.append("userId", this.userId);
       formData.append("password", this.newPassword);
       try {
-        await this.$axios.post(`${process.env.USER_URL}/update`, formData, {
+        await this.$axios.post(userGetter.update(), formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }

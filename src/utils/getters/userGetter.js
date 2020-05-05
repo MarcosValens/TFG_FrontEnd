@@ -4,10 +4,13 @@ export default {
   profile() {
       return base;
   },
+  update() {
+      return `${base}/update` ;
+  },
   image(id) {
       return `${base}/image/${id}`;
   },
   check() {
-      return `${base}/check`
+      return `${base}/check`;
   }
 };
