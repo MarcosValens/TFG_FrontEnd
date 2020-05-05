@@ -88,9 +88,10 @@
                     :key="index"
                     clickable
                     class="item-dropdown items-center row"
+                    @click="onItemClick(props, index)"
                   >
                     <div class="col-8">
-                      <q-item-section @click="onItemClick(props, index)">
+                      <q-item-section @click="shouldOpenUpdatePortModal = true;">
                         <q-item-label>{{ port.port }}</q-item-label>
                       </q-item-section>
                     </div>
@@ -230,7 +231,6 @@ export default {
     },
     onItemClick(props, index) {
       this.setCurrentPort(props.row.ports[index]);
-      this.shouldOpenUpdatePortModal = true;
       this.setCurrentHost(props);
     },
     openUpdateHostModal(props) {
@@ -247,7 +247,6 @@ export default {
         })
         .onOk(async () => {
           this.deleteHost(props.row);
-          // TODO: Add backend call
         });
     },
     openConfirmDeletePortDialog(port) {
@@ -260,7 +259,17 @@ export default {
         })
         .onOk(async () => {
           this.deletePort(port);
-          // TODO: Add backend call
+          const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
+            this,
+            "port",
+            "delete",
+            {
+              network: this.currentNetwork,
+              host: this.currentHost,
+              port: this.currentPort
+            }
+          );
+          await requests.post.call(this, endpoint, dataFromBuilder);
         });
     }
   }

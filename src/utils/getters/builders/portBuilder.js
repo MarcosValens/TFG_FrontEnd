@@ -18,10 +18,10 @@ export default {
     };
   },
 
-  delete: function (port) {
+  delete: function ({network, host, port}) {
     return {
-      hostId: this.currentHost._id,
-      networkId: this.currentNetwork._id,
+      hostId: host._id,
+      networkId: network._id,
       portId: port._id
     };
   }
