@@ -41,6 +41,12 @@ function getNewHostsMessage(hosts) {
     ? "One host replied to our ping request"
     : `${amount} hosts replied to our ping requests`;
 }
+
+function removeDuplicates(array) {
+  const set = new Set(array.map(({_id}) => _id));
+  return Array.from(set).map(id => array.find(({_id}) => _id === id));
+}
+
 export default {
   async updateHosts(hosts) {
     const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
@@ -55,6 +61,20 @@ export default {
     this.setHosts(hosts);
     await requests.post.call(this, endpoint, dataFromBuilder);
   },
+
+  async createPorts(ports, host) {
+    const { endpoint, dataFromBuilder } = globalRequestBuilder.call(this, "port", "create", {
+      ports,
+      host
+    });
+    const hostFromDataBase = requests.post.call(
+      this,
+      endpoint,
+      dataFromBuilder
+    );
+    return hostFromDataBase;
+  },
+
   async _sweep() {
     const endpoint = getters.scanner.ping.sweep();
     const hosts = await requests.get.call(this, endpoint);
@@ -143,16 +163,10 @@ export default {
         : "with the default ports";
       this.persistentMessage = `Starting full scan ${withPorts}`;
       getters.scanner.builder.checkInputAndGetPorts.call(this, ports);
-      const sweepHosts = await this.sweep();
-      const ourIps = this.hosts.map(({ ipAddress }) => ipAddress);
-      const filteredHosts = sweepHosts.filter(
-        ({ ipAddress }) => ourIps.indexOf(ipAddress) === -1
-      );
-
-      let hostsToScan = this.hosts.concat(filteredHosts);
-      if (!hostsToScan.length) return;
+      await this.sweep();
+      const hostsToScan = this.hosts.filter(host => host.alive)
       const hostsMessage =
-        hostsToScan.length === 1 ? "one host" : `${hostsToScan.length} hosts`;
+        this.hosts.length === 1 ? "one host" : `${hostsToScan.length} hosts`;
       const specifiedPorts = ports
         ? "using custom ports"
         : "using scanner's default ports";
@@ -163,7 +177,7 @@ export default {
       );
       this.persistentMessage = "";
       this.progressMessage = "Port scan finished";
-      return hosts;
+      return removeDuplicates([...hosts, ...this.hosts]);
     } catch (e) {
       throw e;
     }

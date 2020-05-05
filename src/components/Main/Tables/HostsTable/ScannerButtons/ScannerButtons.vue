@@ -242,6 +242,8 @@ export default {
       this.initType(type);
       try {
         const hosts = await this.performFullScan(ports);
+        console.log(hosts);
+        this.setHosts(hosts);
       } catch (e) {
         this.currentType.hadError = true;
         this.progressMessage = e.message;

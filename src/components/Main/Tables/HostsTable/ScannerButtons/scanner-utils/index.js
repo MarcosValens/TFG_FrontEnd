@@ -1,4 +1,5 @@
 function getIndex(array, property, value) {
+  console.log(array)
   return array.map((object) => object[property]).indexOf(value);
 }
 export default {
