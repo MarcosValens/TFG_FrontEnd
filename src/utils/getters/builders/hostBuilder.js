@@ -17,10 +17,10 @@ export default {
     return {networkId: network._id, hosts};
   },
 
-  delete: function ({network, row}) {
+  delete: function ({network, host}) {
     return {
       networkId: network._id,
-      hostId: row._id
+      hostId: host._id
     };
   },
 

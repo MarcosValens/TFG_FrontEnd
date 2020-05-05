@@ -237,7 +237,7 @@ export default {
       this.setCurrentHost(props);
       this.shouldOpenUpdateHostModal = true;
     },
-    confirmDeleteHostDialog(props) {
+    confirmDeleteHostDialog() {
       this.$q
         .dialog({
           title: "Confirm",
@@ -246,7 +246,18 @@ export default {
           persistent: true
         })
         .onOk(async () => {
-          this.deleteHost(props.row);
+          this.deleteHost(this.currentHost);
+
+          const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
+            this,
+            "host",
+            "delete",
+            {
+              network: this.currentNetwork,
+              host: this.currentHost
+            }
+          );
+          await requests.post.call(this, endpoint, dataFromBuilder);
         });
     },
     openConfirmDeletePortDialog(port) {
