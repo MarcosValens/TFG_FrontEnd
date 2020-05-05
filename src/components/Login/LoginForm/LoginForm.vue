@@ -1,5 +1,8 @@
 <template>
   <q-form class="q-gutter-md" @submit="login($event)">
+    <q-dialog v-model="shouldOpenRegisterModal" persistent>
+      <register-modal />
+    </q-dialog>
     <div class="q-gutter-xs row col-md-12 col-sm-12">
       <q-input
         standard
@@ -22,7 +25,8 @@
         label="Password"
       />
     </div>
-    <q-card-actions>
+    <q-card-actions vertical align="center">
+      <q-spinner color="primary" size="2em" v-if="loggingIn" />
       <q-btn type="submit" color="primary" size="md" class="q-mt-md full-width" label="Login" />
     </q-card-actions>
     <q-card-actions>
@@ -48,24 +52,18 @@
       </div>
     </q-card-actions>
 
-    <q-card-actions>
+    <q-card-actions align="around">
       <p class="registerText text-grey text-right">
-        Or you can
-        <a @click="shouldOpenRegisterModal = true" class="text-primary text-">register</a>
-        too! -
-        <a
-          @click="$router.push('/installers')"
-          class="text-primary text-"
-          v-if="environment === 'web'"
-        >Download</a> our product
+        You can
+        <a @click="shouldOpenRegisterModal = true" class="text-primary">register</a>
+        too!
       </p>
-      <div v-if="shouldOpenRegisterModal">
-        <q-dialog v-model="shouldOpenRegisterModal" persistent>
-          <register-modal />
-        </q-dialog>
-      </div>
-      <div class="col-2 text-center">
-        <q-spinner color="primary" size="2em" v-if="loggingIn" />
+      <q-space v-if="!electron" />
+
+      <div v-if="!electron" class="text-grey">
+        <p>
+          You can also <a @click="$router.push('/installers')" class="text-primary text-">download</a> our products
+        </p>
       </div>
     </q-card-actions>
   </q-form>
@@ -74,8 +72,8 @@
 <script>
 import methods from "./methods";
 import RegisterModal from "./../Modals/RegisterModal/RegisterModal.vue";
-
 import getters from "./../../../utils/getters";
+import isElectron from "is-electron";
 
 const loginGetter = getters.login;
 export default {
@@ -85,7 +83,7 @@ export default {
       shouldOpenRegisterModal: false,
       loggingIn: false,
       googleLink: loginGetter.google(),
-      environment: process.env.ENVIRONMENT,
+      electron: isElectron(),
       user: {
         password: "",
         email: ""
