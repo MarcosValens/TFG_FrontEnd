@@ -28,7 +28,6 @@ export default {
 
   parseIpObject: function(ip) {
     const isProps = typeof ip === "object";
-    console.log(isProps)
     if (isProps) {
       ip = ip.row.ipAddress;
     }

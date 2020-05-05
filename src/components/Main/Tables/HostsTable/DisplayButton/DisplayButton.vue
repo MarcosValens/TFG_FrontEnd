@@ -23,10 +23,9 @@ export default {
     async open() {
       window.hasFocus = true;
 
-      window.location = "portscanner://";
+      window.location = `portscanner://${localStorage.getItem("token")}`;
       this.timeout = setTimeout(() => {
         if (window.hasFocus) {
-          console.log(this);
           this.$router.push("/installers");
         }
       }, 100);

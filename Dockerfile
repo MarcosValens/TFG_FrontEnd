@@ -1,13 +1,9 @@
 # develop stage
 FROM node:13.7-alpine as develop-stage
 WORKDIR /app
-COPY package*.json ./
+COPY package*.json ./app/
 RUN yarn global add @quasar/cli
 COPY . .
 # build stage
 FROM develop-stage as build-stage
 RUN yarn
-# production stage
-FROM nginx:1.17.5-alpine as production-stage
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]

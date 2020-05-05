@@ -19,7 +19,6 @@ export default {
     }
   },
   created() {
-    console.log(this.darkMode);
     this.$q.dark.set(this.darkMode)
   }
 }

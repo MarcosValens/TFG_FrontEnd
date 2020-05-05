@@ -107,7 +107,7 @@ export default {
   font-size: small;
 }
 
-.registerText a {
+a {
   cursor: pointer;
 }
 </style>

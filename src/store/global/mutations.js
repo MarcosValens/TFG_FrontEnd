@@ -93,7 +93,6 @@ export function updateCurrentPort(state, port) {
 }
 
 export function reviveHost(state, index) {
-  console.log(state.hosts)
   Vue.set(state.hosts[index], "alive", true);
 }
 

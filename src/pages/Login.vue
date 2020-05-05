@@ -55,6 +55,9 @@ export default {
     this.$root.$on("errors", errors => {
       this.errors = errors;
     });
+  },
+  beforeDestroy() {
+    this.$root.$off("errors");
   }
 };
 </script>

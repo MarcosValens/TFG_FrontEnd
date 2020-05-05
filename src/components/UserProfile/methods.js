@@ -51,7 +51,6 @@ export default {
         await this.$axios.delete(`${process.env.USER_URL}/delete`);
         this.$router.push("/login");
       } catch(e) {
-        console.log(e);
       }
     },
     generateRandomId(iterations) {

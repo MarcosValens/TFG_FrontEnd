@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cd /app 
 quasar build
+cp -r dist/spa/* html

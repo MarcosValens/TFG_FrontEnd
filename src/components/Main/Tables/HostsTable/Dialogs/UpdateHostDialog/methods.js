@@ -20,7 +20,6 @@ export default {
       await requests.post.call(this, endpoint, dataFromBuilder);
       this.close();
     } catch (e) {
-      console.log(e)
       ev.preventDefault();
     }
   },

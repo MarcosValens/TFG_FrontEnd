@@ -3,7 +3,6 @@ import getters from "./../../../../../utils/getters";
 import globalRequestBuilder from "./../../../../../utils/globalRequestBuilder";
 
 import utils from "./scanner-utils/index";
-import { updateHost } from "src/store/global/mutations";
 
 async function createHosts(hosts) {
   const { endpoint, dataFromBuilder } = globalRequestBuilder.call(

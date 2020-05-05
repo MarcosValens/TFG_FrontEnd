@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@rochismo/port-scanner": "^1.0.3",
     "axios": "^0.18.1",
     "is-electron": "^2.2.0",
     "quasar": "^1.0.0"

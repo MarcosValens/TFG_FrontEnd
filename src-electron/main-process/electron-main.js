@@ -1,5 +1,5 @@
 import { app, BrowserWindow, nativeTheme } from 'electron'
-
+require("@rochismo/port-scanner");
 try {
   if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
     require('fs').unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
