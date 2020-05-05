@@ -58,7 +58,6 @@
         <a @click="shouldOpenRegisterModal = true" class="text-primary">register</a>
         too!
       </p>
-      <q-space v-if="!electron" />
 
       <div v-if="!electron" class="text-grey">
         <p>
