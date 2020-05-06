@@ -138,7 +138,7 @@ module.exports = function(ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {
-      bundler: "packager", // 'packager' or 'builder'
+      bundler: "builder", // 'packager' or 'builder'
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
@@ -148,7 +148,7 @@ module.exports = function(ctx) {
         // appCategoryType: '',
         // osxSign: '',
         // protocol: 'myapp://path',
-        protocol: "networker"
+        protocol: "portscanner"
 
         // Windows only
         // win32metadata: { ... }
@@ -160,6 +160,12 @@ module.exports = function(ctx) {
         appId: "portscanner",
         win: {
           target: "nsis"
+        },
+        mac: {
+          target: "dmg"
+        },
+        linux: {
+          target: "deb"
         }
       },
 

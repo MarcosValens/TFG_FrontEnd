@@ -12,5 +12,8 @@ export default {
   },
   check() {
       return `${base}/check`;
+  },
+  logout() {
+      return `${base}/logout`
   }
 };

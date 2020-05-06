@@ -19,6 +19,9 @@
 </template>
 
 <script>
+  import requests from './../utils/requests';
+  import getters from './../utils/getters';
+  const userGetter = getters.user;
   export default {
     name: 'EssentialLink',
     props: {
@@ -38,7 +41,10 @@
       }
     },
     methods: {
-      redirect() {
+      async redirect() {
+        if (this.to === "login") {
+          await requests.get.call(this, userGetter.logout())
+        }
         this.$router.push(`${this.to}`)
       }
     }

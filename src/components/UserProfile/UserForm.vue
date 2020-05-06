@@ -40,13 +40,10 @@
             <div class="col-12">
               <q-file
                 standard
-                bottom-slots
-                :counter-label="counterLabelFn"
-                accept=".jpg, .jpeg, .png"
+                accept=".jpg, image/*"
                 v-model="image"
-                label="Upload Avatar"
-                counter
-                max-files="1"
+                label="Upload Avatar. Max file size 10 mb"
+                :max-total-size="10485760"
               >
                 <template v-slot:before>
                   <q-icon name="attachment"/>
