@@ -1,7 +1,8 @@
 import getters from './../../utils/getters';
+import { mapActions } from 'vuex';
 const userGetter = getters.user;
 export default {
-
+    ...mapActions("global", ["setUserImageUrl"]),
     async onSubmit() {
       const formData = new FormData();
       formData.append("name", this.name);
@@ -15,7 +16,8 @@ export default {
             "Content-Type": "multipart/form-data"
           }
         });
-        window.location.href = `${window.location.origin}/main`
+        this.setUserImageUrl(`${this.userImageUrl}?date=${Date.now()}`);
+        this.$router.push("/main")
       } catch (e) {
         // TODO: Display errors
       }

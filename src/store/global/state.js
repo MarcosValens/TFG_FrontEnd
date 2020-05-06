@@ -114,6 +114,7 @@ export default function() {
     currentHost: {},
     currentPort: "",
     darkMode: true,
-    user: {}
+    user: {},
+    userImageUrl: ""
   };
 }

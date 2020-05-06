@@ -23,6 +23,9 @@ export function setUser(state, user) {
   Vue.set(state, "user", user);
 }
 
+export function setUserImageUrl(state, url) {
+  Vue.set(state, "userImageUrl", url);
+}
 // Networks
 export function lockNetwork(state) {
   Vue.set(state.currentNetwork, "locked", true)

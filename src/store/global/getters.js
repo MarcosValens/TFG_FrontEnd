@@ -25,3 +25,7 @@ export function currentPort(state) {
 export function user(state) {
     return state.user;
 }
+
+export function userImageUrl(state) {
+    return state.userImageUrl;
+}

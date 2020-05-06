@@ -1,4 +1,5 @@
 import { app, BrowserWindow, nativeTheme } from 'electron'
+
 try {
   if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
     require('fs').unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
@@ -33,9 +34,8 @@ function createWindow () {
       // preload: path.resolve(__dirname, 'electron-preload.js')
     }
   })
-
   require("@rochismo/port-scanner");
-  mainWindow.loadURL("http://portscanner-client.cfgs.esliceu.net", { userAgent: "Chrome" })
+  mainWindow.loadURL("http://localhost:4000", {userAgent: "Chrome"})
 
   mainWindow.on('closed', () => {
     mainWindow = null

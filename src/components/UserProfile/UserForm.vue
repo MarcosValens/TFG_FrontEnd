@@ -2,7 +2,7 @@
   <div class="row q-pa-md flex justify-center">
     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 q-pb-md row justify-center avatarRow">
       <q-avatar size="15vh">
-        <img :src="userImage" v-if="userImage"/>
+        <img :src="userImageUrl" v-if="userImage"/>
         <q-icon name="face" color="softPrimary" size="10vw" v-else/>
       </q-avatar>
     </div>
@@ -106,8 +106,9 @@
 
 <script>
   import methods from "./methods";
-  import { mapGetters, mapActions } from 'vuex';
+  import { mapGetters } from 'vuex';
   import getters from './../../utils/getters';
+  import requests from './../../utils/requests';
   const userGetter = getters.user;
   export default {
     name: 'user-form',
@@ -130,10 +131,10 @@
       };
     },
     computed: {
-      ...mapGetters("global", ["user"])
+      ...mapGetters("global", ["user", "userImageUrl"])
     },
     async created() {
-      const user = this.user;
+      const user = await requests.get.call(this, getters.user.profile());
       this.name = user.name;
       this.surname = user.surname;
       this.userId = user._id;

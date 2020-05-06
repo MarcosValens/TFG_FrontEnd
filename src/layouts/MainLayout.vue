@@ -11,7 +11,7 @@
             </q-toolbar-title>
             <div>
               <q-avatar clickable @click="rightDrawerOpen = !rightDrawerOpen">
-                <q-img :src="imgUrl" id="userPic"/>
+                <q-img :src="userImageUrl" id="userPic"/>
               </q-avatar>
             </div>
           </q-toolbar>
@@ -49,7 +49,7 @@
 <script>
   import EssentialLink from 'components/EssentialLink';
   import requests from './../utils/requests';
-  import { mapActions } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import getters from './../utils/getters';
   const userGetter = getters.user;
 
@@ -63,7 +63,6 @@
     data() {
       return {
         user: {},
-        imgUrl: "",
         rightDrawerOpen: false,
         essentialLinks: [
           {
@@ -79,11 +78,13 @@
         ]
       }
     },
-
+    computed: {
+      ...mapGetters("global", ["userImageUrl"])
+    },
     async created() {
       this.user = await requests.get.call(this, userGetter.profile());;
       this.setUser(this.user);
-      this.imgUrl = userGetter.image(this.user._id);
+      this.setUserImageUrl(userGetter.image(this.user._id));
       
       window.onfocus = function () {
         window.hasFocus = true;
@@ -94,7 +95,7 @@
       this.$q.dark.set(true)
     },
     methods: {
-      ...mapActions("global", ["setUser"]),
+      ...mapActions("global", ["setUser", "setUserImageUrl"]),
       redirect() {
         this.$router.push('/main')
       }
