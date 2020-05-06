@@ -95,6 +95,7 @@ export default {
 
   async _sweep() {
     const endpoint = getters.scanner.ping.sweep();
+    console.log(endpoint)
     const hosts = await requests.get.call(this, endpoint);
     const parsedHosts = await utils.parseHosts.call(this, hosts);
     return parsedHosts;

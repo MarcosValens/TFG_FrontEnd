@@ -1,5 +1,4 @@
 import { app, BrowserWindow, nativeTheme } from 'electron'
-require("@rochismo/port-scanner");
 try {
   if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
     require('fs').unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
@@ -35,7 +34,8 @@ function createWindow () {
     }
   })
 
-  mainWindow.loadURL("http://localhost:4000")
+  require("@rochismo/port-scanner");
+  mainWindow.loadURL("http://portscanner-client.cfgs.esliceu.net", { userAgent: "Chrome" })
 
   mainWindow.on('closed', () => {
     mainWindow = null
