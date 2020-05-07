@@ -158,6 +158,10 @@ module.exports = function(ctx) {
         // https://www.electron.build/configuration/configuration
 
         appId: "portscanner",
+        protocols: {
+          name: "portscanner",
+          schemes: ["portscanner"]
+        },
         win: {
           target: "nsis"
         },

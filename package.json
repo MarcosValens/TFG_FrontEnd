@@ -1,11 +1,11 @@
 {
-  "name": "frontend-refactor",
-  "version": "0.0.1",
-  "description": "A Quasar Framework app",
+  "name": "portscanner",
+  "version": "1.0.0",
+  "description": "Simple local web port scanner",
   "productName": "Port Scanner",
-  "cordovaId": "org.cordova.quasar.app",
+  "cordovaId": "org.tfgportscanner",
   "capacitorId": "",
-  "author": "",
+  "author": "tfgportscanner <tfgportscanner@gmail.com>",
   "private": true,
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
@@ -21,10 +21,11 @@
     "@quasar/app": "^1.0.0",
     "@quasar/quasar-app-extension-dotenv": "^1.0.1",
     "devtron": "^1.4.0",
-    "electron": "^8.2.5",
-    "electron-builder": "^22.6.0",
+    "electron": "^8.2.3",
+    "electron-builder": "^22.5.1",
     "electron-debug": "^3.0.1",
-    "electron-devtools-installer": "^2.2.4"
+    "electron-devtools-installer": "^2.2.4",
+    "electron-packager": "^14.2.1"
   },
   "engines": {
     "node": ">= 10.18.1",
