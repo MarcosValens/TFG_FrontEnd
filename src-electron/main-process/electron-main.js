@@ -83,7 +83,8 @@ async function createWindow() {
   } catch (e) {
     await sendToClient();
   }
-  globalShortcut.register("F12", mainWindow.webContents.openDevTools())
+  globalShortcut.register("CmdOrCtrl+Shift+I", () => mainWindow.webContents.openDevTools())
+  globalShortcut.register("F12", () => mainWindow.webContents.openDevTools())
 
   //mainWindow.loadURL("http://localhost:4000", {userAgent: "Chrome"})
   mainWindow.on("closed", () => {
