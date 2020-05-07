@@ -169,7 +169,19 @@ module.exports = function(ctx) {
           target: "dmg"
         },
         linux: {
-          target: "deb"
+          target: "deb",
+          executableName: "portscanner",
+
+          desktop: {
+            Name: "Port Scanner",
+            "Generic Name": "Port Scanner",
+            StartupWMClass: "portscanner",
+            Terminal: false,
+            Type: "Application",
+            MimeType: "application/portscanner;x-scheme-handler/portscanner;",
+            Categories: "Utility"
+          },
+          category: "Networking"
         }
       },
 
