@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import customProtocolCheck from "custom-protocol-check";
 export default {
   name: "DisplayButton",
   data() {
@@ -22,11 +23,11 @@ export default {
   methods: {
     async open() {
       window.hasFocus = true;
-
-      window.location = `portscanner://${localStorage.getItem("token")}`;
+      customProtocolCheck(`portscanner://${localStorage.getItem("token")}`, () => this.$router.push("/installers"));
+      //window.location = ;
       this.timeout = setTimeout(() => {
         if (window.hasFocus) {
-          this.$router.push("/installers");
+          ;
         }
       }, 100);
       window.addEventListener("pagehide", this.preventPopup);

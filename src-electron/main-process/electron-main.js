@@ -1,5 +1,5 @@
 import { app, BrowserWindow, nativeTheme, Menu } from "electron";
-
+const log = require("electron-log")
 Menu.setApplicationMenu(null);
 app.setAsDefaultProtocolClient("portscanner");
 
@@ -24,18 +24,32 @@ if (process.env.PROD) {
     .replace(/\\/g, "\\\\");
 }
 
-
 let mainWindow;
 
 async function sendToClient(data) {
   try {
-    const formatted = data.toString()
-    const token = formatted.split("://")[1]
-    const parsedToken = token.substring(0, token.length -1)
-    await mainWindow.loadURL(`http://portscanner-client.cfgs.esliceu.net/#/main?token=${parsedToken}`, { userAgent: "Chrome"})
+    const formatted = data.toString();
+    const token = formatted.split("://")[1];
+    let parsedToken = token;
+
+    // This is not the most efficient way but what the fuck windows? why the fuck would you add a bar at the end of the fucking url?
+    if (process.platform === "win32") {
+      parsedToken = token.substring(0, token.length - 1)
+      log.info(`Url sent: ${data}`)
+      log.info(`The token we parsed on windows ${parsedToken}`)
+    }
+
+    await mainWindow.loadURL(
+      `http://portscanner-client.cfgs.esliceu.net/#/main?token=${parsedToken}`,
+      { userAgent: "Chrome" }
+    );
   } catch (e) {
-    //await mainWindow.webContents.executeJavascript(`console.log(${e})`);
-    await mainWindow.loadURL(`http://portscanner-client.cfgs.esliceu.net/#/login`, { userAgent: "Chrome"})
+    log.error(e);
+    log.error(`This is the url we got in the error: ${data}`);
+    await mainWindow.loadURL(
+      `http://portscanner-client.cfgs.esliceu.net/#/login`,
+      { userAgent: "Chrome" }
+    );
   }
 }
 
@@ -60,10 +74,11 @@ async function createWindow() {
 
   require("@rochismo/port-scanner");
 
-  
   //await mainWindow.loadURL("http://portscanner-client.cfgs.esliceu.net", {
   //  userAgent: "Chrome"
   //});
+  mainWindow.webContents.openDevTools();
+  
   try {
     const data = process.argv.slice(1);
     await sendToClient(data);

@@ -15,6 +15,8 @@
     "@quasar/extras": "^1.0.0",
     "@rochismo/port-scanner": "^1.0.3",
     "axios": "^0.18.1",
+    "custom-protocol-check": "^1.0.4",
+    "electron-log": "^4.1.2",
     "is-electron": "^2.2.0",
     "quasar": "^1.0.0"
   },
