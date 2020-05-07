@@ -5,10 +5,10 @@
       <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
         <q-card>
           <q-card-section class="black text-white">
-            <div class="text-h6 text-center">Download PortScanner for {{platform}}</div>
+            <div class="text-h6 text-center">Download PortScanner for {{platform.name}}</div>
           </q-card-section>
           <q-card-actions class="black" align="center">
-            <q-btn class="bg-orange-7 col-6" flat>Download</q-btn>
+            <q-btn class="bg-orange-7 col-6" flat @click="download(platform.link)">Download</q-btn>
           </q-card-actions>
         </q-card>
       </div>
@@ -31,11 +31,12 @@
           </q-card-section>
 
           <q-card-actions
-            style="opacity: 0"
+            style="opacity: 0;"
             :class="currentPlatform.name === otherPlatform.name ? `${animate} ${currentPlatform.btnColor}` : ''"
             align="center"
+            @click="download(otherPlatform.link)"
           >
-            <q-btn flat>Download</q-btn>
+            <q-btn flat @click.stop="download(otherPlatform.link)">Download</q-btn>
           </q-card-actions>
         </q-card>
       </div>
@@ -51,25 +52,28 @@ export default {
     return {
       animate: "text-white animate-flicker",
       appPicture: "../statics/appwin.png",
-      platform: "",
+      platform: {},
       electron: isElectron(),
       currentPlatform: {},
       otherPlatforms: [
         {
+          placeholder: "Windows",
           name: "Windows",
           img: "./statics/windowsLogo.png",
           bgColor: "",
-          link: "",
+          link: "https://mega.nz/file/ymh3UCQC#F_hplxuO4TyAf3qdi0LWeIrSwyA_swSaif0Z9-KhvhQ",
           btnColor: "bg-grey-14"
         },
         {
+          placeholder: "Linux",
           name: "Linux",
           img: "./statics/tuxLogo.webp",
           bgColor: "bg-yellow-14",
-          link: "",
+          link: "https://mega.nz/file/Ki5XEADY#uAHYWjppHupBoRPR6sNb_axpYoEHZmT8ozgSXqSL0hM",
           btnColor: "bg-yellow-10"
         },
         {
+          placeholder: "Macintosh",
           name: "Mac",
           img: "./statics/macLogo.png",
           bgColor: "bg-grey",
@@ -80,7 +84,9 @@ export default {
     };
   },
   mounted() {
-    this.platform = navigator.userAgent.match(/windows|linux|macintosh/gi)[0];
+    const platform = navigator.userAgent.match(/windows|linux|macintosh/gi)[0];
+    const currentPlatform = this.otherPlatforms.find(({placeholder}) => placeholder.toLowerCase().includes(platform.toLowerCase()))
+    this.platform = currentPlatform;
     if (this.isElectron) {
       this.$router.back();
     }
@@ -88,6 +94,13 @@ export default {
   methods: {
     redirect() {
       this.$router.back();
+    },
+    download(link) {
+      if (!link) return;
+      const a = document.createElement("a");
+      a.href = link;
+      a.target = "_blank";
+      a.click();
     }
   }
 };
