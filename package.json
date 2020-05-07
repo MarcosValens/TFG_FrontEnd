@@ -4,6 +4,7 @@
   "description": "Simple local web port scanner",
   "productName": "Port Scanner",
   "cordovaId": "org.tfgportscanner",
+  "homepage": "http://portscanner-client.cfgs.esliceu.net",
   "capacitorId": "",
   "author": "tfgportscanner <tfgportscanner@gmail.com>",
   "private": true,
