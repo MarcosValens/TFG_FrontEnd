@@ -1,15 +1,7 @@
 <template>
-  <q-item
-    clickable
-    tag="a"
-    target="_blank"
-    @click="redirect"
-  >
-    <q-item-section
-      v-if="icon"
-      avatar
-    >
-      <q-icon :name="icon"/>
+  <q-item clickable tag="a" target="_blank" @click="redirect">
+    <q-item-section v-if="icon" avatar>
+      <q-icon :name="icon" />
     </q-item-section>
 
     <q-item-section>
@@ -19,34 +11,52 @@
 </template>
 
 <script>
-  import requests from './../utils/requests';
-  import getters from './../utils/getters';
-  const userGetter = getters.user;
-  export default {
-    name: 'EssentialLink',
-    props: {
-      title: {
-        type: String,
-        required: true
-      },
-
-      to: {
-        type: String,
-        default: '#'
-      },
-
-      icon: {
-        type: String,
-        default: '#'
-      }
+import { mapGetters } from "vuex";
+import requests from "./../utils/requests";
+import getters from "./../utils/getters";
+const userGetter = getters.user;
+export default {
+  name: "EssentialLink",
+  props: {
+    title: {
+      type: String,
+      required: true
     },
-    methods: {
-      async redirect() {
-        if (this.to === "login") {
-          await requests.get.call(this, userGetter.logout())
-        }
-        this.$router.push(`${this.to}`)
+
+    to: {
+      type: String,
+      default: "#"
+    },
+
+    icon: {
+      type: String,
+      default: "#"
+    }
+  },
+  computed: {
+    ...mapGetters("global", ["user"])
+  },
+  methods: {
+    async redirect() {
+      console.log(this.user)
+      if (this.to === "login" && this.user.strategy === "google") {
+        await Promise.resolve(new Promise(resolve => {
+          const script = document.createElement("script");
+          script.src = "https://mail.google.com/mail/u/0/?logout&hl=en";
+          document.body.appendChild(script);
+          script.onload = function() {
+            document.body.removeChild(script);
+            resolve();
+          }
+          script.onerror = function() {
+            document.body.removeChild(script);
+            resolve();
+          }
+        }));
+        
       }
+      this.$router.push(`${this.to}`);
     }
   }
+};
 </script>
