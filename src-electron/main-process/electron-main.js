@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme, Menu } from "electron";
+import { app, BrowserWindow, nativeTheme, Menu, globalShortcut } from "electron";
 const log = require("electron-log")
 Menu.setApplicationMenu(null);
 app.setAsDefaultProtocolClient("portscanner");
@@ -71,13 +71,11 @@ async function createWindow() {
       // preload: path.resolve(__dirname, 'electron-preload.js')
     }
   });
-
   require("@rochismo/port-scanner");
 
   //await mainWindow.loadURL("http://portscanner-client.cfgs.esliceu.net", {
   //  userAgent: "Chrome"
   //});
-  mainWindow.webContents.openDevTools();
   
   try {
     const data = process.argv.slice(1);
@@ -85,6 +83,8 @@ async function createWindow() {
   } catch (e) {
     await sendToClient();
   }
+  globalShortcut.register("F12", mainWindow.webContents.openDevTools())
+
   //mainWindow.loadURL("http://localhost:4000", {userAgent: "Chrome"})
   mainWindow.on("closed", () => {
     mainWindow = null;
@@ -109,3 +109,5 @@ app.on("open-url", async (event, url) => {
   event.preventDefault();
   await sendToClient(url);
 });
+
+app.on("will-quit", () => globalShortcut.unregisterAll())
