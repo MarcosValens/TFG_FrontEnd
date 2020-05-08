@@ -1,5 +1,10 @@
 <template class="flex flex-center">
   <q-layout view="lHh Lpr lFf">
+    <div v-if="electron">
+      <q-dialog v-model="openUserAgreementDialog" transition-show="rotate" transition-hide="rotate">
+        <user-agreement-dialog />
+      </q-dialog>
+    </div>
     <div class="row items-center">
       <div class="col">
         <q-header elevated class="bg-grey-10">
@@ -25,7 +30,7 @@
       content-class="bg-dark text-white"
     >
       <q-list>
-        <EssentialLink
+        <esential-link
           v-for="link in essentialLinks"
           :key="link.title"
           v-bind="link"
@@ -47,23 +52,30 @@
 </style>
 
 <script>
-  import EssentialLink from 'components/EssentialLink';
-  import requests from './../utils/requests';
+  import isElectron from 'is-electron';
   import { mapActions, mapGetters } from 'vuex';
+
+  import EssentialLink from 'components/EssentialLink';
+  import UserAgreementDialog from 'components/Main/Dialogs/UserAgreementDialog/UserAgreementDialog';
+  import requests from './../utils/requests';
   import getters from './../utils/getters';
+
   const userGetter = getters.user;
 
   export default {
     name: 'MainLayout',
 
     components: {
-      EssentialLink
+      "esential-link": EssentialLink,
+      "user-agreement-dialog": UserAgreementDialog,
     },
 
     data() {
       return {
         user: {},
         rightDrawerOpen: false,
+        openUserAgreementDialog: false,
+        electron: isElectron(), 
         essentialLinks: [
           {
             title: 'Profile',
@@ -85,6 +97,7 @@
       this.user = await requests.get.call(this, userGetter.profile());;
       this.setUser(this.user);
       this.setUserImageUrl(userGetter.image(this.user._id));
+      this.openUserAgreementDialog = !this.user.userAgreementAccepted;
       
       window.onfocus = function () {
         window.hasFocus = true;

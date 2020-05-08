@@ -23,6 +23,10 @@ export function setUser(state, user) {
   Vue.set(state, "user", user);
 }
 
+export function changeAgreement(state) {
+  Vue.set(state.user, "userAgreementAccepted", true);
+}
+
 export function setUserImageUrl(state, url) {
   Vue.set(state, "userImageUrl", url);
 }
