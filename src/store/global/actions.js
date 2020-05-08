@@ -2,6 +2,10 @@ export function setUser({ commit }, user) {
   commit("setUser", user);
 }
 
+export function changeAgreement({ commit }) {
+  commit("changeAgreement");
+}
+
 export function setUserImageUrl({ commit }, url) {
   commit("setUserImageUrl", url);
 }
