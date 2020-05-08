@@ -7,8 +7,17 @@
           <q-card-section class="black text-white">
             <div class="text-h6 text-center">Download PortScanner for {{platform.name}}</div>
           </q-card-section>
-          <q-card-actions class="black" align="center">
-            <q-btn class="bg-orange-7 col-6" flat @click="download(platform.link)">Download</q-btn>
+          <q-card-actions class="black q-gutter-lg" align="center">
+            <q-btn class="bg-orange-7 col-7 " flat @click="download(platform.link)">test</q-btn>
+            <q-select
+              label="Installer package"
+              transition-show="flip-up"
+              transition-hide="flip-down"
+              filled
+              v-model="model"
+              :options="options"
+              style="width: 250px"
+            />
           </q-card-actions>
         </q-card>
       </div>
@@ -50,6 +59,10 @@ export default {
   name: "Installers",
   data() {
     return {
+      model: "null",
+      options: [
+        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+      ],
       animate: "text-white animate-flicker",
       appPicture: "../statics/appwin.png",
       platform: {},
