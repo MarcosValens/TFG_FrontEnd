@@ -5,7 +5,7 @@ export default {
       return base;
   },
   update() {
-      return `${base}/update` ;
+      return `${base}/update`;
   },
   image(id) {
       return `${base}/image/${id}`;
@@ -13,7 +13,10 @@ export default {
   check() {
       return `${base}/check`;
   },
+  agreement() {
+    return `${base}/accept`;
+  },
   logout() {
-      return `${base}/logout`
+      return `${base}/logout`;
   }
 };
