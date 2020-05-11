@@ -32,7 +32,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-dev.env
+.dev.env
 .env
 dist.rar
 *.log
