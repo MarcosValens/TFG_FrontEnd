@@ -1,6 +1,6 @@
 {
   "name": "portscanner",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple local web port scanner",
   "productName": "Port Scanner",
   "cordovaId": "org.tfgportscanner",
@@ -17,12 +17,13 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.8.1",
-    "@rochismo/port-scanner": "^1.1.1",
+    "@rochismo/port-scanner": "^1.1.2",
     "axios": "^0.18.1",
     "custom-protocol-check": "^1.0.4",
     "electron-log": "^4.1.2",
     "is-electron": "^2.2.0",
-    "quasar": "^1.11.1"
+    "quasar": "^1.11.1",
+    "semver": "^7.3.2"
   },
   "devDependencies": {
     "@quasar/app": "^1.8.6",

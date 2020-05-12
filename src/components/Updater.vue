@@ -32,7 +32,12 @@
 </template>
 
 <script>
-import { ipcRenderer } from "electron";
+import isElectron from "is-electron";
+
+let ipcRenderer = null;
+if (isElectron()) {
+  ipcRenderer = require("electron").ipcRenderer;
+}
 export default {
   name: "Updater",
   data() {
@@ -42,6 +47,8 @@ export default {
     };
   },
   async mounted() {
+    if (!ipcRenderer) return;
+    
     ipcRenderer.on("update_available", () => {
       ipcRenderer.removeAllListeners("update_available");
       this.displayNewUpdatePopup = true;
@@ -53,7 +60,7 @@ export default {
   },
   methods: {
     restartApp() {
-        ipcRenderer.send('restart_app');
+      ipcRenderer.send("restart_app");
     }
   }
 };

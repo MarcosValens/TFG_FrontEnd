@@ -1,8 +1,10 @@
  <template class="flex flex-center">
   <q-page>
-    
     <!-- Page title -->
     <div class="q-pa-md row">
+      <div v-if="electron">
+        <updater />
+      </div>
       <div class="row col-12">
         <div class="col">
           <h1 class="text-center">PorT ScanneR</h1>
@@ -11,12 +13,11 @@
 
       <div class="row col-12 justify-center">
         <q-card class="login-card row">
-
           <!-- App logo -->
           <q-card-section class="col-lg-7 col-md-12 col-sm-12">
             <img src="../assets/images/network.gif" style="width: 100%" />
           </q-card-section>
-          
+
           <!-- Login errors display -->
           <div class="q-pt-md text-center col-12" v-if="errors.global.length">
             <div
@@ -25,7 +26,7 @@
               :key="index"
             >{{ error.msg }}</div>
           </div>
-          
+
           <!-- Login Form -->
           <div class="col-lg-5 col-md-12 col-sm-12">
             <q-card-section class="items-center">
@@ -40,14 +41,18 @@
 
 <script>
 import LoginForm from "./../components/Login/LoginForm/LoginForm.vue";
+import isElectron from "is-electron";
+import Updater from "./../components/Updater";
+
 export default {
   name: "Login",
-  components: { "login-form": LoginForm },
+  components: { "login-form": LoginForm, updater: Updater },
   data() {
     return {
       errors: {
         global: []
-      }
+      },
+      electron: isElectron()
     };
   },
   created() {
@@ -71,5 +76,4 @@ h1 {
 .login-card {
   width: 45vw;
 }
-
 </style>
