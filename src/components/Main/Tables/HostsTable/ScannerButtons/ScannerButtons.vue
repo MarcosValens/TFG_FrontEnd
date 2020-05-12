@@ -144,7 +144,6 @@ export default {
     this.$root.$on(
       "ports",
       async ports => {
-        console.log(ports);
         await this.doFullScanWithPorts(ports)
       });
 

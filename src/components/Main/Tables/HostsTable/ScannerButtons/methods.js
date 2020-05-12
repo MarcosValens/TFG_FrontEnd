@@ -21,7 +21,6 @@ async function createHosts(hosts) {
 async function checkForDeadHosts(data) {
   const deadHostsMessage = messages.sweep.howManyDeadHosts(data.deadHosts);
   const broughtBackToLifeHosts = messages.sweep.howManyAliveHosts(this.hosts, data);
-  console.log(broughtBackToLifeHosts)
   await this.updateHosts(data.hostsToUpdate);
   this.setHosts(data.hostsToUpdate);
   this.progressMessage = `No new hosts were found. ${deadHostsMessage} ${broughtBackToLifeHosts}`;
@@ -110,7 +109,6 @@ export default {
   },
 
   async ping(data) {
-    console.log(data);
     const endpoint = getters.scanner.ping.host();
     const ip = getters.scanner.builder.ping.host(utils.parseIpObject(data));
 
