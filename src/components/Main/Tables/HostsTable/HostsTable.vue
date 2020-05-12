@@ -71,6 +71,7 @@
             </q-td>
 
             <q-td key="ip" :props="props" class="tdIp">{{ props.row.ipAddress }}</q-td>
+            <q-td key="mac" :props="props" class="tdIp">{{ props.row.macAddress }}</q-td>
 
             <q-td key="alive" :props="props">
               <q-icon
@@ -178,6 +179,14 @@ export default {
           style: "width: 15vw"
         },
         {
+          name: "mac",
+          align: "center",
+          label: "Mac Address",
+          field: "macAddress",
+          sortable: true,
+          style: "width: 15vw"
+        },
+        {
           name: "alive",
           align: "center",
           label: "Living",
@@ -200,7 +209,7 @@ export default {
       ],
       shouldOpenUpdateHostModal: false,
       shouldOpenUpdatePortModal: false,
-      electron: isElectron(),
+      electron: !isElectron(),
       model: {},
       option: [],
       locked: false,

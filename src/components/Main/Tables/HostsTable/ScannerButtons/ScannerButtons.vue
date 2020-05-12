@@ -140,11 +140,13 @@ export default {
       currentType: null
     };
   },
-  created() {
+  mounted() {
     this.$root.$on(
       "ports",
-      async ports => await this.doFullScanWithPorts(ports)
-    );
+      async ports => {
+        console.log(ports);
+        await this.doFullScanWithPorts(ports)
+      });
 
     this.$root.$on("ip", ip => {
       this.doPing(ip);

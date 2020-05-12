@@ -158,6 +158,14 @@ module.exports = function(ctx) {
         // https://www.electron.build/configuration/configuration
 
         appId: "portscanner",
+        publish: {
+          provider: "github",
+          repo: "port-scanner",
+          owner: "rochismo",
+          protocol: "https",
+          private: true,
+          token: "91323a19d79452723a4bf67369826396bd63cefc"
+        },
         protocols: {
           name: "portscanner",
           schemes: ["portscanner"]
