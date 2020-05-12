@@ -70,7 +70,6 @@ export default {
       index: hostIndex,
       hosts: [hostToAdd]
     };
-    console.log(data);
     return data;
   }
 };

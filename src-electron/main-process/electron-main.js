@@ -1,7 +1,8 @@
-import { app, BrowserWindow, nativeTheme, Menu, globalShortcut } from "electron";
+import { app, BrowserWindow, nativeTheme, Menu, globalShortcut, ipcMain } from "electron"
+import { autoUpdater } from 'electron-updater'
 const log = require("electron-log")
-Menu.setApplicationMenu(null);
-app.setAsDefaultProtocolClient("portscanner");
+Menu.setApplicationMenu(null)
+app.setAsDefaultProtocolClient("portscanner")
 
 try {
   if (
@@ -21,16 +22,16 @@ try {
 if (process.env.PROD) {
   global.__statics = require("path")
     .join(__dirname, "statics")
-    .replace(/\\/g, "\\\\");
+    .replace(/\\/g, "\\\\")
 }
 
 let mainWindow;
 
 async function sendToClient(data) {
   try {
-    const formatted = data.toString();
-    const token = formatted.split("://")[1];
-    let parsedToken = token;
+    const formatted = data.toString()
+    const token = formatted.split("://")[1]
+    let parsedToken = token
 
     // This is not the most efficient way but what the fuck windows? why the fuck would you add a bar at the end of the fucking url?
     if (process.platform === "win32") {
@@ -44,12 +45,12 @@ async function sendToClient(data) {
       { userAgent: "Chrome" }
     );
   } catch (e) {
-    log.error(e);
-    log.error(`This is the url we got in the error: ${data}`);
+    log.error(e)
+    log.error(`This is the url we got in the error: ${data}`)
     await mainWindow.loadURL(
       `http://portscanner-client.cfgs.esliceu.net/#/login`,
       { userAgent: "Chrome" }
-    );
+    )
   }
 }
 
@@ -70,45 +71,61 @@ async function createWindow() {
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
       // preload: path.resolve(__dirname, 'electron-preload.js')
     }
-  });
-  require("@rochismo/port-scanner");
+  })
+  require("@rochismo/port-scanner")
+
+  mainWindow.once("ready-to-show", () => {
+    autoUpdater.checkForUpdatesAndNotify()
+  })
 
   //await mainWindow.loadURL("http://portscanner-client.cfgs.esliceu.net", {
   //  userAgent: "Chrome"
   //});
   
   try {
-    const data = process.argv.slice(1);
-    await sendToClient(data);
+    const data = process.argv.slice(1)
+    await sendToClient(data)
   } catch (e) {
-    await sendToClient();
+    await sendToClient()
   }
   globalShortcut.register("CmdOrCtrl+Shift+I", () => mainWindow.webContents.openDevTools())
   globalShortcut.register("F12", () => mainWindow.webContents.openDevTools())
   //mainWindow.loadURL("http://localhost:8080")
   //mainWindow.loadURL("http://localhost:4000", {userAgent: "Chrome"})
   mainWindow.on("closed", () => {
-    mainWindow = null;
-  });
+    mainWindow = null
+  })
 }
 
-app.on("ready", createWindow);
+app.on("ready", createWindow)
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
-    app.quit();
+    app.quit()
   }
 });
 
 app.on("activate", () => {
   if (mainWindow === null) {
-    createWindow();
+    createWindow()
   }
 });
 
 app.on("open-url", async (event, url) => {
-  event.preventDefault();
-  await sendToClient(url);
+  event.preventDefault()
+  await sendToClient(url)
 });
 
 app.on("will-quit", () => globalShortcut.unregisterAll())
+
+autoUpdater.on('update-available', () => {
+  mainWindow.webContents.send('update_available')
+})
+
+autoUpdater.on('update-downloaded', () => {
+  mainWindow.webContents.send('update_downloaded')
+})
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
+});
