@@ -164,7 +164,7 @@ module.exports = function(ctx) {
           owner: "rochismo",
           protocol: "https",
           private: true,
-          token: "91323a19d79452723a4bf67369826396bd63cefc"
+          token: ""
         },
         protocols: {
           name: "portscanner",
