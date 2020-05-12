@@ -50,7 +50,7 @@ export default {
     },
     async deleteUser() {
       try {
-        await this.$axios.delete(`${process.env.USER_URL}/delete`);
+        await this.$axios.delete(userGetter.delete());
         this.$router.push("/login");
       } catch(e) {
       }

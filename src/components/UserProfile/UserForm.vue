@@ -94,7 +94,7 @@
 
           <div class="q-pt-lg row justify-between">
             <q-btn class="col-3" label="Save" type="submit" color="primary" />
-            <p class="text-primary col-3" @click="prompt">Delete account</p>
+            <p class="text-primary col-3" @click="prompt" style="cursor: pointer;">Delete account</p>
           </div>
         </q-form>
       </div>

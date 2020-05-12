@@ -4,6 +4,9 @@ export default {
   profile() {
       return base;
   },
+  delete() {
+      return `${base}/delete`;
+  },
   update() {
       return `${base}/update`;
   },
