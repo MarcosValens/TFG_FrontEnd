@@ -5,8 +5,8 @@ function getIndex(array, property, value) {
 function checkHost(host) {
   const _description = host.mac.companyName;
   const mac = host.mac.physicalAddress;
-  const description = mac === true ? "Your computer" : _description;
-  const macAddress = mac === true ? "Your computer" : mac.toUpperCase();
+  const description = mac === true ? "Your device" : _description;
+  const macAddress = mac === true ? "Your device" : mac.toUpperCase();
   return {
     ipAddress: host.address,
     alive: true,

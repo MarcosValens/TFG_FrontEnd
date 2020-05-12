@@ -48,8 +48,8 @@ async function sendToClient(data) {
     log.error(e)
     log.error(`This is the url we got in the error: ${data}`)
     await mainWindow.loadURL(
-      
-      `http://portscanner-client.cfgs.esliceu.net/#/login`,
+      "http://localhost:8080",
+      //`http://portscanner-client.cfgs.esliceu.net/#/login`,
       { userAgent: "Chrome" }
     )
   }

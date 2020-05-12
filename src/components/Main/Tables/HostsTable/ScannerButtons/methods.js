@@ -110,6 +110,7 @@ export default {
   },
 
   async ping(data) {
+    console.log(data);
     const endpoint = getters.scanner.ping.host();
     const ip = getters.scanner.builder.ping.host(utils.parseIpObject(data));
 

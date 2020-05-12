@@ -36,3 +36,4 @@ yarn-error.log*
 .env
 dist.rar
 *.log
+package.original.json
