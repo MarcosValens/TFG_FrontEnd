@@ -4,7 +4,6 @@
       <q-dialog v-model="openUserAgreementDialog" transition-show="rotate" transition-hide="rotate">
         <user-agreement-dialog />
       </q-dialog>
-      <updater />
     </div>
     <div class="row items-center">
       <div class="col">
@@ -49,7 +48,6 @@ import isElectron from "is-electron";
 import { mapActions, mapGetters } from "vuex";
 
 import EssentialLink from "components/EssentialLink";
-import Updater from 'components/Updater';
 import UserAgreementDialog from "components/Main/Dialogs/UserAgreementDialog/UserAgreementDialog";
 import requests from "./../utils/requests";
 import getters from "./../utils/getters";
@@ -61,8 +59,7 @@ export default {
 
   components: {
     "esential-link": EssentialLink,
-    "user-agreement-dialog": UserAgreementDialog,
-    "updater": Updater
+    "user-agreement-dialog": UserAgreementDialog
   },
 
   data() {

@@ -75,8 +75,8 @@ async function createWindow() {
   })
   require("@rochismo/port-scanner")
 
-  mainWindow.once("ready-to-show", () => {
-    autoUpdater.checkForUpdatesAndNotify()
+  mainWindow.once("ready-to-show", async () => {
+    await autoUpdater.checkForUpdatesAndNotify()
   })
 
   //await mainWindow.loadURL("http://portscanner-client.cfgs.esliceu.net", {
@@ -120,13 +120,9 @@ app.on("open-url", async (event, url) => {
 app.on("will-quit", () => globalShortcut.unregisterAll())
 
 autoUpdater.on('update-available', () => {
-  mainWindow.webContents.send('update_available')
 })
 
 autoUpdater.on('update-downloaded', () => {
   mainWindow.webContents.send('update_downloaded')
+  autoUpdater.quitAndInstall()
 })
-
-ipcMain.on('restart_app', () => {
-  autoUpdater.quitAndInstall();
-});

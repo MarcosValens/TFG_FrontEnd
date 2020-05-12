@@ -2,9 +2,6 @@
   <q-page>
     <!-- Page title -->
     <div class="q-pa-md row">
-      <div v-if="electron">
-        <updater />
-      </div>
       <div class="row col-12">
         <div class="col">
           <h1 class="text-center">PorT ScanneR</h1>
@@ -42,11 +39,10 @@
 <script>
 import LoginForm from "./../components/Login/LoginForm/LoginForm.vue";
 import isElectron from "is-electron";
-import Updater from "./../components/Updater";
 
 export default {
   name: "Login",
-  components: { "login-form": LoginForm, updater: Updater },
+  components: { "login-form": LoginForm },
   data() {
     return {
       errors: {
