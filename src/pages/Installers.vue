@@ -8,14 +8,14 @@
             <div class="text-h6 text-center">Download PortScanner for {{platform.name}}</div>
           </q-card-section>
           <q-card-actions class="black q-gutter-lg" align="center">
-            <q-btn class="bg-orange-7 col-7 " flat @click="download(platform.link)">test</q-btn>
+            <q-btn class="bg-orange-7 col-7 " flat @click="download(selectedLink)">Download</q-btn>
             <q-select
               label="Installer package"
               transition-show="flip-up"
               transition-hide="flip-down"
               filled
-              v-model="model"
-              :options="options"
+              v-model="selectedLink"
+              :options="platform.links"
               style="width: 250px"
             />
           </q-card-actions>
@@ -43,9 +43,9 @@
             style="opacity: 0;"
             :class="currentPlatform.name === otherPlatform.name ? `${animate} ${currentPlatform.btnColor}` : ''"
             align="center"
-            @click="download(otherPlatform.link)"
+            @click="download(otherPlatform.defaultLink)"
           >
-            <q-btn flat @click.stop="download(otherPlatform.link)">Download</q-btn>
+            <q-btn flat @click.stop="download(otherPlatform.defaultLink)">Download</q-btn>
           </q-card-actions>
         </q-card>
       </div>
@@ -59,31 +59,44 @@ export default {
   name: "Installers",
   data() {
     return {
-      model: "null",
-      options: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
       animate: "text-white animate-flicker",
       appPicture: "../statics/appwin.png",
       platform: {},
       electron: isElectron(),
       currentPlatform: {},
+      selectedLink: "",
       otherPlatforms: [
         {
+          defaultLink: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/Port-Scanner-Setup-1.1.0-rc.exe",
           placeholder: "Windows",
           name: "Windows",
           img: "./statics/windowsLogo.png",
           bgColor: "",
-          link: "https://mega.nz/file/ymh3UCQC#F_hplxuO4TyAf3qdi0LWeIrSwyA_swSaif0Z9-KhvhQ",
-          btnColor: "bg-grey-14"
+          btnColor: "bg-grey-14",
+          links: [
+            {
+              label: "Nsis",
+              value: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/Port-Scanner-Setup-1.1.0-rc.exe",
+            }
+          ]
         },
         {
           placeholder: "Linux",
           name: "Linux",
           img: "./statics/tuxLogo.webp",
           bgColor: "bg-yellow-14",
-          link: "https://mega.nz/file/Ki5XEADY#uAHYWjppHupBoRPR6sNb_axpYoEHZmT8ozgSXqSL0hM",
-          btnColor: "bg-yellow-10"
+          defaultLink: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/portscanner_1.1.0-rc_amd64.deb",
+          btnColor: "bg-yellow-10",
+          links: [
+            {
+              label: "Debian package",
+              value: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/portscanner_1.1.0-rc_amd64.deb",
+            },
+            {
+              label: "AppImage (not recommended)",
+              value: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/Port-Scanner-1.1.0-rc.AppImage"
+            }
+          ]
         },
         {
           placeholder: "Macintosh",
@@ -108,8 +121,9 @@ export default {
     redirect() {
       this.$router.back();
     },
-    download(link) {
-      if (!link) return;
+    download(data) {
+      let link = data.value;
+      if (!data.value) link = this.platform.defaultLink;
       const a = document.createElement("a");
       a.href = link;
       a.target = "_blank";

@@ -163,12 +163,16 @@ module.exports = function(ctx) {
           repo: "port-scanner",
           owner: "rochismo",
           protocol: "https",
-          private: true,
-          token: ""
+          publishAutoUpdate: true
         },
         protocols: {
           name: "portscanner",
           schemes: ["portscanner"]
+        },
+        nsis: {
+          deleteAppDataOnUninstall: true,
+          runAfterFinish: false,
+          allowElevation: true
         },
         win: {
           target: "nsis"
@@ -177,7 +181,7 @@ module.exports = function(ctx) {
           target: "dmg"
         },
         linux: {
-          target: "deb",
+          target: "AppImage",
           executableName: "portscanner",
 
           desktop: {

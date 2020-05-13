@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <div class="box">
+        <h2 class="text">Checking for new updates</h2>
+        <div class="b b1"></div>
+        <div class="b b2"></div>
+        <div class="b b3"></div>
+        <div class="b b4"></div>
+        <div class="progress-bar" style="--width: 10" data-label="Loading..."></div>
+    </div>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1D1D1D;
+            margin: 0;
+            padding: 0;
+        }
+
+        .text {
+            position: relative;
+            text-align: center;
+            color: #fb8c01;
+            margin: auto;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .box {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+        }
+
+        .box .b {
+            border-radius: 50%;
+            border-left: 4px solid;
+            border-right: 4px solid;
+            border-top: 4px solid transparent !important;
+            border-bottom: 4px solid transparent !important;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 2s infinite;
+        }
+
+        .box .b1 {
+            border-color: #4a68bd;
+            width: 120px;
+            height: 120px;
+        }
+
+        .box .b2 {
+            border-color: #f6b93b;
+            width: 100px;
+            height: 100px;
+            animation-delay: 0.2s;
+        }
+
+        .box .b3 {
+            border-color: #2ecc71;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0.4s;
+        }
+
+        .box .b4 {
+            border-color: #34495e;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0.6s;
+        }
+
+        .progress-bar {
+            display: none;
+            position: relative;
+            width: 300px;
+            height: 3em;
+            background-color: #111;
+            border-radius: 1.5em;
+            color: white;
+            top: 74%;
+        }
+
+        .progress-bar::before {
+
+            content: attr(data-label);
+            display: flex;
+            align-items: center;
+            position: absolute;
+            left: .5em;
+            top: .5em;
+            bottom: .5em;
+            width: calc(var(--width, 0) * 1%);
+            min-width: 2rem;
+            max-width: calc(100% - 1em);
+            background-color: #fb8c01;
+            border-radius: 1em;
+            padding: 1em;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) rotate(-180deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+        }
+    </style>
+
+    <script>
+        const { ipcRenderer } = require("electron");
+        const text = document.querySelector(".text");
+        const progressBar = document.querySelector('.progress-bar');
+
+        ipcRenderer.on("update-available", () => {
+            text.innerText = "New update available";
+        });
+
+        ipcRenderer.on("no-updates", () => text.innerText = "You are up to date :)");
+
+        ipcRenderer.on("downloading-update", (data) => {
+            const { percentage, progress } = JSON.parse(data);
+            const dataSet = progressBar.dataset;
+            dataSet.label = progress;
+            progressBar.style.display = "flex";
+            text.innerText = "Downloading update"
+            const width = parseFloat(computedStyle.getPropertyValue('--width')) || 0
+            progressBar.style.setProperty('--width', width + percentage)
+        })
+        ipcRenderer.on("update-downloaded", () => text.innerText = "Update downloaded")
+    </script>
+</body>
+
+</html>
