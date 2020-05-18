@@ -15,6 +15,7 @@
         <div class="b b2"></div>
         <div class="b b3"></div>
         <div class="b b4"></div>
+        <button class="btn" onclick="loadUrl">Download</button>
         <h3 class="progress-text"></h3>
         <div class="progress-bar" style="--width: 0"></div>
     </div>
@@ -97,7 +98,7 @@
         }
 
         .progress-bar {
-            display:none;
+            display: none;
             position: relative;
             width: 300px;
             height: 3em;
@@ -108,7 +109,7 @@
         }
 
         .progress-bar::before {
-
+            font-family: Arial, Helvetica, sans-serif;
             content: attr(data-label);
             display: flex;
             align-items: center;
@@ -122,6 +123,24 @@
             background-color: #fb8c01;
             border-radius: 1em;
             padding: 1em;
+        }
+
+        .btn {
+            background-color: #fb8c01;
+            border: none;
+            color: white;
+            padding: 10px 50px;
+            cursor: pointer;
+            font-size: 20px;
+            position: absolute;
+            left: 18%;
+            bottom: 5%;
+            display: none;
+        }
+
+        /* Darker background on mouse-over */
+        .btn:hover {
+            background-color: #E27300;
         }
 
         @keyframes spin {
@@ -141,10 +160,17 @@
 
     <script>
         const { ipcRenderer } = require("electron");
+        const open = require("open");
         const text = document.querySelector(".text");
         const progressBar = document.querySelector('.progress-bar');
         const progressText = document.querySelector(".progress-text");
+        const url = "http://github.com/rochismo/port-scanner/releases/latest";
+        const button = document.querySelector(".btn")
 
+        async function loadUrl() {
+            text.innerText = "Downloading update, please wait."
+            ipcRenderer.send("quit-the-app");
+        }
         ipcRenderer.on("update-available", () => {
             text.innerText = "New update available";
         });
@@ -160,7 +186,16 @@
             const _percentage = parseFloat(percentage);
             progressBar.style.setProperty('--width', (_percentage).toFixed(2))
         })
-        ipcRenderer.on("update-downloaded", () => text.innerText = "Update downloaded")
+        ipcRenderer.on("update-downloaded", () =>  {
+            text.innerText = "Update downloaded"
+            setTimeout(() => {
+                text.innerText = "If it's stuck, close the updater."
+            }, 7000);
+        });
+        ipcRenderer.on("download-the-update", () => {
+            button.addEventListener("click", loadUrl);
+		    button.style.display = "block";
+        });
     </script>
 </body>
 

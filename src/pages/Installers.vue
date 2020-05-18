@@ -79,32 +79,6 @@ export default {
               value: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/Port-Scanner-Setup-1.1.0-rc.exe",
             }
           ]
-        },
-        {
-          placeholder: "Linux",
-          name: "Linux",
-          img: "./statics/tuxLogo.webp",
-          bgColor: "bg-yellow-14",
-          defaultLink: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/portscanner_1.1.0-rc_amd64.deb",
-          btnColor: "bg-yellow-10",
-          links: [
-            {
-              label: "Debian package",
-              value: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/portscanner_1.1.0-rc_amd64.deb",
-            },
-            {
-              label: "AppImage (not recommended)",
-              value: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/Port-Scanner-1.1.0-rc.AppImage"
-            }
-          ]
-        },
-        {
-          placeholder: "Macintosh",
-          name: "Mac",
-          img: "./statics/macLogo.png",
-          bgColor: "bg-grey",
-          link: "",
-          btnColor: "bg-grey-8"
         }
       ]
     };

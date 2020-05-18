@@ -163,6 +163,7 @@ module.exports = function(ctx) {
           repo: "port-scanner",
           owner: "rochismo",
           protocol: "https",
+          releaseType: "release",
           publishAutoUpdate: true
         },
         protocols: {
