@@ -11,10 +11,12 @@
 <body>
     <div class="box">
         <h2 class="text">Checking for new updates</h2>
-        <div class="b b1"></div>
-        <div class="b b2"></div>
-        <div class="b b3"></div>
-        <div class="b b4"></div>
+        <div class="spinner">
+            <div class="b b1"></div>
+            <div class="b b2"></div>
+            <div class="b b3"></div>
+            <div class="b b4"></div>
+        </div>
         <button class="btn" onclick="loadUrl">Download</button>
         <h3 class="progress-text"></h3>
         <div class="progress-bar" style="--width: 0"></div>
@@ -160,15 +162,16 @@
 
     <script>
         const { ipcRenderer } = require("electron");
-        const open = require("open");
         const text = document.querySelector(".text");
         const progressBar = document.querySelector('.progress-bar');
         const progressText = document.querySelector(".progress-text");
         const url = "http://github.com/rochismo/port-scanner/releases/latest";
         const button = document.querySelector(".btn")
-
+        const spinner = document.querySelector(".spinner");
         async function loadUrl() {
             text.innerText = "Downloading update, please wait."
+            spinner.style.display = "block";
+
             ipcRenderer.send("quit-the-app");
         }
         ipcRenderer.on("update-available", () => {
@@ -186,15 +189,16 @@
             const _percentage = parseFloat(percentage);
             progressBar.style.setProperty('--width', (_percentage).toFixed(2))
         })
-        ipcRenderer.on("update-downloaded", () =>  {
+        ipcRenderer.on("update-downloaded", () => {
             text.innerText = "Update downloaded"
             setTimeout(() => {
                 text.innerText = "If it's stuck, close the updater."
             }, 7000);
         });
         ipcRenderer.on("download-the-update", () => {
+            spinner.style.display = "none";
             button.addEventListener("click", loadUrl);
-		    button.style.display = "block";
+            button.style.display = "block";
         });
     </script>
 </body>

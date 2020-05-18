@@ -33,10 +33,12 @@
     <script>
         const { app } = require("electron").remote;
         const customTitlebar = require('custom-electron-titlebar');
-        const path = require("path")
+        const path = require("path");
+        const url = require("url");
+        console.log(__dirname)
         const bar = new customTitlebar.Titlebar({
             backgroundColor: customTitlebar.Color.fromHex('#444'),
-            icon: './icons/favicon-96x96.png',
+            icon: url.format(path.join(__dirname, "../../app.asar.unpacked/statics/favicon.ico")),
             shadow: true,
             drag: true
         });
