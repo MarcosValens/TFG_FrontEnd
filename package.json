@@ -1,6 +1,6 @@
 {
   "name": "portscanner",
-  "version": "1.0.6-rc",
+  "version": "1.0.7-rc",
   "description": "Simple local web port scanner",
   "productName": "Port Scanner",
   "cordovaId": "org.tfgportscanner",
