@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     async redirect() {
-      console.log(this.user)
+      console.log(this.user);
       if (this.to === "login" && this.user.strategy === "google") {
         await Promise.resolve(new Promise(resolve => {
           const script = document.createElement("script");
@@ -47,13 +47,13 @@ export default {
           script.onload = function() {
             document.body.removeChild(script);
             resolve();
-          }
+          };
           script.onerror = function() {
             document.body.removeChild(script);
             resolve();
           }
         }));
-        
+
       }
       this.$router.push(`${this.to}`);
     }
