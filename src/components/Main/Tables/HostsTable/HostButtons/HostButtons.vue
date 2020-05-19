@@ -8,7 +8,7 @@
       clickable
       @click="doPing()"
     >
-      <q-tooltip>Send ping request to a host</q-tooltip>
+      <q-tooltip content-style="font-size: 16px">Send ping request to a host</q-tooltip>
     </q-avatar>
     <q-avatar
       icon="search"
@@ -18,7 +18,7 @@
       clickable
       @click="performScan()"
     >
-      <q-tooltip>Scan this host with the default ports</q-tooltip>
+      <q-tooltip content-style="font-size: 16px">Scan this host with the default ports</q-tooltip>
     </q-avatar>
     <q-avatar
       icon="policy"
@@ -28,7 +28,7 @@
       clickable
       @click="openCustomHostScanDialog()"
     >
-      <q-tooltip>Perform a custom port scan with ports or port range</q-tooltip>
+      <q-tooltip content-style="font-size: 16px">Perform a custom port scan with ports or port range</q-tooltip>
     </q-avatar>
     <q-spinner color="primary" size="2em" class="q-ml-lg" v-if="performing"></q-spinner>
     <q-icon
