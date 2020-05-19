@@ -51,7 +51,7 @@
               stack-label
               type="password"
               v-model="user.password"
-              :rules="[ val => val.length >= 8 && val.length <= 50 || 'Please use between 8 and 50 characters']"
+              :rules="[ validatePassword ]"
               label="Your password *"
             />
           </div>

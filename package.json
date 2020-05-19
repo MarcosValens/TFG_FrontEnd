@@ -24,6 +24,7 @@
     "fs-extra": "^9.0.0",
     "is-electron": "^2.2.0",
     "quasar": "^1.11.1",
+    "secure-password-validator": "^1.0.2",
     "semver": "^7.3.2"
   },
   "devDependencies": {
