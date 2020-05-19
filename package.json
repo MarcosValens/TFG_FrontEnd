@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.8.1",
-    "@rochismo/port-scanner": "^1.2.2",
+    "@rochismo/port-scanner": "^1.2.3",
     "asar": "^3.0.3",
     "axios": "^0.18.1",
     "custom-electron-titlebar": "^3.2.2-hotfix62",
