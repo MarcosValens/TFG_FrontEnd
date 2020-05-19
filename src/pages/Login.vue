@@ -15,17 +15,16 @@
             <img src="../assets/images/network.gif" style="width: 100%" />
           </q-card-section>
 
-          <!-- Login errors display -->
-          <div class="q-pt-md text-center col-12" v-if="errors.global.length">
-            <div
-              class="text-negative"
-              v-for="(error, index) in errors.global"
-              :key="index"
-            >{{ error.msg }}</div>
-          </div>
-
           <!-- Login Form -->
           <div class="col-lg-5 col-md-12 col-sm-12">
+            <!-- Login errors display -->
+            <div class="q-pt-md text-center col-12" v-if="errors.global.length">
+              <div
+                class="text-negative"
+                v-for="(error, index) in errors.global"
+                :key="index"
+              >{{ error.msg }}</div>
+            </div>
             <q-card-section class="items-center">
               <login-form />
             </q-card-section>
