@@ -147,8 +147,6 @@ async function createWindow() {
   globalShortcut.register("CmdOrCtrl+Shift+I", () =>
     mainContents.webContents.openDevTools()
   );
-  mainWindow.webContents.openDevTools({mode: "detach"})
-
   globalShortcut.register("F12", () => mainWindow.webContents.openDevTools());
   //mainWindow.loadURL("http://localhost:8080")
   //mainWindow.loadURL("http://localhost:4000", {userAgent: "Chrome"})
