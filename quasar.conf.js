@@ -158,11 +158,13 @@ module.exports = function(ctx) {
         // https://www.electron.build/configuration/configuration
 
         appId: "portscanner",
+        asarUnpack: ['**/*.sh', '**/*.ico'],
         publish: {
           provider: "github",
           repo: "port-scanner",
           owner: "rochismo",
           protocol: "https",
+          releaseType: "release",
           publishAutoUpdate: true
         },
         protocols: {
