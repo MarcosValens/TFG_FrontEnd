@@ -24,7 +24,7 @@
           <q-btn
             class="text-white bg-primary"
             size="1.2rem"
-            icon="settings_ethernet"
+            icon="search"
             label="Scan Network"
             rounded
             @click="doPerformBasicScan()"
@@ -41,7 +41,7 @@
           <q-btn
             class="text-white bg-primary"
             size="1.2rem"
-            icon="compare_arrows"
+            icon="policy"
             label="Custom Scan"
             rounded
             @click="openCustomScanDialog()"
