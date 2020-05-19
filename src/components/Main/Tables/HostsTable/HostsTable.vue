@@ -36,7 +36,7 @@
     </div>
 
     <!-- Table -->
-    <div v-else>
+    <div v-else class="transparent">
       <div v-if="!electron" class="q-mb-md">
         <display-button />
       </div>
@@ -92,7 +92,7 @@
                     @click="onItemClick(props, index)"
                   >
                     <div class="col-8">
-                      <q-item-section @click="shouldOpenUpdatePortModal = true;">
+                      <q-item-section @click="shouldOpenUpdatePortModal = true">
                         <q-item-label>{{ port.port }}</q-item-label>
                       </q-item-section>
                     </div>
@@ -113,13 +113,19 @@
             </q-td>
             <q-td key="icon">
               <div class="row" v-if="isCurrentHost(props)">
-                <q-chip
+                <q-avatar
+                  class="q-mr-lg"
+                  style="font-size: 1.8rem; cursor:pointer;"
                   icon="delete"
                   text-color="white"
                   color="negative"
                   clickable
                   @click="confirmDeleteHostDialog(props)"
-                >Delete</q-chip>
+                >
+                  <q-tooltip>
+                    Delete this host
+                  </q-tooltip>
+                </q-avatar>
                 <host-buttons
                   :props="props"
                   :network="currentNetwork"
@@ -168,7 +174,7 @@ export default {
           label: "Description",
           field: "description",
           sortable: true,
-          style: "width: 15vw"
+          style: "width: 20vw"
         },
         {
           name: "ip",
@@ -176,7 +182,7 @@ export default {
           label: "IP",
           field: "ipAddress",
           sortable: true,
-          style: "width: 15vw"
+          style: "width: 5vw"
         },
         {
           name: "mac",
@@ -184,13 +190,14 @@ export default {
           label: "Mac Address",
           field: "macAddress",
           sortable: true,
-          style: "width: 15vw"
+          style: "width: 8vw"
         },
         {
           name: "alive",
           align: "center",
           label: "Living",
-          field: "living"
+          field: "living",
+          style: "width: 1vw"
         },
         {
           name: "ports",
@@ -198,13 +205,13 @@ export default {
           label: "Ports",
           field: "ports",
           sortable: true,
-          style: "width: 15vw"
+          style: "width: 16vw"
         },
         {
           name: "actions",
           label: "Actions",
           align: "center",
-          style: "width: 27vw"
+          style: "width: 20vw"
         }
       ],
       shouldOpenUpdateHostModal: false,
@@ -295,3 +302,5 @@ export default {
   }
 };
 </script>
+
+<style></style>

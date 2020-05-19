@@ -1,5 +1,5 @@
 <template class="flex flex-center">
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" class="bgImage">
     <div v-if="electron">
       <q-dialog v-model="openUserAgreementDialog" transition-show="rotate" transition-hide="rotate">
         <user-agreement-dialog />
@@ -33,6 +33,12 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <q-footer elevated class="bg-dark">
+      <q-toolbar>
+        <q-toolbar-title>Port Scanner&#174</q-toolbar-title>
+        <p class="">Created by Benjamin Cardona and Marcos Valens. All rights reserved</p>
+      </q-toolbar>
+    </q-footer>
   </q-layout>
 </template>
 
@@ -109,3 +115,11 @@ export default {
   }
 };
 </script>
+
+<style>
+  .bgImage {
+    background-image: url("../assets/images/netwokrFondo.png");
+    background-repeat: no-repeat;
+    background-size: cover
+  }
+</style>
