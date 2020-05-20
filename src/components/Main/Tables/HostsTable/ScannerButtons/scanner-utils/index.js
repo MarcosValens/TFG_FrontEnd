@@ -11,7 +11,7 @@ function checkHost(host) {
     ipAddress: host.address,
     alive: true,
     ports: [],
-    description,
+    description: description || "No description",
     macAddress
   };
 }

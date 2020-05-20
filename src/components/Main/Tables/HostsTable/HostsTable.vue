@@ -122,9 +122,7 @@
                   clickable
                   @click="confirmDeleteHostDialog(props)"
                 >
-                  <q-tooltip>
-                    Delete this host
-                  </q-tooltip>
+                  <q-tooltip>Delete this host</q-tooltip>
                 </q-avatar>
                 <host-buttons
                   :props="props"
@@ -301,6 +299,7 @@ export default {
     }
   }
 };
+
 </script>
 
 <style></style>

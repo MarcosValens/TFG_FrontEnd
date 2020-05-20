@@ -60,14 +60,14 @@ export default {
   data() {
     return {
       animate: "text-white animate-flicker",
-      appPicture: "../statics/appwin.png",
+      appPicture: "../statics/sample.PNG",
       platform: {},
       electron: isElectron(),
       currentPlatform: {},
       selectedLink: "",
       otherPlatforms: [
         {
-          defaultLink: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/Port-Scanner-Setup-1.1.0-rc.exe",
+          defaultLink: "https://github.com/rochismo/port-scanner/releases/download/v1.0.0-release/Port-Scanner-Setup-1.0.0-release.exe",
           placeholder: "Windows",
           name: "Windows",
           img: "./statics/windowsLogo.png",
@@ -76,9 +76,39 @@ export default {
           links: [
             {
               label: "Nsis",
-              value: "https://github.com/rochismo/port-scanner/releases/download/v1.1.0-rc/Port-Scanner-Setup-1.1.0-rc.exe",
+              value: "https://github.com/rochismo/port-scanner/releases/download/v1.0.0-release/Port-Scanner-Setup-1.0.0-release.exe",
             }
           ]
+        },
+        {
+          placeholder: "Linux",
+          name: "Linux",
+          img: "./statics/tuxLogo.webp",
+          bgColor: "bg-yellow-14",
+          defaultLink: "https://github.com/rochismo/port-scanner/releases/download/v1.0.0-release/portscanner_1.0.0-release_amd64.deb",
+          btnColor: "bg-yellow-10",
+          links: [
+            {
+              label: "Debian package",
+              value: "https://github.com/rochismo/port-scanner/releases/download/v1.0.0-release/portscanner_1.0.0-release_amd64.deb",
+            },
+            {
+              label: "AppImage (not recommended)",
+              value: "https://github.com/rochismo/port-scanner/releases/download/v1.0.0-release/Port-Scanner-1.0.0-release.AppImage"
+            },
+            {
+              label: "tar.gz (only if you know what you're doing)",
+              value: "https://github.com/rochismo/port-scanner/releases/download/v1.0.0-release/portscanner-1.0.0-release.tar.gz"
+            }
+          ]
+        },
+        {
+          placeholder: "Macintosh",
+          name: "Mac",
+          img: "./statics/macLogo.png",
+          bgColor: "bg-grey",
+          link: "",
+          btnColor: "bg-grey-8"
         }
       ]
     };

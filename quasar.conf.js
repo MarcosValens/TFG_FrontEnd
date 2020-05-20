@@ -156,7 +156,7 @@ module.exports = function(ctx) {
 
       builder: {
         // https://www.electron.build/configuration/configuration
-
+        compression: "maximum",
         appId: "portscanner",
         asarUnpack: ['**/*.sh', '**/*.ico'],
         publish: {
@@ -173,8 +173,8 @@ module.exports = function(ctx) {
         },
         nsis: {
           deleteAppDataOnUninstall: true,
-          runAfterFinish: false,
-          allowElevation: true
+          allowElevation: true,
+          include: "src/scripts/script.nsh"
         },
         win: {
           target: "nsis"
