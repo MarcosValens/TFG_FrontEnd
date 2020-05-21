@@ -65,7 +65,8 @@
         hadError: false
       };
     },
-    mounted() {
+    created() {
+      this.$root.$off("portSinglehost");
       this.$root.$on("portSingleHost", async ports => {
         await this.scanHost(ports);
       });
@@ -149,9 +150,6 @@
       async scanHost(ports) {
         await this.scan(this.currentHost, ports);
       }
-    },
-    beforeDestroy() {
-      this.$root.$off("portSingleHost");
     }
   };
 </script>

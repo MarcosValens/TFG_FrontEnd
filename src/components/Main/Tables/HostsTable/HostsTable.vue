@@ -220,7 +220,7 @@ export default {
       ],
       shouldOpenUpdateHostModal: false,
       shouldOpenUpdatePortModal: false,
-      electron: isElectron(),
+      electron: !isElectron(),
       model: {},
       option: [],
       locked: false,
