@@ -133,6 +133,8 @@ async function sendToClient(data = "") {
       `${baseDomain}/#/login`,
       { userAgent: "Chrome" }
     );
+  } finally {
+    mainContents.webContents.reload();
   }
 }
 

@@ -34,9 +34,13 @@
               label="Enter gateway address"
             />
           </div>
+          <div class="col q-mt-md q-ml-lg" v-if="electron">
+            <q-btn label="Auto detect" @click="getGateway" color="primary" />
+          </div>
         </div>
 
         <q-card-actions align="right" class="text-primary">
+          <q-spinner v-if="fetching" class="q-mr-lg" size="2em"></q-spinner>
           <q-btn flat label="Cancel" v-close-popup />
           <q-btn flat label="Update network" type="submit" v-close-popup="canClose" />
         </q-card-actions>
@@ -46,9 +50,11 @@
 </template>
 
 <script>
+import isElectron from "is-electron";
 import { mapActions, mapGetters } from "vuex";
 import globalRequestBuilder from "./../../../../../../utils/globalRequestBuilder";
 import requests from "./../../../../../../utils/requests";
+import getters from "./../../../../../../utils/getters";
 export default {
   name: "CreateNetworkDialog",
   props: ["allNetworks", "networkId"],
@@ -60,6 +66,8 @@ export default {
         gateway: "",
         _id: ""
       },
+      fetching: false,
+      electron: isElectron(),
       gatewayErrorMessage: null,
       isNameTaken: "",
       myMessage: null
@@ -76,6 +84,15 @@ export default {
   },
   methods: {
     ...mapActions("global", ["updateNetwork"]),
+    async getGateway() {
+      this.fetching = true;
+      const gateway = await requests.get.call(
+        this,
+        getters.scanner.local.gateway()
+      );
+      this.network.gateway = gateway;
+      this.fetching = false;
+    },
     async sendUpdateNetwork(ev) {
       const isChanged = this.isChanged();
       if (!isChanged) {
@@ -83,6 +100,7 @@ export default {
         return this.close();
       }
       try {
+        this.fetching = true;
         const { endpoint, dataFromBuilder } = globalRequestBuilder(
           "network",
           "update",
@@ -105,6 +123,8 @@ export default {
             response.data.errors.find(({ param }) => param === "gateway").msg ||
             null;
         }
+      } finally {
+        this.fetching = false;
       }
     },
     close() {

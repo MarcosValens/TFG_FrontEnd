@@ -89,11 +89,10 @@ export default {
           dataFromBuilder
         );
         this.addNetwork(network);
-        this.fetching = false;
+        
         this.canClose = true;
         document.querySelector("#close-popup").click();
       } catch (e) {
-        this.fetching = false;
         const response = e.response;
         if (response.data.message) {
           this.myMessage = response.data.message;
@@ -103,6 +102,8 @@ export default {
             response.data.errors.find(({ param }) => param === "gateway").msg ||
             null;
         }
+      } finally {
+        this.fetching = false;        
       }
     }
   }
