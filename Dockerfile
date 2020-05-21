@@ -6,4 +6,4 @@ RUN yarn global add @quasar/cli
 COPY . .
 # build stage
 FROM develop-stage as build-stage
-RUN yarn install --production
+RUN yarn
