@@ -1,6 +1,6 @@
 {
   "name": "portscanner",
-  "version": "1.0.2-release",
+  "version": "1.0.4-release-hotfix",
   "description": "Simple local web port scanner",
   "productName": "Port Scanner",
   "cordovaId": "org.tfgportscanner",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.8.1",
-    "@rochismo/port-scanner": "^1.2.7",
+    "@rochismo/port-scanner": "^1.2.10",
     "asar": "^3.0.3",
     "axios": "^0.18.1",
     "custom-electron-titlebar": "^3.2.2-hotfix62",
