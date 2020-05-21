@@ -57,6 +57,7 @@
   export default {
     name: "HostButtons",
     components: {"custom-host-scan-dialog": CustomHostScanDialog},
+    props: ["host"],
     data() {
       return {
         customScanHostDialog: false,
@@ -65,7 +66,9 @@
         hadError: false
       };
     },
-    mounted() {
+    created() {
+      // Why the fuck would beforeDestroy be called after created???????????
+      this.$root.$off("portSingleHost");
       this.$root.$on("portSingleHost", async ports => {
         await this.scanHost(ports);
       });
@@ -144,14 +147,12 @@
         }
       },
       async performScan() {
+        console.log("Hello")
         await this.scan(this.currentHost);
       },
       async scanHost(ports) {
         await this.scan(this.currentHost, ports);
       }
-    },
-    beforeDestroy() {
-      this.$root.$off("portSingleHost");
     }
   };
 </script>

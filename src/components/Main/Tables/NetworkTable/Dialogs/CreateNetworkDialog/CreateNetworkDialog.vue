@@ -33,9 +33,13 @@
               label="Enter gateway address"
             />
           </div>
+          <div class="col q-mt-md q-ml-lg" v-if="electron">
+            <q-btn label="Auto detect" @click="getGateway" color="primary" />
+          </div>
         </div>
 
         <q-card-actions align="right" class="text-primary">
+          <q-spinner v-if="fetching" class="q-mr-lg" size="2em"></q-spinner>
           <q-btn flat label="Cancel" v-close-popup />
           <q-btn flat label="Create network" type="submit" v-close-popup="canClose" />
         </q-card-actions>
@@ -45,14 +49,18 @@
 </template>
 
 <script>
+import isElectron from "is-electron";
 import { mapActions } from "vuex";
 import globalRequestBuilder from "./../../../../../../utils/globalRequestBuilder";
+import getters from "./../../../../../../utils/getters";
 import requests from "./../../../../../../utils/requests";
 export default {
   name: "CreateNetworkDialog",
   data() {
     return {
       canClose: false,
+      fetching: false,
+      electron: isElectron(),
       network: {
         name: "",
         gateway: ""
@@ -65,30 +73,35 @@ export default {
 
   methods: {
     ...mapActions("global", ["addNetwork"]),
+    async getGateway() {
+      this.fetching = true;
+      const gateway = await requests.get.call(this, getters.scanner.local.gateway());
+      this.network.gateway = gateway;
+      this.fetching = false;
+    },
     async createNetwork(ev) {
       try {
-        const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
-          this,
-          "network",
-          "create",
-          this.network
-        );
+        this.fetching = true;
+        const { endpoint, dataFromBuilder } = globalRequestBuilder("network", "create", this.network);
         const network = await requests.post.call(
           this,
           endpoint,
           dataFromBuilder
         );
         this.addNetwork(network);
+        this.fetching = false;
         this.canClose = true;
         document.querySelector("#close-popup").click();
       } catch (e) {
+        this.fetching = false;
         const response = e.response;
         if (response.data.message) {
           this.myMessage = response.data.message;
         }
         if (response.data.errors) {
           this.gatewayErrorMessage =
-            response.data.errors.find(({ param }) => param === "gateway").msg || null;
+            response.data.errors.find(({ param }) => param === "gateway").msg ||
+            null;
         }
       }
     }

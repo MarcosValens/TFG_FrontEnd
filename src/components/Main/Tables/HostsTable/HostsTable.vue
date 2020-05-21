@@ -56,7 +56,7 @@
         :virtual-scroll-sticky-size-start="4"
       >
         <template v-slot:body="props">
-          <q-tr :props="props" @click="setCurrentHost(props)">
+          <q-tr :props="props" @click="checkAndSetCurrentHost(props)">
             <q-td key="description" :props="props">
               <q-avatar
                 class="q-ml-sm q-mr-sm description-icon"
@@ -84,7 +84,13 @@
             <q-td key="ports" :props="props">
               <q-btn-dropdown color="primary" rounded label="Select port">
                 <q-list>
+                  <q-item v-if="!props.row.ports.length">
+                    <q-item-label>
+                      This host has no open ports
+                    </q-item-label>
+                  </q-item>
                   <q-item
+                    v-else
                     v-for="(port, index) in props.row.ports"
                     :key="index"
                     clickable
@@ -92,7 +98,7 @@
                     @click="onItemClick(props, index)"
                   >
                     <div class="col-8">
-                      <q-item-section @click="shouldOpenUpdatePortModal = true">
+                      <q-item-section @click="checkIfItsOwnHostPort(port)">
                         <q-item-label>{{ port.port }}</q-item-label>
                       </q-item-section>
                     </div>
@@ -240,18 +246,35 @@ export default {
       "deleteHost",
       "deletePort"
     ]),
+    isHostLocked(host) {
+      return host && host.locked;
+    },
+    checkAndSetCurrentHost(data) {
+      if (this.isHostLocked(this.currentHost)) {
+        return false
+      }
+      this.setCurrentHost(data);
+    },
     isCurrentHost(host) {
       return host.row._id === this.currentHost._id;
     },
     onItemClick(props, index) {
+      if (this.isHostLocked(this.currentHost)) return;
       this.setCurrentPort(props.row.ports[index]);
       this.setCurrentHost(props);
     },
+    checkIfItsOwnHostPort(port) {
+      if (!this.isHostLocked(this.currentHost)) {
+        this.shouldOpenUpdatePortModal = true;
+      }
+    },
     openUpdateHostModal(props) {
+      if (this.isHostLocked(this.currentHost)) return;
       this.setCurrentHost(props);
       this.shouldOpenUpdateHostModal = true;
     },
     confirmDeleteHostDialog() {
+      if (this.isHostLocked(this.currentHost)) return;
       this.$q
         .dialog({
           title: "Confirm",
@@ -275,6 +298,7 @@ export default {
         });
     },
     openConfirmDeletePortDialog(port) {
+      if (this.isHostLocked(this.currentHost)) return;
       this.$q
         .dialog({
           title: "Confirm",

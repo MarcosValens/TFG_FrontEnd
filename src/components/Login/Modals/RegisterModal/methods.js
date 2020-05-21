@@ -6,6 +6,7 @@ const register = getters.register;
 export default {
   ...validators,
   displayPopup() {
+    if (!this.implemented) return;
     this.$q.dialog({
       title: "Email verification",
       message: "We've sent an email to your account to verify you are a human. You may log in after you've validated it."

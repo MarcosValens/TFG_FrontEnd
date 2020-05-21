@@ -88,6 +88,8 @@ export default {
         surname: "",
         password: ""
       },
+      // TODO: Change this to when we have email verification
+      implemented: false,
       passwordToMatch: "",
       errors: {},
       canClose: false,

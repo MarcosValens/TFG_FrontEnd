@@ -16,6 +16,11 @@ export default {
       return `${base}/ping/validate`;
     }
   },
+  local: {
+    gateway() {
+      return `${base}/local/gateway`;
+    }
+  },
   scan() {
     return `${base}/port`;
   },

@@ -3,15 +3,14 @@ function getIndex(array, property, value) {
 }
 
 function checkHost(host) {
-  const _description = host.mac.companyName;
-  const mac = host.mac.physicalAddress;
-  const description = mac === true ? "Your device" : _description;
-  const macAddress = mac === true ? "Your device" : mac.toUpperCase();
+  const isSelf = host.mac.physicalAddress.isSelf;
+  const macAddress = host.mac.physicalAddress.mac.toUpperCase();
+  const description = isSelf ? "Your device" : host.mac.companyName || "No description";
   return {
     ipAddress: host.address,
     alive: true,
     ports: [],
-    description: description || "No description",
+    description,
     macAddress
   };
 }

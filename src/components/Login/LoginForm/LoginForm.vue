@@ -53,7 +53,7 @@
     </q-card-actions>
 
     <q-card-actions align="around">
-      <p class="registerText text-grey text-right">
+      <p class="text-grey text-right">
         You can
         <a @click="shouldOpenRegisterModal = true" class="text-primary">register</a>
         too!
@@ -101,10 +101,6 @@ export default {
 <style>
 #google-icon {
   background-color: white;
-}
-
-.registerText {
-  font-size: small;
 }
 
 a {
