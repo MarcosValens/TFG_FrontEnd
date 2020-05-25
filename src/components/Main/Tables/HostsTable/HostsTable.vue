@@ -5,9 +5,9 @@
         <update-host-dialog />
       </q-dialog>
 
-      <q-dialog v-model="shouldOpenUpdatePortModal">
+      <!--<q-dialog v-model="shouldOpenUpdatePortModal">
         <update-port-dialog />
-      </q-dialog>
+      </q-dialog>-->
     </template>
 
     <!-- Scanner Buttons and search bar -->
@@ -82,40 +82,9 @@
             </q-td>
 
             <q-td key="ports" :props="props">
-              <q-btn-dropdown color="primary" rounded label="Select port">
-                <q-list>
-                  <q-item v-if="!props.row.ports.length">
-                    <q-item-label>
-                      This host has no open ports
-                    </q-item-label>
-                  </q-item>
-                  <q-item
-                    v-else
-                    v-for="(port, index) in props.row.ports"
-                    :key="index"
-                    clickable
-                    class="item-dropdown items-center row"
-                    @click="onItemClick(props, index)"
-                  >
-                    <div class="col-8">
-                      <q-item-section @click="checkIfItsOwnHostPort(port)">
-                        <q-item-label>{{ port.port }}</q-item-label>
-                      </q-item-section>
-                    </div>
-                    <div class="col-1">
-                      <q-item-section>
-                        <q-icon
-                          name="delete"
-                          class="text-red q-ml-sm"
-                          style="font-size: 2rem"
-                          clickable
-                          @click="openConfirmDeletePortDialog(port)"
-                        />
-                      </q-item-section>
-                    </div>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
+              
+              <q-btn color="primary" rounded :label="!props.row.ports.length ? 'No ports found' : `Check ${props.row.ports.length} ports`" @click="loadPorts(props)" />
+                
             </q-td>
             <q-td key="icon">
               <div class="row" v-if="isCurrentHost(props)">
@@ -220,7 +189,7 @@ export default {
       ],
       shouldOpenUpdateHostModal: false,
       shouldOpenUpdatePortModal: false,
-      electron: isElectron(),
+      electron: !isElectron(),
       model: {},
       option: [],
       locked: false,
@@ -251,22 +220,19 @@ export default {
     },
     checkAndSetCurrentHost(data) {
       if (this.isHostLocked(this.currentHost)) {
-        return false
+        return false;
       }
       this.setCurrentHost(data);
+      return true;
+    },
+    loadPorts(data) {
+      if (!this.checkAndSetCurrentHost(data)) {
+        return;
+      }
+      this.$router.push("/main/port-form")
     },
     isCurrentHost(host) {
       return host.row._id === this.currentHost._id;
-    },
-    onItemClick(props, index) {
-      if (this.isHostLocked(this.currentHost)) return;
-      this.setCurrentPort(props.row.ports[index]);
-      this.setCurrentHost(props);
-    },
-    checkIfItsOwnHostPort(port) {
-      if (!this.isHostLocked(this.currentHost)) {
-        this.shouldOpenUpdatePortModal = true;
-      }
     },
     openUpdateHostModal(props) {
       if (this.isHostLocked(this.currentHost)) return;
@@ -296,34 +262,9 @@ export default {
           );
           await requests.post.call(this, endpoint, dataFromBuilder);
         });
-    },
-    openConfirmDeletePortDialog(port) {
-      if (this.isHostLocked(this.currentHost)) return;
-      this.$q
-        .dialog({
-          title: "Confirm",
-          message: "Are you sure you want to delete this port?",
-          cancel: true,
-          persistent: true
-        })
-        .onOk(async () => {
-          this.deletePort(port);
-          const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
-            this,
-            "port",
-            "delete",
-            {
-              network: this.currentNetwork,
-              host: this.currentHost,
-              port: this.currentPort
-            }
-          );
-          await requests.post.call(this, endpoint, dataFromBuilder);
-        });
     }
   }
 };
-
 </script>
 
 <style></style>

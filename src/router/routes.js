@@ -1,5 +1,25 @@
 import getters from './../utils/getters';
 const userGetter = getters.user;
+
+async function beforeEnter(to, from, next) {
+  const token = to.query.token || from.query.token || localStorage.getItem("token");
+  try {
+    const response = await fetch(userGetter.check(), {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    if (response.status === 401) {
+      return next("/login")
+    }
+    localStorage.setItem("token", token)
+    next();
+  } catch(e) {
+    next("/login")
+  }
+}
+
 const routes = [
   {
     path: "/login",
@@ -24,28 +44,15 @@ const routes = [
   {
     path: "/main",
     component: () => import("layouts/MainLayout"),
+    beforeEnter,
     children: [
       {
         path: "",
-        component: () => import("pages/Main"),
-        async beforeEnter(to, from, next) {
-          const token = to.query.token || from.query.token || localStorage.getItem("token");
-          try {
-            const response = await fetch(userGetter.check(), {
-              headers: {
-                "Authorization": "Bearer " + token
-              }
-            });
-  
-            if (response.status === 401) {
-              return next("/login")
-            }
-            localStorage.setItem("token", token)
-            next();
-          } catch(e) {
-            next("/login")
-          }
-        }
+        component: () => import("pages/Main")
+      },
+      {
+        path: "port-form",
+        component: () => import("pages/PortCommunication")
       }
     ]
   },

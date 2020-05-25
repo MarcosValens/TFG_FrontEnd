@@ -24,6 +24,14 @@ export default {
   scan() {
     return `${base}/port`;
   },
+  port: {
+    availability() {
+      return `${base}/port/availability`;
+    },
+    payload() {
+      return `${base}/port/payload`;
+    }
+  }
   
   
 };
