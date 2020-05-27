@@ -82,11 +82,18 @@ export default {
           icon: "face",
           to: "userProfile"
         },
+        
+        {
+          title: "Chat",
+          icon: "chat",
+          to: "/main/chat",
+          separator: true
+        },
         {
           title: "Logout",
           icon: "exit_to_app",
           to: "login"
-        }
+        }, 
       ]
     };
   },

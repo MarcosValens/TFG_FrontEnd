@@ -28,7 +28,9 @@
     "is-electron": "^2.2.0",
     "quasar": "^1.11.3",
     "secure-password-validator": "^1.0.2",
-    "semver": "^7.3.2"
+    "semver": "^7.3.2",
+    "socket.io-client": "^2.3.0",
+    "vue-socket.io": "^3.0.9"
   },
   "devDependencies": {
     "@quasar/app": "^1.8.10",

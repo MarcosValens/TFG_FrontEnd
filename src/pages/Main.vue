@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import client from "socket.io-client";
 
 import NetworkTable from "../components/Main/Tables/NetworkTable/NetworkTable.vue";
 import HostsTable from "../components/Main/Tables/HostsTable/HostsTable.vue";

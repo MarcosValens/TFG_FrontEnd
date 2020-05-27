@@ -1,6 +1,4 @@
 import Vue from 'vue';
-
-
 // Helpers
 function getNetworkIndex(state, network) {
   const networkIndex = state.networks.map(network => network._id).indexOf(network._id);
@@ -16,6 +14,20 @@ function getPortIndex(state, port) {
   const hostIndex = getHostIndex(state, state.currentHost);
   const portIndex = state.hosts[hostIndex].ports.map(port => port._id).indexOf(port._id);
   return {port: portIndex, host: hostIndex};
+}
+
+function ipSort(ipAddressArray) {
+	return ipAddressArray.sort( function(a, b) {
+		a = a.ipAddress.split('.');
+		b = b.ipAddress.split('.');
+		for( let i = 0; i < a.length; i++ ) {
+			if( ( a[i] = parseInt( a[i] ) ) < ( b[i] = parseInt( b[i] ) ) )
+				return -1;
+			else if( a[i] > b[i] )
+				return 1;
+		}
+		return 0;
+	} );
 }
 
 // User
@@ -70,7 +82,7 @@ export function unlockHost(state) {
 }
 
 export function setHosts(state, hosts) {
-  Vue.set(state, "hosts", hosts);
+  Vue.set(state, "hosts", ipSort(hosts));
 }
 
 export function setHostsFromSweep(state, hosts) {
@@ -124,3 +136,4 @@ export function deletePort(state, port) {
   const indexes = getPortIndex(state, port);
   state.hosts[indexes.host].ports.splice(indexes.port, 1);
 }
+

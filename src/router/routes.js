@@ -53,6 +53,10 @@ const routes = [
       {
         path: "port-form",
         component: () => import("pages/PortCommunication")
+      },
+      {
+        path: "chat",
+        component: () => import("pages/ChatApp")
       }
     ]
   },

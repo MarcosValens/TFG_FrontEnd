@@ -1,13 +1,16 @@
 <template>
-  <q-item clickable tag="a" target="_blank" @click="redirect">
-    <q-item-section v-if="icon" avatar>
-      <q-icon :name="icon" />
-    </q-item-section>
+  <div>
+    <q-item clickable tag="a" target="_blank" @click="redirect">
+      <q-item-section v-if="icon" avatar>
+        <q-icon :name="icon" />
+      </q-item-section>
 
-    <q-item-section>
-      <q-item-label>{{ title }}</q-item-label>
-    </q-item-section>
-  </q-item>
+      <q-item-section>
+        <q-item-label>{{ title }}</q-item-label>
+      </q-item-section>
+    </q-item>
+    <q-separator v-if="separator" />
+  </div>
 </template>
 
 <script>
@@ -27,6 +30,10 @@ export default {
       type: String,
       default: "#"
     },
+    separator: {
+      type: Boolean,
+      default: false
+    },
 
     icon: {
       type: String,
@@ -38,22 +45,22 @@ export default {
   },
   methods: {
     async redirect() {
-      console.log(this.user);
       if (this.to === "login" && this.user.strategy === "google") {
-        await Promise.resolve(new Promise(resolve => {
-          const script = document.createElement("script");
-          script.src = "https://mail.google.com/mail/u/0/?logout&hl=en";
-          document.body.appendChild(script);
-          script.onload = function() {
-            document.body.removeChild(script);
-            resolve();
-          };
-          script.onerror = function() {
-            document.body.removeChild(script);
-            resolve();
-          }
-        }));
-
+        await Promise.resolve(
+          new Promise(resolve => {
+            const script = document.createElement("script");
+            script.src = "https://mail.google.com/mail/u/0/?logout&hl=en";
+            document.body.appendChild(script);
+            script.onload = function() {
+              document.body.removeChild(script);
+              resolve();
+            };
+            script.onerror = function() {
+              document.body.removeChild(script);
+              resolve();
+            };
+          })
+        );
       }
       this.$router.push(`${this.to}`);
     }

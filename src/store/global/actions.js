@@ -52,6 +52,7 @@ export function setHost({ commit }, host) {
 export function lockHost({ commit }) {
   commit("lockHost")
 }
+
 export function unlockHost({ commit }) {
   commit("unlockHost")
 }
