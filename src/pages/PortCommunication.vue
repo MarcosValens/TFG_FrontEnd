@@ -207,7 +207,7 @@
             if (!this.currentHost.ports.length) {
               return this.$router.push("/main");
             }
-            this.setCurrentPort(this.currentHost.ports[0])
+            this.setCurrentPort(this.currentHost.ports[0]);
             this.port = this.clonePort(this.currentPort);
           });
       },
