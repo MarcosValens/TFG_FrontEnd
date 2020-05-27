@@ -1,5 +1,5 @@
 <template>
-  <div class="col bg-accent">
+  <div class="col bg-dark">
     <q-form @submit="handleSubmit()">
       <q-input
         filled
@@ -12,7 +12,7 @@
         @keypress.enter.stop="handleSubmit"
       >
         <template v-slot:after>
-          <q-btn type="submit" dense flat icon="send" label="Send" />
+          <q-btn type="submit" dense icon="send" label="Send"/>
         </template>
       </q-input>
     </q-form>
@@ -20,34 +20,35 @@
 </template>
 
 <script>
-export default {
-  name: "Options",
-  data() {
-    return {
-      message: {
-        text: ""
-      },
-      canSend: true,
-      hadError: false
-    };
-  },
-  methods: {
-    handleSubmit() {
-      this.hadError = false;
-      if (!this.canSend) {
-        this.hadError = true;
-        return;
+
+  export default {
+    name: "Options",
+    data() {
+      return {
+        message: {
+          text: ""
+        },
+        canSend: true,
+        hadError: false
+      };
+    },
+    methods: {
+      handleSubmit() {
+        this.hadError = false;
+        if (!this.canSend) {
+          this.hadError = true;
+          return;
+        }
+        if (!this.message.text.trim()) {
+          return;
+        }
+        //this.canSend = false;
+        this.message.sentAt = Date.now();
+        const messageClone = JSON.parse(JSON.stringify(this.message))
+        this.$root.$emit("prepare-message", messageClone);
+        this.message.text = "";
+        setTimeout(() => (this.canSend = true), 3000);
       }
-      if (!this.message.text.trim()) {
-        return;
-      }
-      //this.canSend = false;
-      this.message.sentAt = Date.now();
-      const messageClone = JSON.parse(JSON.stringify(this.message))
-      this.$root.$emit("prepare-message", messageClone);
-      this.message.text = "";
-      setTimeout(() => (this.canSend = true), 3000);
     }
-  }
-};
+  };
 </script>

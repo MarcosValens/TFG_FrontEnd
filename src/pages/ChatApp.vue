@@ -1,21 +1,18 @@
 <template>
   <div class="q-pa-xl">
-    <div class="row q-gutter-sm chat bg-dark">
+    <div class="row chat bg-dark">
       <div class="col">
         <div class="row">
           <div class="col-lg-10 col-sm-8 chat-messages scroll">
             <messages :socket="socket" />
           </div>
-          <div class="col-lg-2 col-sm-4 chat-users bg-secondary scroll">
+          <div class="col-lg-2 col-sm-4 chat-users bg-blue-grey-14 scroll personalBorder">
             <q-toolbar class="text-center">
               <q-toolbar-title>Users</q-toolbar-title>
             </q-toolbar>
             <q-separator />
             <users :socket="socket" />
           </div>
-        </div>
-        <div class="row chat-actions bg-accent full-width">
-          <options :socket="socket" />
         </div>
       </div>
     </div>
@@ -88,10 +85,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.chat {
-  height: 65vh;
-  .chat-users {
-    height: 60vh;
-  }
-}
+.personalBorder{border-left-width: 2px; border-color: #0d7377}
 </style>
