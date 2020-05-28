@@ -83,11 +83,7 @@ export default {
       }
     },
     checkDirection(scrollInfo) {
-      if (scrollInfo.direction === "down") {
-        this.shouldScroll = true;
-      } else {
-        this.shouldScroll = false;
-      }
+      this.shouldScroll = scrollInfo.direction === "down";
     }
   },
   created() {
