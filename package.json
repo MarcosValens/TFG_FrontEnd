@@ -27,10 +27,12 @@
     "emoji-mart-vue-fast": "^7.0.2",
     "fs-extra": "^9.0.0",
     "is-electron": "^2.2.0",
+    "moment": "^2.26.0",
     "quasar": "^1.11.3",
     "secure-password-validator": "^1.0.2",
     "semver": "^7.3.2",
     "socket.io-client": "^2.3.0",
+    "vue-chat-scroll": "^1.4.0",
     "vue-socket.io": "^3.0.9"
   },
   "devDependencies": {

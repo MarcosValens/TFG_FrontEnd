@@ -1,5 +1,5 @@
 <template>
-  <q-list separator class>
+  <q-list separator>
     <q-item v-for="chatUser in chatUsers" :key="chatUser._id" class="q-my-sm" clickable v-ripple>
       <q-item-section avatar>
         <q-avatar>
@@ -38,6 +38,7 @@ export default {
     ...mapGetters("global", ["user"])
   },
   created() {
+    if (!this.user._id) return this.$router.push("/main")
     this.chatUsers.push(this.user);
     this.$root.$on("new-user", data => {
       const usersFiltered = this.removeDuplicates(data.users, "_id")

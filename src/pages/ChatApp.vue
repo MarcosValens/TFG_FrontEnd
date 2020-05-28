@@ -70,13 +70,14 @@ export default {
       this.$root.$emit("user-disconnected", user);
     }
   },
-  mounted() {
+  created() {
     this.socket = client(process.env.BACKEND_URL);
 
     this.setupSocketEvents();
   },
   beforeDestroy() {
     this.socket.disconnect();
+    this.$root.$off("prepare-message")
     this.socket = {};
   },
   destroyed() {
