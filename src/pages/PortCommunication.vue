@@ -89,7 +89,13 @@
     <div class="row">
       <div class="col">
         <h4>Response</h4>
-        <q-input v-model="response" readonly filled type="textarea"/>
+        <q-scroll-area 
+          dark 
+          class="bg-dark text-white rounded-borders"
+          style="height: 200px; max-width: 100vw;"
+        >
+        {{ response }}
+        </q-scroll-area>
       </div>
 
     </div>

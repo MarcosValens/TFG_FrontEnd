@@ -1,7 +1,9 @@
-import Vue from 'vue';
+import Vue from "vue";
 // Helpers
 function getNetworkIndex(state, network) {
-  const networkIndex = state.networks.map(network => network._id).indexOf(network._id);
+  const networkIndex = state.networks
+    .map(network => network._id)
+    .indexOf(network._id);
   return networkIndex;
 }
 
@@ -12,22 +14,22 @@ function getHostIndex(state, host) {
 
 function getPortIndex(state, port) {
   const hostIndex = getHostIndex(state, state.currentHost);
-  const portIndex = state.hosts[hostIndex].ports.map(port => port._id).indexOf(port._id);
-  return {port: portIndex, host: hostIndex};
+  const portIndex = state.hosts[hostIndex].ports
+    .map(port => port._id)
+    .indexOf(port._id);
+  return { port: portIndex, host: hostIndex };
 }
 
 function ipSort(ipAddressArray) {
-	return ipAddressArray.sort( function(a, b) {
-		a = a.ipAddress.split('.');
-		b = b.ipAddress.split('.');
-		for( let i = 0; i < a.length; i++ ) {
-			if( ( a[i] = parseInt( a[i] ) ) < ( b[i] = parseInt( b[i] ) ) )
-				return -1;
-			else if( a[i] > b[i] )
-				return 1;
-		}
-		return 0;
-	} );
+  return ipAddressArray.sort(function(a, b) {
+    a = a.ipAddress.split(".");
+    b = b.ipAddress.split(".");
+    for (let i = 0; i < a.length; i++) {
+      if ((a[i] = parseInt(a[i])) < (b[i] = parseInt(b[i]))) return -1;
+      else if (a[i] > b[i]) return 1;
+    }
+    return 0;
+  });
 }
 
 // User
@@ -44,41 +46,41 @@ export function setUserImageUrl(state, url) {
 }
 // Networks
 export function lockNetwork(state) {
-  Vue.set(state.currentNetwork, "locked", true)
+  Vue.set(state.currentNetwork, "locked", true);
 }
 
 export function unlockNetwork(state) {
-  Vue.set(state.currentNetwork, "locked", false)
+  Vue.set(state.currentNetwork, "locked", false);
 }
 
 export function addNetwork(state, network) {
-    state.networks.push(network);
+  state.networks.push(network);
 }
 
 export function updateCurrentNetwork(state, network) {
-    Vue.set(state, "currentNetwork", network);
+  Vue.set(state, "currentNetwork", network);
 }
 
 export function updateNetworks(state, networks) {
-    state.networks = networks;
+  state.networks = networks;
 }
 
 export function deleteNetwork(state, network) {
-  state.networks.splice(getNetworkIndex(state, network),1)
+  state.networks.splice(getNetworkIndex(state, network), 1);
 }
 
 export function updateNetwork(state, network) {
-    Vue.set(state, "currentNetwork", network);
-    Vue.set(state.networks, getNetworkIndex(state, network), network);
+  Vue.set(state, "currentNetwork", network);
+  Vue.set(state.networks, getNetworkIndex(state, network), network);
 }
 
 // Hosts
 export function lockHost(state) {
-  Vue.set(state.currentHost, "locked", true)
+  Vue.set(state.currentHost, "locked", true);
 }
 
 export function unlockHost(state) {
-  Vue.set(state.currentHost, "locked", false)
+  Vue.set(state.currentHost, "locked", false);
 }
 
 export function setHosts(state, hosts) {
@@ -87,10 +89,10 @@ export function setHosts(state, hosts) {
 
 export function setHostsFromSweep(state, hosts) {
   const newHosts = state.hosts.concat(hosts);
-  Vue.set(state, "hosts", newHosts);
+  Vue.set(state, "hosts", ipSort(newHosts));
 }
 
-export function updateHost(state, description){
+export function updateHost(state, description) {
   const hostIndex = getHostIndex(state, state.currentHost);
   Vue.set(state.currentHost, "description", description);
   Vue.set(state.hosts, hostIndex, state.currentHost);
@@ -107,10 +109,6 @@ export function updateCurrentHost(state, host) {
   Vue.set(state, "currentHost", host);
 }
 
-export function updateCurrentPort(state, port) {
-  Vue.set(state, "currentPort", port);
-}
-
 export function reviveHost(state, index) {
   Vue.set(state.hosts[index], "alive", true);
 }
@@ -125,15 +123,18 @@ export function deleteHost(state, host) {
 }
 
 // Ports
-export function updatePort(state, {open, service}) {
+export function updatePort(state, { open, service }) {
   const indexes = getPortIndex(state, state.currentPort);
   Vue.set(state.currentPort, "open", open);
   Vue.set(state.currentPort, "service", service);
   Vue.set(state.hosts[indexes.host].ports, indexes.port, state.currentPort);
 }
 
+export function updateCurrentPort(state, port) {
+  Vue.set(state, "currentPort", port);
+}
+
 export function deletePort(state, port) {
   const indexes = getPortIndex(state, port);
   state.hosts[indexes.host].ports.splice(indexes.port, 1);
 }
-
