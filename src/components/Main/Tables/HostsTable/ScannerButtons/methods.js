@@ -143,23 +143,24 @@ export default {
     return hosts;
   },
 
-  async performPortScan(ip, inputPorts = null) {
+  async performPortScan(ip, inputPorts = null, autoDetect = false) {
     const endpoint = getters.scanner.scan();
     const data = getters.scanner.builder.port.call(this, ip, inputPorts);
+    data.autoDetect = autoDetect;
     const results = await requests.post.call(this, endpoint, data);
     if (results.error) return false;
     return results;
   },
 
-  async performSimpleScan(hostToScan = null, ports = null) {
+  async performSimpleScan(hostToScan = null, ports = null, autoDetect = false) {
     const address = hostToScan.ipAddress;
-    const results = await this.performPortScan(address, ports);
+    const results = await this.performPortScan(address, ports, autoDetect);
     if (!results.length) return hostToScan;
     const host = await this.createPorts(results, hostToScan);
     return host;
   },
 
-  async performFullScan(ports = null) {
+  async performFullScan(ports = null, autoDetect = false) {
     try {
       const withPorts = messages.fullScanMessages.initMessage(ports);
       this.persistentMessage = `Starting full scan ${withPorts}`;
@@ -176,7 +177,7 @@ export default {
       this.progressMessage = portsMessage;
       const hosts = await Promise.all(
         hostsToScan.map((host) =>
-          this.performSimpleScan.call(this, host, ports)
+          this.performSimpleScan.call(this, host, ports, autoDetect)
         )
       );
       this.persistentMessage = "";

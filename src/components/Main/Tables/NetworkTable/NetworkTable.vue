@@ -67,11 +67,27 @@
         </template>
 
         <template v-slot:top-right>
-          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search Network">
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
+          <div class="flex">
+            <div class="justify-center">
+              <q-toggle
+                style="font-size: 0.9rem"
+                :value="autoDetect"
+                label="Auto-detect services"
+                @input="changeAutoDetect"
+                ></q-toggle>
+              <q-input
+                borderless
+                dense
+                debounce="300"
+                v-model="filter"
+                placeholder="Search Network"
+              >
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+          </div>
         </template>
       </q-table>
     </div>
@@ -90,7 +106,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import isElectron from 'is-electron';
+import isElectron from "is-electron";
 
 import CreateNetworkDialog from "./Dialogs/CreateNetworkDialog/CreateNetworkDialog.vue";
 import UpdateNetworkDialog from "./Dialogs/UpdateNetworkDialog/UpdateNetworkDialog.vue";
@@ -135,7 +151,7 @@ export default {
       ],
       visibleNetworkColumns: ["networkName", "gateway", "icon"],
       updateNetworkPopUp: false,
-      electron: isElectron(),
+      electron: !isElectron(),
       model: null,
       createNetworkDialog: false,
       openNetworkUpdateDialog: false,
@@ -146,7 +162,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("global", ["networks", "currentNetwork"])
+    ...mapGetters("global", ["networks", "currentNetwork", "autoDetect"])
   },
   async mounted() {
     const allNetworksEndpoint = networkGetter.getAll();
@@ -159,7 +175,8 @@ export default {
       "setCurrentNetwork",
       "setCurrentPort",
       "deleteNetwork",
-      "setHosts"
+      "setHosts",
+      "changeAutoDetect"
     ]),
     async loadNetwork(props) {
       const networkId = props.row._id;
@@ -173,7 +190,7 @@ export default {
       return props.row._id === this.currentNetwork._id;
     },
     confirmDeleteNetworkDialog(data) {
-      if (this.currentNetwork.locked) return; 
+      if (this.currentNetwork.locked) return;
       this.$q
         .dialog({
           title: "Confirm",

@@ -1,3 +1,14 @@
+export function init({ commit }) {
+  commit("init")
+}
+export function getHostPortsSorted({ commit }) {
+  commit("getHostPortsSorted")
+}
+
+export function changeAutoDetect({ commit }) {
+  commit("changeAutoDetect")
+}
+
 export function setUser({ commit }, user) {
   commit("setUser", user);
 }

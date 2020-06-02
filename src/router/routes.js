@@ -3,10 +3,12 @@ const userGetter = getters.user;
 
 async function beforeEnter(to, from, next) {
   const token = to.query.token || from.query.token || localStorage.getItem("token");
+  const refreshToken = to.query.refresh_token || from.query.refresh_token || localStorage.getItem("refresh-token") 
   try {
     const response = await fetch(userGetter.check(), {
       headers: {
-        "Authorization": "Bearer " + token
+        "Authorization": "Bearer " + token,
+        "X-Refresh-Token": refreshToken
       }
     });
 
@@ -14,6 +16,7 @@ async function beforeEnter(to, from, next) {
       return next("/login")
     }
     localStorage.setItem("token", token)
+    localStorage.setItem("refresh-token", refreshToken)
     next();
   } catch(e) {
     next("/login")

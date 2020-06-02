@@ -1,4 +1,28 @@
 import Vue from "vue";
+
+// Init
+export function init(state) {
+  const currentNetwork = JSON.parse(localStorage.getItem("current-network"));
+  const hosts = JSON.parse(localStorage.getItem("hosts"));
+  const currentHost = JSON.parse(localStorage.getItem("current-host"));
+  const user = JSON.parse(localStorage.getItem("user"))
+  // Man don't care about current port for now
+  //const currentPort = JSON.parse(localStorage.getItem("current-port"));
+  // Only if we have the hosts
+  if (currentNetwork && hosts) {
+    Vue.set(state, "currentNetwork", currentNetwork);
+    Vue.set(state, "hosts", hosts);
+  }
+
+  if (currentHost) {
+    Vue.set(state, "currentHost", currentHost);
+  }
+
+  if (user) {
+    Vue.set(state, "user", user);
+  }
+}
+
 // Helpers
 function getNetworkIndex(state, network) {
   const networkIndex = state.networks
@@ -35,10 +59,13 @@ function ipSort(ipAddressArray) {
 // User
 export function setUser(state, user) {
   Vue.set(state, "user", user);
+  localStorage.setItem("user", JSON.stringify(user))
+
 }
 
 export function changeAgreement(state) {
   Vue.set(state.user, "userAgreementAccepted", true);
+  localStorage.setItem("user", JSON.stringify(state.user))
 }
 
 export function setUserImageUrl(state, url) {
@@ -58,6 +85,7 @@ export function addNetwork(state, network) {
 }
 
 export function updateCurrentNetwork(state, network) {
+  localStorage.setItem("current-network", JSON.stringify(network));
   Vue.set(state, "currentNetwork", network);
 }
 
@@ -70,11 +98,17 @@ export function deleteNetwork(state, network) {
 }
 
 export function updateNetwork(state, network) {
+  localStorage.setItem("current-network", JSON.stringify(network));
   Vue.set(state, "currentNetwork", network);
   Vue.set(state.networks, getNetworkIndex(state, network), network);
 }
 
 // Hosts
+export function getHostPortsSorted(state) {
+  const sorted = state.currentHost.ports.sort((a, b) => a.port - b.port);
+  Vue.set(state.currentHost, "ports", sorted)
+}
+
 export function lockHost(state) {
   Vue.set(state.currentHost, "locked", true);
 }
@@ -84,11 +118,15 @@ export function unlockHost(state) {
 }
 
 export function setHosts(state, hosts) {
-  Vue.set(state, "hosts", ipSort(hosts));
+  const sortedHosts = ipSort(hosts)
+  localStorage.setItem("hosts", JSON.stringify(sortedHosts));
+  Vue.set(state, "hosts", sortedHosts);
 }
 
 export function setHostsFromSweep(state, hosts) {
   const newHosts = state.hosts.concat(hosts);
+  localStorage.setItem("hosts", JSON.stringify(network));
+
   Vue.set(state, "hosts", ipSort(newHosts));
 }
 
@@ -96,30 +134,41 @@ export function updateHost(state, description) {
   const hostIndex = getHostIndex(state, state.currentHost);
   Vue.set(state.currentHost, "description", description);
   Vue.set(state.hosts, hostIndex, state.currentHost);
+  localStorage.setItem("current-host", JSON.stringify(state.currentHost))
+
 }
 
 export function setHost(state, host) {
   const hostIndex = getHostIndex(state, state.currentHost);
   Vue.set(state, "currentHost", host);
   Vue.set(state.hosts, hostIndex, state.currentHost);
+  localStorage.setItem("current-host", JSON.stringify(host))
 }
 
 export function updateCurrentHost(state, host) {
   host.locked = false;
   Vue.set(state, "currentHost", host);
+  localStorage.setItem("current-host", JSON.stringify(host))
+
 }
 
 export function reviveHost(state, index) {
+  console.log(index)
   Vue.set(state.hosts[index], "alive", true);
+  localStorage.setItem("current-host", JSON.stringify(state.hosts[index]))
 }
 
 export function killHost(state, index) {
   Vue.set(state.hosts[index], "alive", false);
+  localStorage.setItem("current-host", JSON.stringify(state.hosts[index]))
+
 }
 
 export function deleteHost(state, host) {
   const hostIndex = getHostIndex(state, host);
   state.hosts.splice(hostIndex, 1);
+  localStorage.setItem("hosts", JSON.stringify(state.hosts))
+
 }
 
 // Ports
@@ -137,4 +186,10 @@ export function updateCurrentPort(state, port) {
 export function deletePort(state, port) {
   const indexes = getPortIndex(state, port);
   state.hosts[indexes.host].ports.splice(indexes.port, 1);
+}
+
+// Other
+export function changeAutoDetect(state) {
+  Vue.set(state, "autoDetect", !state.autoDetect);
+  localStorage.setItem("auto-detect", state.autoDetect);
 }

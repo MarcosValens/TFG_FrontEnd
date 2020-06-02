@@ -79,7 +79,8 @@
         "hosts",
         "currentNetwork",
         "currentHost",
-        "currentPort"
+        "currentPort",
+        "autoDetect"
       ])
     },
     methods: {
@@ -138,7 +139,7 @@
           if (this.performing) return;
           window.clearTimeout(this.timeout);
           this.init();
-          const host = await this.performSimpleScan(this.currentHost, ports);
+          const host = await this.performSimpleScan(this.currentHost, ports, this.autoDetect);
           this.setHost(host);
           this.performing = false;
         } catch (e) {

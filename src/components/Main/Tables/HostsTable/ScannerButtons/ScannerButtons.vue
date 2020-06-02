@@ -1,6 +1,7 @@
 <template>
   <div class="q-gutter-md scannerButtons">
     <div class="col row justify-between q-gutter-xs">
+
       <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
         <template>
           <q-btn
@@ -141,11 +142,9 @@ export default {
     };
   },
   mounted() {
-    this.$root.$on(
-      "ports",
-      async ports => {
-        await this.doFullScanWithPorts(ports)
-      });
+    this.$root.$on("ports", async ports => {
+      await this.doFullScanWithPorts(ports);
+    });
 
     this.$root.$on("ip", ip => {
       this.doPing(ip);
@@ -249,7 +248,7 @@ export default {
 
       this.initType(type);
       try {
-        const hosts = await this.performFullScan(ports);
+        const hosts = await this.performFullScan(ports, this.autoDetect);
         this.setHosts(hosts);
       } catch (e) {
         this.currentType.hadError = true;
@@ -260,10 +259,9 @@ export default {
     }
   },
   beforeDestroy() {
-      this.$root.$off("ip");
-      this.$root.$off("ports");
+    this.$root.$off("ip");
+    this.$root.$off("ports");
   }
-
 };
 </script>
 

@@ -15,5 +15,12 @@ export default {
     } catch (error) {
       throw error;
     }
+  },
+  delete: async function(endpoint) {
+    try {
+      await this.$axios.delete(endpoint);
+    } catch(e) {
+      throw e;
+    }
   }
 };

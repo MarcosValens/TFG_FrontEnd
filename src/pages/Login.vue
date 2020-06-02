@@ -36,9 +36,12 @@
 </template>
 
 <script>
-import LoginForm from "./../components/Login/LoginForm/LoginForm.vue";
 import isElectron from "is-electron";
+import LoginForm from "./../components/Login/LoginForm/LoginForm.vue";
 
+import requests from './../utils/requests';
+import getters from './../utils/getters';
+const userGetter = getters.user;
 export default {
   name: "Login",
   components: { "login-form": LoginForm },
@@ -50,8 +53,17 @@ export default {
       electron: isElectron()
     };
   },
-  created() {
+  async created() {
+    const endpoint = userGetter.invalidate();
+    const wasLoggedOut = location.href.split("=")[1]
+    // Blacklist Token if we log out
+    // Should this go here?
+    if (wasLoggedOut) {
+      await requests.delete.call(this, endpoint, localStorage.getItem("refresh-token"))
+    };
     localStorage.removeItem("token");
+    localStorage.removeItem("refresh-token");
+    
     this.$root.$on("errors", errors => {
       this.errors = errors;
     });

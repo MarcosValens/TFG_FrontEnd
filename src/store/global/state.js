@@ -115,6 +115,7 @@ export default function() {
     currentPort: "",
     darkMode: true,
     user: {},
-    userImageUrl: ""
+    userImageUrl: "",
+    autoDetect: JSON.parse(localStorage.getItem("auto-detect")) || false
   };
 }

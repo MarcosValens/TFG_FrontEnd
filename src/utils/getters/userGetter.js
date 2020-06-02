@@ -4,6 +4,9 @@ export default {
   profile() {
       return base;
   },
+  invalidate() {
+    return `${base}/invalidate`
+  },
   delete() {
       return `${base}/delete`;
   },

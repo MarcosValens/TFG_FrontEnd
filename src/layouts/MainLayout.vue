@@ -1,5 +1,22 @@
 <template class="flex flex-center">
   <q-layout view="lHh Lpr lFf" class="bgImage">
+    <vue-particles
+      color="#dedede"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#dedede"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="3"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    ></vue-particles>
     <div v-if="electron">
       <q-dialog v-model="openUserAgreementDialog" transition-show="rotate" transition-hide="rotate">
         <user-agreement-dialog />
@@ -36,7 +53,7 @@
     <q-footer elevated class="bg-dark">
       <q-toolbar>
         <q-toolbar-title>Port Scanner&#174</q-toolbar-title>
-        <p class="">Created by Benjamin Cardona and Marcos Valens. All rights reserved</p>
+        <p class>Created by Benjamin Cardona and Marcos Valens. All rights reserved</p>
       </q-toolbar>
     </q-footer>
   </q-layout>
@@ -82,7 +99,7 @@ export default {
           icon: "face",
           to: "userProfile"
         },
-        
+
         {
           title: "Chat",
           icon: "chat",
@@ -92,16 +109,20 @@ export default {
         {
           title: "Logout",
           icon: "exit_to_app",
-          to: "login"
-        }, 
+          to: "/login?wasLogOut=true"
+        }
       ]
     };
   },
   computed: {
     ...mapGetters("global", ["userImageUrl"])
   },
+  beforeCreate() {
+    this.$store.dispatch("global/init")
+  },
   async created() {
     this.user = await requests.get.call(this, userGetter.profile());
+    this.init();
     this.setUser(this.user);
     this.setUserImageUrl(userGetter.image(this.user._id));
     this.openUserAgreementDialog = !this.user.userAgreementAccepted;
@@ -115,7 +136,7 @@ export default {
     this.$q.dark.set(true);
   },
   methods: {
-    ...mapActions("global", ["setUser", "setUserImageUrl"]),
+    ...mapActions("global", ["setUser", "setUserImageUrl", "init"]),
     redirect() {
       this.$router.push("/main");
     }
@@ -124,9 +145,17 @@ export default {
 </script>
 
 <style>
-  .bgImage {
+/*.bgImage {
     background-image: url("../assets/images/netwokrFondo.png");
     background-repeat: no-repeat;
     background-size: cover
-  }
+  }*/
+#particles-js {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 </style>

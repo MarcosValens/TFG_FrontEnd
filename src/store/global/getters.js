@@ -7,6 +7,10 @@ export function networks(state) {
     return state.networks;
 }
 
+export function autoDetect(state) {
+    return state.autoDetect;
+}
+
 export function currentNetwork(state) {
     return state.currentNetwork;
 }

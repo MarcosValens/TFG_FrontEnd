@@ -12,7 +12,7 @@
           class="q-ma-sm messages"
           :thumb-style="thumbStyle"
           :bar-style="barStyle"
-          style="height: 50vh; max-width: 100vw;"
+          style="height: 50vh; max-width: 100vw; "
           ref="messages"
           @scroll="handleScroll"
         >
@@ -61,7 +61,7 @@ export default {
         borderRadius: "10px",
         backgroundColor: "#5c5a5c",
         width: "5px",
-        opacity: 0.75
+        opacity: 0
       },
 
       barStyle: {
