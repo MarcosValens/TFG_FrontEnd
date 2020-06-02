@@ -77,7 +77,7 @@
             class="q-ml-md"
             label="Check status"
             color="primary"
-            @click="checkPortStatusAndInsertIfNewPort"
+            @click="checkPortStatusAndInsertIfNewPort(false)"
             v-if="electron"
           />
           <q-spinner v-if="checkingPortStatus" color="primary" size="2em" class="q-ml-md q-mt-xs" />
@@ -182,7 +182,7 @@ export default {
   created() {
     if (!this.currentHost.ipAddress) return this.$router.push("/main");
     this.getHostPortsSorted();
-    this.port = this.clone(this.currentHost.ports[0] || this.port);
+    this.port = this.clone(this.currentPort || this.currentHost.ports[0] || this.port);
     this.setCurrentPort(this.clone(this.port));
   },
   methods: {
@@ -306,7 +306,6 @@ export default {
 
           await requests.post.call(this, endpoint, dataFromBuilder);
           await this.deletePort(this.currentPort);
-
           const port = this.clone(this.currentHost.ports[0]);
           if (!port.port) {
             this.port.port = null;
@@ -323,6 +322,7 @@ export default {
       if (!this.initPort()) return false;
       try {
         this.checkingPortStatus = true && !isScanning;
+        console.log(isScanning)
         this.scanningPort = isScanning
         const data = {
           port: this.port.port,

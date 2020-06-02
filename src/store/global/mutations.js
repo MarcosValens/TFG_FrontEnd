@@ -177,15 +177,23 @@ export function updatePort(state, { open, service }) {
   Vue.set(state.currentPort, "open", open);
   Vue.set(state.currentPort, "service", service);
   Vue.set(state.hosts[indexes.host].ports, indexes.port, state.currentPort);
+  localStorage.setItem("current-host", JSON.stringify(state.currentHost))
+  localStorage.setItem("hosts", JSON.stringify(state.hosts))
 }
 
 export function updateCurrentPort(state, port) {
   Vue.set(state, "currentPort", port);
+  
+  localStorage.setItem("current-host", JSON.stringify(state.currentHost))
+  localStorage.setItem("hosts", JSON.stringify(state.hosts))
 }
 
 export function deletePort(state, port) {
   const indexes = getPortIndex(state, port);
   state.hosts[indexes.host].ports.splice(indexes.port, 1);
+  
+  localStorage.setItem("current-host", JSON.stringify(state.currentHost))
+  localStorage.setItem("hosts", JSON.stringify(state.hosts))
 }
 
 // Other

@@ -147,7 +147,7 @@ export default {
     });
   },
   computed: {
-    ...mapGetters("global", ["currentNetwork", "currentHost", "hosts"])
+    ...mapGetters("global", ["currentNetwork", "currentHost", "hosts", "autoDetect"])
   },
   methods: {
     ...mapActions("global", [
