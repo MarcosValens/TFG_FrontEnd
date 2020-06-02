@@ -28,8 +28,7 @@
               stack-label
               type="text"
               v-model="network.gateway"
-              :error-message="gatewayErrorMessage"
-              :error="gatewayErrorMessage !== null"
+              :rules="[isIp]"
               label="Enter gateway address"
             />
           </div>
@@ -50,6 +49,9 @@
 
 <script>
 import isElectron from "is-electron";
+import isIp from 'is-ip';
+import privateIp from 'private-ip';
+
 import { mapActions } from "vuex";
 import globalRequestBuilder from "./../../../../../../utils/globalRequestBuilder";
 import getters from "./../../../../../../utils/getters";
@@ -72,12 +74,22 @@ export default {
   },
 
   methods: {
-    ...mapActions("global", ["addNetwork", "setCurrentNetwork"]),
+    ...mapActions("global", ["addNetwork", "setCurrentNetwork", "setHosts"]),
     async getGateway() {
       this.fetching = true;
       const gateway = await requests.get.call(this, getters.scanner.local.gateway());
       this.network.gateway = gateway;
       this.fetching = false;
+    },
+    isIp(val) {
+      if (!val) return true;
+      if (!isIp(val)) {
+        return "Please enter a valid gateway Ex: 192.168.1.1"
+      }
+      if (!privateIp(val)) {
+        return "That's not a private IP"
+      }
+      return true;
     },
     async createNetwork(ev) {
       try {
@@ -90,6 +102,7 @@ export default {
         );
         this.addNetwork(network);
         this.setCurrentNetwork(network);
+        this.setHosts(network.hosts);
         this.canClose = true;
         document.querySelector("#close-popup").click();
       } catch (e) {

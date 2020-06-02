@@ -97,7 +97,7 @@ export default {
         {
           title: "Profile",
           icon: "face",
-          to: "userProfile"
+          to: "/userProfile"
         },
 
         {

@@ -36,7 +36,8 @@
                     text-color="white"
                     color="primary"
                     clickable
-                    @click="openNetworkUpdateDialog = true"
+                    @click="sendOpenUpdateNetworkDialog()"
+                    :disable="currentNetwork.locked || currentHost.locked"
                   >Update</q-chip>
                   <q-dialog v-model="openNetworkUpdateDialog" persistent>
                     <update-network-dialog :allNetworks="networks" :networkId="currentNetwork._id" />
@@ -48,6 +49,8 @@
                     color="negative"
                     clickable
                     @click="confirmDeleteNetworkDialog(props)"
+                    :disable="currentNetwork.locked || currentHost.locked"
+
                   >Delete</q-chip>
                 </div>
               </div>
@@ -62,7 +65,9 @@
             icon="add_circle"
             label="Create Network"
             size="1rem"
-            @click="createNetworkDialog = true"
+            @click="sendOpenCreateNetworkDialog()"
+            :disabled="currentNetwork.locked || currentHost.locked"
+
           ></q-btn>
         </template>
 
@@ -74,7 +79,8 @@
                 :value="autoDetect"
                 label="Auto-detect services"
                 @input="changeAutoDetect"
-                ></q-toggle>
+                :disable="currentHost.locked || currentNetwork.locked"
+              ></q-toggle>
               <q-input
                 borderless
                 dense
@@ -162,7 +168,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("global", ["networks", "currentNetwork", "autoDetect"])
+    ...mapGetters("global", ["networks", "currentNetwork", "autoDetect", "currentHost"])
   },
   async mounted() {
     const allNetworksEndpoint = networkGetter.getAll();
@@ -174,17 +180,30 @@ export default {
       "updateNetworksFromBackend",
       "setCurrentNetwork",
       "setCurrentPort",
+      "setCurrentHost",
       "deleteNetwork",
       "setHosts",
       "changeAutoDetect"
     ]),
+    sendOpenCreateNetworkDialog() {
+      if (!this.currentNetwork.locked) {
+        this.createNetworkDialog = true;
+      }
+    },
     async loadNetwork(props) {
+      if (this.currentNetwork.locked) return;
       const networkId = props.row._id;
       const endpoint = networkGetter.getOne();
       const network = await requests.get.call(this, endpoint, networkId);
       network.locked = false;
       this.setCurrentNetwork(network);
       this.setHosts(network.hosts);
+      this.setCurrentHost({ row: {} });
+    },
+    sendOpenUpdateNetworkDialog() {
+      if (!this.currentNetwork.locked) {
+        this.openNetworkUpdateDialog = true;
+      }
     },
     isSelectedNetwork(props) {
       return props.row._id === this.currentNetwork._id;
@@ -206,10 +225,14 @@ export default {
           );
           await requests.post.call(this, endpoint, dataFromBuilder);
           this.deleteNetwork(data.row);
-          this.setHosts([]);
-          this.setCurrentNetwork({});
-          this.setCurrentPort("");
+          await this.fallback(this.networks[0]);
         });
+    },
+    async fallback(network) {
+      if (network) return await this.loadNetwork({ row: network });
+      await this.setCurrentNetwork({});
+      await this.setHosts([]);
+      await this.setCurrentHost({ row: {} });
     }
   }
 };

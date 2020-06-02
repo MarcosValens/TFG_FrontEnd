@@ -1,3 +1,5 @@
+import privateIp from 'private-ip';
+import isIp from 'is-ip';
 import requests from "../../../../../../utils/requests";
 import getters from "../../../../../../utils/getters";
 
@@ -11,7 +13,17 @@ export default {
       document.querySelector("#close-popup").click();
     } catch (e) {
       event.preventDefault();
-      this.message = "Please input a valid IP address";
+      this.message = e.message;
     }
+  },
+  isValid(ip) {
+    if (!isIp(ip)) {
+      return "Please input a valid IP address"
+    }
+
+    if (!privateIp(ip)) {
+      return "That's not a private IP"
+    }
+    return true;
   }
 }

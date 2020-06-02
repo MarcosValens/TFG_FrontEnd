@@ -86,7 +86,7 @@
 
             <q-td key="ports" :props="props">
               
-              <q-btn color="primary" rounded :label="!props.row.ports.length ? 'No ports found' : `Check ${props.row.ports.length} ports`" @click="loadPorts(props)" />
+              <q-btn color="primary" :disabled="currentNetwork.locked || currentHost.locked" rounded :label="!props.row.ports.length ? 'No ports found' : `Check ${props.row.ports.length} ports`" @click="loadPorts(props)" />
                 
             </q-td>
             <q-td key="icon">

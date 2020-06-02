@@ -102,6 +102,7 @@
             class="q-ml-sm"
           />
           <q-btn label="Delete" @click="removePort()" color="red" class="q-ml-sm" />
+          <q-spinner v-if="sendingUpdates" color="primary" size="2em"></q-spinner>
         </div>
       </q-form>
       <q-form class="q-gutter-md q-mt-sm q-pr-md col bg-dark" v-if="electron">
@@ -160,6 +161,7 @@ export default {
       payload: "",
       response: "",
       electron: !isElectron(),
+      sendingUpdates: false,
       sending: false,
       checkingPortStatus: false,
       scanningPort: false,
@@ -182,7 +184,7 @@ export default {
   created() {
     if (!this.currentHost.ipAddress) return this.$router.push("/main");
     this.getHostPortsSorted();
-    this.port = this.clone(this.currentPort || this.currentHost.ports[0] || this.port);
+    this.port = this.clone(this.currentHost.ports[0] || this.port);
     this.setCurrentPort(this.clone(this.port));
   },
   methods: {
@@ -201,6 +203,8 @@ export default {
     updateHost,
     ...methods,
     async scanPortAndInsertPortIfNewPort() {
+      if (this.isBusy()) return;
+
       const result = await this.checkPortStatusAndInsertIfNewPort(true);
       if (!result) {
         this.scanningPort = false;
@@ -233,6 +237,8 @@ export default {
       }
     },
     async sendPayload() {
+      if (this.isBusy()) return;
+
       if (!this.initPayload()) {
         return;
       }
@@ -282,6 +288,8 @@ export default {
       }
     },
     async removePort() {
+      if (this.isBusy()) return;
+
       if (!this.initPort(true)) {
         return;
       }
@@ -293,6 +301,7 @@ export default {
           persistent: true
         })
         .onOk(async () => {
+          this.sendingUpdates = true;
           const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
             this,
             "port",
@@ -307,6 +316,7 @@ export default {
           await requests.post.call(this, endpoint, dataFromBuilder);
           await this.deletePort(this.currentPort);
           const port = this.clone(this.currentHost.ports[0]);
+          this.sendingUpdates = false;
           if (!port.port) {
             this.port.port = null;
             this.port.service = "";
@@ -322,8 +332,7 @@ export default {
       if (!this.initPort()) return false;
       try {
         this.checkingPortStatus = true && !isScanning;
-        console.log(isScanning)
-        this.scanningPort = isScanning
+        this.scanningPort = isScanning;
         const data = {
           port: this.port.port,
           host: this.currentHost.ipAddress
@@ -348,7 +357,18 @@ export default {
       }
     },
     async sendUpdate(goMain) {
+      if (this.isBusy()) return;
       if (!this.isChanged()) return;
+      if (!this.initPort(false)) {
+        return;
+      }
+      if (!this.port._id) {
+        throw {
+          message:
+            "Please register the port by scanning it or checking if the port is open"
+        };
+      }
+      this.sendingUpdates = true;
       this.updatePort(this.port);
       const { endpoint, dataFromBuilder } = globalRequestBuilder.call(
         this,
@@ -361,6 +381,8 @@ export default {
         }
       );
       await requests.post.call(this, endpoint, dataFromBuilder);
+      this.sendingUpdates = false;
+
       if (goMain) {
         this.$router.push("/main");
       }
@@ -369,8 +391,16 @@ export default {
       try {
         await this.sendUpdate(goMain);
       } catch (e) {
-        ev.preventDefault();
+        this.portErrors.push(e.message);
       }
+    },
+    isBusy() {
+      return (
+        this.sending ||
+        this.checkingPortStatus ||
+        this.scanningPort ||
+        this.sendingUpdates
+      );
     }
   }
 };

@@ -29,8 +29,7 @@
               stack-label
               type="text"
               v-model="network.gateway"
-              :error-message="gatewayErrorMessage"
-              :error="gatewayErrorMessage !== null"
+              :rules="[isIp]"
               label="Enter gateway address"
             />
           </div>
@@ -51,6 +50,10 @@
 
 <script>
 import isElectron from "is-electron";
+
+import isIp from 'is-ip';
+import privateIp from 'private-ip';
+
 import { mapActions, mapGetters } from "vuex";
 import globalRequestBuilder from "./../../../../../../utils/globalRequestBuilder";
 import requests from "./../../../../../../utils/requests";
@@ -84,6 +87,16 @@ export default {
   },
   methods: {
     ...mapActions("global", ["updateNetwork"]),
+    isIp(val) {
+      if (!val) return true;
+      if (!isIp(val)) {
+        return "Please enter a valid gateway Ex: 192.168.1.1"
+      }
+      if (!privateIp(val)) {
+        return "That's not a private IP"
+      }
+      return true;
+    },
     async getGateway() {
       this.fetching = true;
       const gateway = await requests.get.call(

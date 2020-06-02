@@ -1,7 +1,6 @@
 <template>
   <div class="q-gutter-md scannerButtons">
     <div class="col row justify-between q-gutter-xs">
-
       <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
         <template>
           <q-btn
@@ -9,11 +8,13 @@
             size="1.2rem"
             icon="router"
             label="Ping Sweep"
+            type="a"
             rounded
             @click="doSweep()"
             style="width: 100%"
+            :disabled="currentNetwork.locked || currentHost.locked"
           >
-            <q-tooltip content-style="font-size: 16px">
+            <q-tooltip content-style="font-size: 16px" :delay="900" @show="sendShow">
               Perform a ping sweep of your network. By ping sweep we mean,
               ping every host in your network by your CIDR and get the ones that reply back.
             </q-tooltip>
@@ -30,9 +31,11 @@
             rounded
             @click="doPerformBasicScan()"
             style="width: 100%"
+            :disabled="currentNetwork.locked || currentHost.locked"
+
           >
             <q-tooltip
-              content-style="font-size: 16px"
+              content-style="font-size: 16px" :delay="900"
             >This performs a full scan (ping sweep + port scanner)</q-tooltip>
           </q-btn>
         </template>
@@ -43,13 +46,15 @@
             class="text-white bg-primary"
             size="1.2rem"
             icon="policy"
+            type="a"
             label="Custom Scan"
             rounded
             @click="openCustomScanDialog()"
             style="width: 100%"
+            :disabled="currentNetwork.locked || currentHost.locked"
           >
             <q-tooltip
-              content-style="font-size: 16px"
+              content-style="font-size: 16px" :delay="900"
             >You can specify a port, ports or range of ports and scan the whole network.</q-tooltip>
           </q-btn>
           <q-dialog v-model="shouldOpenCustomScan" persistent>
@@ -63,13 +68,15 @@
             class="text-white bg-primary"
             size="1.2rem"
             icon="compare_arrows"
+            type="a"
             label="Ping a Host"
             rounded
             @click="openPingHostDialog()"
             style="width: 100%"
+            :disabled="currentNetwork.locked || currentHost.locked"
           >
             <q-tooltip
-              content-style="font-size: 16px"
+              content-style="font-size: 16px" :delay="900"
             >Introduce an IP and check if the host is alive</q-tooltip>
           </q-btn>
           <q-dialog v-model="shouldOpenPingHostDialog" persistent>
@@ -147,7 +154,12 @@ export default {
     });
   },
   computed: {
-    ...mapGetters("global", ["currentNetwork", "currentHost", "hosts", "autoDetect"])
+    ...mapGetters("global", [
+      "currentNetwork",
+      "currentHost",
+      "hosts",
+      "autoDetect"
+    ])
   },
   methods: {
     ...mapActions("global", [
@@ -159,6 +171,9 @@ export default {
       "unlockNetwork"
     ]),
     ...methods,
+    sendShow(ev) {
+      console.log(ev)
+    },
     addHosts(hosts) {
       this.setHostsFromSweep(hosts);
     },
@@ -175,12 +190,13 @@ export default {
     finishAction() {
       this.currentType.performing = false;
       this.persistentMessage = "";
+      this.unlockNetwork();
+
       this.timeout = setTimeout(_ => {
         this.progressMessage = "";
         this.currentType.hadError = false;
 
         this.currentType = null;
-        this.unlockNetwork();
       }, 5000);
     },
 

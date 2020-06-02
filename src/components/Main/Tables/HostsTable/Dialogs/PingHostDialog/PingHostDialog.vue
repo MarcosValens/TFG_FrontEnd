@@ -17,8 +17,7 @@
               stack-label
               type="text"
               v-model="host"
-              :error-message="message"
-              :error="message !== null"
+              :rules="[isValid]"
               label="Input an IP Address"
             />
           </div>
@@ -42,8 +41,7 @@
     data() {
       return {
         canClose: false,
-        host: "",
-        message: null
+        host: ""
       };
     },
     computed: {

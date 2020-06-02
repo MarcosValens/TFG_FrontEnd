@@ -65,19 +65,22 @@ export function setUser(state, user) {
 
 export function changeAgreement(state) {
   Vue.set(state.user, "userAgreementAccepted", true);
-  localStorage.setItem("user", JSON.stringify(state.user))
+  localStorage.setItem("user", JSON.stringify(state.user));
 }
 
 export function setUserImageUrl(state, url) {
   Vue.set(state, "userImageUrl", url);
+  localStorage.setItem("user", JSON.stringify(state.user));
 }
 // Networks
 export function lockNetwork(state) {
   Vue.set(state.currentNetwork, "locked", true);
+  localStorage.setItem("current-network", JSON.stringify(state.currentNetwork));
 }
 
 export function unlockNetwork(state) {
   Vue.set(state.currentNetwork, "locked", false);
+  localStorage.setItem("current-network", JSON.stringify(state.currentNetwork));
 }
 
 export function addNetwork(state, network) {
@@ -106,15 +109,18 @@ export function updateNetwork(state, network) {
 // Hosts
 export function getHostPortsSorted(state) {
   const sorted = state.currentHost.ports.sort((a, b) => a.port - b.port);
-  Vue.set(state.currentHost, "ports", sorted)
+  Vue.set(state.currentHost, "ports", sorted);
 }
 
 export function lockHost(state) {
   Vue.set(state.currentHost, "locked", true);
+  localStorage.setItem("current-host", JSON.stringify(state.currentHost));
 }
 
 export function unlockHost(state) {
   Vue.set(state.currentHost, "locked", false);
+  localStorage.setItem("current-host", JSON.stringify(state.currentHost));
+
 }
 
 export function setHosts(state, hosts) {
@@ -135,6 +141,7 @@ export function updateHost(state, description) {
   Vue.set(state.currentHost, "description", description);
   Vue.set(state.hosts, hostIndex, state.currentHost);
   localStorage.setItem("current-host", JSON.stringify(state.currentHost))
+  localStorage.setItem("hosts", JSON.stringify(state.hosts))
 
 }
 
@@ -143,6 +150,7 @@ export function setHost(state, host) {
   Vue.set(state, "currentHost", host);
   Vue.set(state.hosts, hostIndex, state.currentHost);
   localStorage.setItem("current-host", JSON.stringify(host))
+  localStorage.setItem("hosts", JSON.stringify(state.hosts))
 }
 
 export function updateCurrentHost(state, host) {

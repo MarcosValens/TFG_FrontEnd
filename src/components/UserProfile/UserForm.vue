@@ -14,10 +14,20 @@
               <p class="q-gutter-md">
                 <span class="formSpan">Name:</span>
                 <span>{{name}}</span>
-                <span class="showForm text-primary" @click="showName = true">(Change)</span>
+                <span
+                  class="showForm text-primary"
+                  style="cursor: pointer;"
+                  @click="showName = true"
+                >(Change)</span>
               </p>
               <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                <q-input standard v-model="name" v-if="showName" />
+                <q-input
+                  standard
+                  v-model="name"
+                  v-if="showName"
+                  :rules="[val => !val ? 'Name must not be empty' : val.length < 3 || val.length > 30 ?
+              'Name must be between 3 and 30 characters long' : true]"
+                />
               </div>
             </div>
           </div>
@@ -27,10 +37,20 @@
               <p class="q-gutter-md">
                 <span class="formSpan">Surname:</span>
                 <span>{{surname}}</span>
-                <span class="showForm text-primary" @click="showSurname = true">(Change)</span>
+                <span
+                  class="showForm text-primary"
+                  style="cursor: pointer;"
+                  @click="showSurname = true"
+                >(Change)</span>
               </p>
               <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                <q-input standard v-model="surname" v-if="showSurname" />
+                <q-input
+                  standard
+                  v-model="surname"
+                  v-if="showSurname"
+                  :rules="[val => !val ? 'Surname must not be empty' : val.length < 3 || val.length > 30 ?
+              'Surname must be between 3 and 30 characters long' : true]"
+                />
               </div>
             </div>
           </div>
@@ -65,7 +85,7 @@
             <div class="col-12 formRow">
               <p class="q-gutter-md">
                 <span class="formSpan">Password</span>
-                <span class="showForm text-primary" @click="showPassword = true">(Change)</span>
+                <span class="showForm text-primary" style="cursor: pointer;" @click="showPassword = true">(Change)</span>
               </p>
               <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                 <div class="row q-gutter-lg">
@@ -76,7 +96,7 @@
                     label="New Password"
                     v-model="newPassword"
                     v-if="showPassword"
-                    :rules="[ val => val.length >= 8 && val.length <= 50 || 'Please use between 8 and 50 characters']"
+                    :rules="[ validatePassword ]"
                   />
                   <q-input
                     class="col-11"
@@ -144,4 +164,7 @@ export default {
 </script>
 
 <style scoped>
+ * {
+   font-size: 1rem;
+ }
 </style>

@@ -9,7 +9,7 @@
 
       <q-item-section>
         <q-item-label>
-          {{ chatUser.name }}
+          {{ chatUser.name }} {{ chatUser.surname }}
           <q-icon name="group_work" v-if="chatUser.electron" size="1.5em" color="primary" />
         </q-item-label>
         <q-item-label caption lines="1">{{ chatUser.email }}</q-item-label>
@@ -39,6 +39,7 @@ export default {
   },
   created() {
     if (!this.user._id) return this.$router.push("/main")
+    console.log(this.user)
     this.chatUsers.push(this.user);
     this.$root.$on("new-user", data => {
       const usersFiltered = this.removeDuplicates(data.users, "_id")

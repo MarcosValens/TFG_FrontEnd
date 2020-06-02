@@ -58,9 +58,15 @@ export default {
     const wasLoggedOut = location.href.split("=")[1]
     // Blacklist Token if we log out
     // Should this go here?
+    console.log("Going nigger")
     if (wasLoggedOut) {
       await requests.delete.call(this, endpoint, localStorage.getItem("refresh-token"))
     };
+    console.log("Removing")
+    localStorage.removeItem("hosts");
+    localStorage.removeItem("current-host");
+    localStorage.removeItem("current-network");
+    localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("refresh-token");
     

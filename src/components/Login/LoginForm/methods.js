@@ -19,8 +19,9 @@ export default {
       this.user
     );
     try {
-      const {token} = await requests.post.call(this, endpoint, dataFromBuilder);
+      const {token, refreshToken} = await requests.post.call(this, endpoint, dataFromBuilder);
       localStorage.setItem("token", token);
+      localStorage.setItem("refresh-token", refreshToken);
       this.$router.push("/main");
     } catch (e) {
       const response = e.response;
