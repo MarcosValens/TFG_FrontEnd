@@ -125,7 +125,7 @@ export function setHosts(state, hosts) {
 
 export function setHostsFromSweep(state, hosts) {
   const newHosts = state.hosts.concat(hosts);
-  localStorage.setItem("hosts", JSON.stringify(network));
+  localStorage.setItem("hosts", JSON.stringify(newHosts));
 
   Vue.set(state, "hosts", ipSort(newHosts));
 }

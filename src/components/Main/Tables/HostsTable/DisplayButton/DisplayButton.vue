@@ -23,7 +23,9 @@ export default {
   methods: {
     async open() {
       window.hasFocus = true;
-      customProtocolCheck(`portscanner://${localStorage.getItem("token")}`, () => this.$router.push("/installers"));
+      const token = localStorage.getItem("token");
+      const refreshToken = localStorage.getItem("refresh-token");
+      customProtocolCheck(`portscanner://${token}/${refreshToken}`, () => this.$router.push("/installers"));
       //window.location = ;
       this.timeout = setTimeout(() => {
         if (window.hasFocus) {

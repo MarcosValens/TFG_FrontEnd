@@ -79,12 +79,12 @@
       </div>
     </div>
     <div class="col row items-center justify-center" v-if="currentType !== null">
-      <div class="text-center">
+      <div class="text-center" style="font-size: 1.2em">
         <p>{{ persistentMessage }}</p>
         <p>{{ progressMessage }}</p>
-        <q-spinner :color="currentType.color" size="3em" v-if="currentType.performing"></q-spinner>
+        <q-spinner color="primary" size="2em" v-if="currentType.performing"></q-spinner>
         <q-icon
-          size="5em"
+          size="2em"
           :name="currentType.hadError ? 'error' : 'done'"
           :color="currentType.hadError ? 'red' : 'green'"
           v-if="currentType.started && !currentType.performing"
@@ -115,25 +115,21 @@ export default {
       progressMessage: "",
       persistentMessage: "",
       sweepType: {
-        color: "primary",
         started: false,
         performing: false,
         hadError: false
       },
       scanType: {
-        color: "secondary",
         started: false,
         performing: false,
         hadError: false
       },
       customScanType: {
-        color: "light-blue",
         started: false,
         performing: false,
         hadError: false
       },
       pingHostType: {
-        color: "light-green",
         started: false,
         performing: false,
         hadError: false

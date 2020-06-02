@@ -55,7 +55,8 @@ function parseDataFile(filePath, defaults) {
 const store = new Store({
   configName: "user-data",
   defaults: {
-    token: null
+    token: null,
+    refreshToken: null
   }
 })
 
@@ -119,11 +120,12 @@ async function sendToClient(data = "") {
   try {
     log.info(data);
     // This is not the most efficient way but what the fuck windows? why the fuck would you add a bar at the end of the fucking url?
-    const parsedToken = data.split("/")[0];
-    store.set("token", parsedToken);
+    const [token, refreshToken] = data.split("/")[0].filter(value => !!v);
+    store.set("token", token);
+    store.set("refreshToken", refreshToken)
     log.info(store.get("token"))
     await mainContents.webContents.loadURL(
-      `${baseDomain}/#/main?token=${parsedToken}`,
+      `${baseDomain}/#/main?token=${token}&refresh_token=${refreshToken}`,
       { userAgent: "Chrome" }
     );
   } catch (e) {
@@ -335,10 +337,13 @@ app.on("will-quit", async () => {
   try {
     const hash = await mainContents.webContents.executeJavaScript("window.location.hash")
     if (hash === "#/login") {
-      store.set("token", "")
+      store.set("token", "");
+      store.set("refreshToken", "");
     } else {
       const token = await mainContents.webContents.executeJavaScript(`localStorage.getItem("token")`);
+      const refreshToken = await mainContents.webContents.executeJavaScript(`localStorage.getItem("refresh-token")`);
       store.set("token", token);
+      store.set("refreshToken", refreshToken);
     }
   } catch(e) {
     

@@ -72,7 +72,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("global", ["addNetwork"]),
+    ...mapActions("global", ["addNetwork", "setCurrentNetwork"]),
     async getGateway() {
       this.fetching = true;
       const gateway = await requests.get.call(this, getters.scanner.local.gateway());
@@ -89,7 +89,7 @@ export default {
           dataFromBuilder
         );
         this.addNetwork(network);
-        
+        this.setCurrentNetwork(network);
         this.canClose = true;
         document.querySelector("#close-popup").click();
       } catch (e) {

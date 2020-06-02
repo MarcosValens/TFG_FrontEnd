@@ -25,7 +25,10 @@
     </div>
 
     <!-- Warnings -->
-    <div v-if="!currentNetwork._id">
+    <div v-if="!networks.length">
+      <display-warning message="Please create a network" />
+    </div>
+    <div v-else-if="!currentNetwork._id">
       <display-warning message="Please select network" />
     </div>
     <div v-else-if="!hosts.length">
@@ -205,6 +208,7 @@ export default {
       "hosts",
       "currentNetwork",
       "currentHost",
+      "networks",
       "currentPort"
     ])
   },

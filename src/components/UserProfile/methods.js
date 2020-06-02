@@ -46,6 +46,7 @@ export default {
         persistent: true
       }).onOk(data => {
         this.deleteUser();
+        localStorage.clear();
       })
     },
     async deleteUser() {
