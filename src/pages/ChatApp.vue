@@ -27,7 +27,7 @@ import client from "socket.io-client";
 import Messages from "./../components/ChatApp/Messages/Messages.vue";
 import Options from "./../components/ChatApp/Options/Options.vue";
 import Users from "./../components/ChatApp/Users/Users.vue";
-// 5ec7e214271a1b6bd66ff5f4
+
 export default {
   components: {
     messages: Messages,

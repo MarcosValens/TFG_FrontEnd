@@ -70,7 +70,7 @@ export default {
         _id: ""
       },
       fetching: false,
-      electron: isElectron(),
+      electron: !isElectron(),
       gatewayErrorMessage: null,
       isNameTaken: "",
       myMessage: null

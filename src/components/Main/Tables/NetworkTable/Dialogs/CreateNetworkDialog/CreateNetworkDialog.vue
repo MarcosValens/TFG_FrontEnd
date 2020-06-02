@@ -62,7 +62,7 @@ export default {
     return {
       canClose: false,
       fetching: false,
-      electron: isElectron(),
+      electron: !isElectron(),
       network: {
         name: "",
         gateway: ""

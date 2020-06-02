@@ -12,7 +12,7 @@
         <q-card class="login-card row">
           <!-- App logo -->
           <q-card-section class="col-lg-7 col-md-12 col-sm-12">
-            <img src="../assets/images/network.gif" style="width: 100%" />
+            <img src="../assets/images/network.gif" style="width: 100%; height: 100%;" />
           </q-card-section>
 
           <!-- Login Form -->
@@ -58,11 +58,9 @@ export default {
     const wasLoggedOut = location.href.split("=")[1]
     // Blacklist Token if we log out
     // Should this go here?
-    console.log("Going nigger")
     if (wasLoggedOut) {
       await requests.delete.call(this, endpoint, localStorage.getItem("refresh-token"))
     };
-    console.log("Removing")
     localStorage.removeItem("hosts");
     localStorage.removeItem("current-host");
     localStorage.removeItem("current-network");

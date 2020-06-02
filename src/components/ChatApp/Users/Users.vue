@@ -39,7 +39,6 @@ export default {
   },
   created() {
     if (!this.user._id) return this.$router.push("/main")
-    console.log(this.user)
     this.chatUsers.push(this.user);
     this.$root.$on("new-user", data => {
       const usersFiltered = this.removeDuplicates(data.users, "_id")
