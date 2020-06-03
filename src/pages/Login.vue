@@ -9,7 +9,7 @@
       </div>
 
       <div class="row col-12 justify-center">
-        <q-card class="login-card row">
+        <q-card class="login-card row" style="z-index: 2">
           <!-- App logo -->
           <q-card-section class="col-lg-7 col-md-12 col-sm-12">
             <img src="../assets/images/network.gif" style="width: 100%; height: 100%;" />
@@ -67,7 +67,7 @@ export default {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("refresh-token");
-    
+
     this.$root.$on("errors", errors => {
       this.errors = errors;
     });

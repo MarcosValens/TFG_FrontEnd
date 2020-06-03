@@ -72,13 +72,6 @@
         <template v-slot:top-right>
           <div class="flex">
             <div class="justify-center">
-              <q-toggle
-                style="font-size: 0.9rem"
-                :value="autoDetect"
-                label="Auto-detect services"
-                @input="changeAutoDetect"
-                :disable="currentHost.locked || currentNetwork.locked"
-              ></q-toggle>
               <q-input
                 borderless
                 dense
