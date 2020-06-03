@@ -29,6 +29,7 @@
             icon="search"
             label="Scan Network"
             rounded
+            type="a"
             @click="doPerformBasicScan()"
             style="width: 100%"
             :disabled="currentNetwork.locked || currentHost.locked"

@@ -14,11 +14,9 @@
         row-key="index"
         binary-state-sort
         virtual-scroll
-        hide-bottom
-        style="height: 100%"
         :pagination.sync="pagination"
         :rows-per-page-options="[0]"
-        :virtual-scroll-sticky-size-start="4"
+        :virtual-scroll-sticky-size-start="48"
       >
         <template v-slot:body="props">
           <q-tr :props="props" @click="loadNetwork(props)">
@@ -163,7 +161,7 @@ export default {
       openNetworkUpdateDialog: false,
       filter: "",
       pagination: {
-        rowsPerPage: 0
+        rowsPerPage: 5
       }
     };
   },
