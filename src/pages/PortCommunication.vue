@@ -42,6 +42,7 @@
             class="col q-mr-md"
             :rules="[isValidPort]"
             @input="detectPort"
+            :readonly="!electron"
           />
           <div class="col-2 flex justify-center items-center">
             <q-btn-dropdown color="primary" label="Ports">
@@ -72,7 +73,7 @@
         />
 
         <div class="row">
-          <q-toggle v-model="port.open" label="Open" />
+          <q-toggle v-model="port.open" label="Open" disable />
           <q-btn
             class="q-ml-md"
             label="Check status"
@@ -94,14 +95,21 @@
         </div>
 
         <div class="q-py-md">
-          <q-btn label="Save" @click="sendPortUpdate(false)" color="primary" />
+          <q-btn label="Save" @click="sendPortUpdate(false)" color="primary" :disabled="!port._id" />
           <q-btn
             label="Save and go home"
             @click="sendPortUpdate(true)"
             color="primary"
             class="q-ml-sm"
+            :disabled="!port._id"
           />
-          <q-btn label="Delete" @click="removePort()" color="red" class="q-ml-sm" />
+          <q-btn
+            label="Delete"
+            @click="removePort()"
+            color="red"
+            class="q-ml-sm"
+            :disabled="!port._id"
+          />
           <q-spinner v-if="sendingUpdates" color="primary" size="2em"></q-spinner>
         </div>
       </q-form>
