@@ -16,6 +16,7 @@
       hoverMode="grab"
       :clickEffect="true"
       clickMode="push"
+
     ></vue-particles>
     <div v-if="electron">
       <q-dialog v-model="openUserAgreementDialog" transition-show="rotate" transition-hide="rotate">

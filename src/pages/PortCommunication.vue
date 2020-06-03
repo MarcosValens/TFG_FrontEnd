@@ -33,7 +33,7 @@
             </template>
           </q-banner>
         </div>
-        <div class="row">
+        <div class="row flex items-center">
           <q-input
             filled
             type="number"
@@ -44,7 +44,7 @@
             @input="detectPort"
             :readonly="!electron"
           />
-          <div class="col-2 flex justify-center items-center">
+          <div class="q-pb-md">
             <q-btn-dropdown color="primary" label="Ports">
               <q-list>
                 <q-item
@@ -73,7 +73,7 @@
         />
 
         <div class="row">
-          <q-toggle v-model="port.open" label="Open" disable />
+          <q-toggle v-model="port.open" label="Open" color="green" disable />
           <q-btn
             class="q-ml-md"
             label="Check status"
@@ -84,7 +84,7 @@
           <q-spinner v-if="checkingPortStatus" color="primary" size="2em" class="q-ml-md q-mt-xs" />
         </div>
         <div class="row" v-if="electron">
-          <q-toggle :value="autoDetect" label="Auto-Detect" @input="changeAutoDetect"></q-toggle>
+          <q-toggle :value="autoDetect" color="green" label="Auto-Detect" @input="changeAutoDetect"/>
           <q-btn
             class="q-ml-md"
             label="Scan"

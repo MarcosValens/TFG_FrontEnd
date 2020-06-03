@@ -13,14 +13,21 @@
     <!-- Scanner Buttons and search bar -->
     <div class="row q-pa-md q-gutter-md justify-around">
       <scanner-buttons v-if="electron && currentNetwork._id" />
-      <div class="col-2" v-if="hosts.length">
-        <template>
+
+      <div class="col-2" v-if="hosts.length" style="z-index: 2">
+          <q-toggle
+            style="font-size: 0.9rem"
+            :value="autoDetect"
+            label="Auto-detect services"
+            @input="changeAutoDetect"
+            :disable="currentHost.locked || currentNetwork.locked"
+            color="green"
+          />
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
             <template v-slot:append>
               <q-icon name="search" />
             </template>
           </q-input>
-        </template>
       </div>
     </div>
 
@@ -84,9 +91,9 @@
             </q-td>
 
             <q-td key="ports" :props="props">
-              
-              <q-btn color="primary" :disabled="currentNetwork.locked || currentHost.locked" rounded :label="!props.row.ports.length ? 'No ports found' : `Check ${props.row.ports.length} ports`" @click="loadPorts(props)" />
-                
+
+              <q-btn color="accent" :disabled="currentNetwork.locked || currentHost.locked" rounded :label="!props.row.ports.length ? 'No ports found' : `Check ${props.row.ports.length} ports`" @click="loadPorts(props)" />
+
             </q-td>
             <q-td key="icon">
               <div class="row" v-if="isCurrentHost(props)">
@@ -208,7 +215,8 @@ export default {
       "currentNetwork",
       "currentHost",
       "networks",
-      "currentPort"
+      "currentPort",
+      "autoDetect"
     ])
   },
   methods: {
@@ -216,7 +224,8 @@ export default {
       "setCurrentHost",
       "setCurrentPort",
       "deleteHost",
-      "deletePort"
+      "deletePort",
+      "changeAutoDetect"
     ]),
     isHostLocked(host) {
       return host && host.locked;

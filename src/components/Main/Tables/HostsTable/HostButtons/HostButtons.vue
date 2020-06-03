@@ -4,7 +4,7 @@
       icon="compare_arrows"
       style="font-size: 1.8rem; cursor:pointer;"
       text-color="white"
-      color="primary"
+      color="accent"
       clickable
       @click="doPing()"
     >
@@ -14,7 +14,7 @@
       icon="search"
       style="font-size: 1.8rem; cursor:pointer;"
       text-color="white"
-      color="primary"
+      color="accent"
       clickable
       @click="performScan()"
     >
@@ -24,7 +24,7 @@
       icon="policy"
       style="font-size: 1.8rem; cursor:pointer;"
       text-color="white"
-      color="primary"
+      color="accent"
       clickable
       @click="openCustomHostScanDialog()"
     >
