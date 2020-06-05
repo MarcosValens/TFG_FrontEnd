@@ -103,7 +103,6 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import isElectron from "is-electron";
 
 import CreateNetworkDialog from "./Dialogs/CreateNetworkDialog/CreateNetworkDialog.vue";
 import UpdateNetworkDialog from "./Dialogs/UpdateNetworkDialog/UpdateNetworkDialog.vue";
@@ -148,7 +147,6 @@ export default {
       ],
       visibleNetworkColumns: ["networkName", "gateway", "icon"],
       updateNetworkPopUp: false,
-      electron: !isElectron(),
       model: null,
       createNetworkDialog: false,
       openNetworkUpdateDialog: false,

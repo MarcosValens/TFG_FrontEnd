@@ -168,7 +168,7 @@ export default {
       ports: [],
       payload: "",
       response: "",
-      electron: !isElectron(),
+      electron: isElectron(),
       sendingUpdates: false,
       sending: false,
       checkingPortStatus: false,
