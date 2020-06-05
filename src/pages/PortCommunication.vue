@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-lg">
-    <q-breadcrumbs class="text-grey">
+    <q-breadcrumbs class="text-grey above-bg">
       <template v-slot:separator>
         <q-icon size="1.5em" name="chevron_right" color="primary" />
       </template>
@@ -11,7 +11,7 @@
       <h3 class="q-mt-lg col-6">Looking at host {{ currentHost.ipAddress }}</h3>
       <h4 v-if="electron">Payload</h4>
     </div>
-    <div class="row q-gutter-md">
+    <div class="row q-gutter-md above-bg">
       <q-form class="q-gutter-md q-mt-sm q-pr-md col bg-dark">
         <div v-if="portErrors.length" class>
           <q-banner
@@ -142,7 +142,7 @@
     <div class="row" v-if="electron">
       <div class="col">
         <h4>Response</h4>
-        <q-input class="bg-dark" v-model="response" type="textarea" readonly></q-input>
+        <q-input class="bg-dark above-bg" v-model="response" type="textarea" readonly></q-input>
       </div>
     </div>
   </div>
