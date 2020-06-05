@@ -1,5 +1,12 @@
 <template>
   <div class="q-pa-xl">
+    <q-breadcrumbs class="text-grey q-mb-md above-bg">
+      <template v-slot:separator>
+        <q-icon size="1.5em" name="chevron_right" color="primary"/>
+      </template>
+      <q-breadcrumbs-el label="Home" icon="home" to="main"/>
+      <q-breadcrumbs-el label="Chat" icon="chat"/>
+    </q-breadcrumbs>
     <div class="row chat bg-dark above-bg">
       <div class="col">
         <div class="row">

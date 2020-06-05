@@ -24,8 +24,8 @@
           </div>
         </div>
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" v-close-popup/>
-          <q-btn flat label="Start scan" type="submit" v-close-popup="canClose"/>
+          <q-btn flat label="Cancel" color="negative" v-close-popup/>
+          <q-btn flat label="Start scan" color="positive" type="submit" v-close-popup="canClose"/>
         </q-card-actions>
       </q-form>
     </q-card-section>

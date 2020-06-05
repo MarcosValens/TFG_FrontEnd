@@ -39,8 +39,8 @@
 
         <q-card-actions align="right" class="text-primary">
           <q-spinner v-if="fetching" class="q-mr-lg" size="2em"></q-spinner>
-          <q-btn flat label="Cancel" v-close-popup />
-          <q-btn flat label="Create network" type="submit" v-close-popup="canClose" />
+          <q-btn flat label="Cancel" color="negative" v-close-popup />
+          <q-btn flat label="Create network" color="positive" type="submit" v-close-popup="canClose" />
         </q-card-actions>
       </q-form>
     </q-card-section>
@@ -116,7 +116,7 @@ export default {
             null;
         }
       } finally {
-        this.fetching = false;        
+        this.fetching = false;
       }
     }
   }
