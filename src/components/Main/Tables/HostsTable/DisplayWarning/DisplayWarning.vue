@@ -1,6 +1,6 @@
 <template>
   <div class="col-9 text-center items-center">
-    <q-icon name="warning" class="text-warning" size="20vw"></q-icon>
+    <q-icon name="warning" class="text-info" size="20vw"></q-icon>
     <h4>{{message}}</h4>
   </div>
 </template>

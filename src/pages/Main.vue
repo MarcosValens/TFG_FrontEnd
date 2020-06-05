@@ -1,7 +1,7 @@
 <template>
   <div class="row">
-    <network-table class="col-lg-3 col-xs-12 col-sm-12" />
-    <host-table v-if="currentNetwork" />
+    <network-table class="col-lg-3 col-xs-12 col-sm-12 above-bg" />
+    <host-table v-if="currentNetwork" class="above-bg"/>
   </div>
 </template>
 

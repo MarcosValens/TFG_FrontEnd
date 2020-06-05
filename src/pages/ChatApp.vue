@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-xl">
-    <div class="row chat bg-dark">
+    <div class="row chat bg-dark above-bg">
       <div class="col">
         <div class="row">
           <div class="col-lg-10 col-sm-8 chat-messages scroll">

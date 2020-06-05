@@ -1,9 +1,14 @@
 <template>
   <div class="row">
-    <span class="title q-pa-md" @click="redirect()">PorT ScanneR</span>
+    <div class="row q-pl-lg" style="cursor: pointer" @click="redirect">
+      <div class="row col-12 justify-center items-center" style="height: 100px">
+        <img class="above-bg q-mb-sm q-mr-lg" src="../statics/icons/icon-512x512.png" alt="icon" style="height: 64px; width: 64px;"/>
+        <span class="text-center above-bg" style="font-size: 3.8rem;">PORT SCANNER</span>
+      </div>
+    </div>
     <div class="row col-12 justify-center items-center q-mt-lg q-pa-lg q-gutter-lg">
       <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-        <q-card>
+        <q-card class="above-bg">
           <q-card-section class="black text-white">
             <div class="text-h6 text-center">Download PortScanner for {{platform.name}}</div>
           </q-card-section>
@@ -21,7 +26,7 @@
           </q-card-actions>
         </q-card>
       </div>
-      <q-img :src="appPicture" spinner-color="white" class="col-xs-12 col-sm-12 col-md-4 col-lg-4" />
+      <q-img :src="appPicture" spinner-color="white" class="col-xs-12 col-sm-12 col-md-4 col-lg-4 above-bg" />
     </div>
 
     <div class="row col-12 justify-center items-center q-mt-lg q-pa-lg q-gutter-lg">
@@ -71,7 +76,7 @@ export default {
           placeholder: "Windows",
           name: "Windows",
           img: "./statics/windowsLogo.png",
-          bgColor: "",
+          bgColor: "above-bg",
           btnColor: "bg-grey-14",
           links: [
             {
@@ -84,7 +89,7 @@ export default {
           placeholder: "Linux",
           name: "Linux",
           img: "./statics/tuxLogo.webp",
-          bgColor: "bg-yellow-14",
+          bgColor: "bg-yellow-14 above-bg",
           defaultLink: "https://github.com/rochismo/port-scanner/releases/download/v1.0.0-release/portscanner_1.0.0-release_amd64.deb",
           btnColor: "bg-yellow-10",
           links: [
@@ -106,7 +111,7 @@ export default {
           placeholder: "Macintosh",
           name: "Mac",
           img: "./statics/macLogo.png",
-          bgColor: "bg-grey",
+          bgColor: "bg-grey above-bg",
           link: "",
           btnColor: "bg-grey-8"
         }

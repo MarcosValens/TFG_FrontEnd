@@ -1,7 +1,7 @@
 // app global css in SCSS form
 @font-face {
     font-family: networkFont;
-    src: url(./../assets/fonts/NetworkFreeVersion.woff);
+    src: url(./../assets/fonts/Heebo-Light.woff);
   }
 
   // declare a class which applies it
@@ -12,4 +12,8 @@
 
 .transparency {
   opacity: 0.1;
+}
+
+.above-bg{
+  z-index: 2;
 }

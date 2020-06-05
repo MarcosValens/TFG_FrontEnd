@@ -30,12 +30,19 @@
             <q-toolbar-title>
               <q-tabs align="left">
                 <q-tab @click="redirect()" no-caps>
-                  <span class="title">PorT ScanneR</span>
+                  <div class="row">
+                    <div class="row col-12 justify-center items-center" style="height: 100px">
+                      <img class="above-bg q-mb-sm q-mr-lg" src="../statics/icons/icon-512x512.png" alt="icon" style="height: 64px; width: 64px;"/>
+                      <span class="text-center above-bg" style="font-size: 3.8rem;">
+                        PORT SCANNER
+                      </span>
+                    </div>
+                  </div>
                 </q-tab>
               </q-tabs>
             </q-toolbar-title>
             <div>
-              <q-avatar clickable @click="rightDrawerOpen = !rightDrawerOpen">
+              <q-avatar clickable @click="rightDrawerOpen = !rightDrawerOpen" size="3.8rem">
                 <q-img :src="userImageUrl" id="userPic" />
               </q-avatar>
             </div>
