@@ -32,10 +32,16 @@ export default {
       ({ port }) => parseInt(port) === parseInt(this.port.port)
     );
   },
-  detectPort() {
+  detectPort(val) {
+    this.port = {
+      port: val,
+      service: "",
+      open: false
+    }
     const hostPort = this.findPort(this.currentHost);
     if (!hostPort) return (this.port.service = ""), (this.port.open = false);
     this.port.service = hostPort.service;
     this.port.open = hostPort.open;
+    this.port._id = hostPort._id
   }
 };

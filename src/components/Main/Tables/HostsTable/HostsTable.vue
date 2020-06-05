@@ -60,7 +60,6 @@
         binary-state-sort
         virtual-scroll
         style="height: 100%"
-        hide-bottom
         :pagination.sync="pagination"
         :rows-per-page-options="[0]"
         :virtual-scroll-sticky-size-start="4"
@@ -205,7 +204,7 @@ export default {
       locked: false,
       filter: "",
       pagination: {
-        rowsPerPage: 0
+        rowsPerPage: 7
       }
     };
   },
