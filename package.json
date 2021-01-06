@@ -19,7 +19,7 @@
     "@quasar/extras": "^1.8.1",
     "@rochismo/port-scanner": "^1.2.10",
     "asar": "^3.0.3",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "custom-electron-titlebar": "^3.2.2-hotfix62",
     "custom-protocol-check": "^1.1.0",
     "electron-is-dev": "^1.2.0",
